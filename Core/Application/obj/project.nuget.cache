@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "7wTR3MM832mKTBPlrGzznxbq1qvXZ2im73ZLXBRtQU41oljcWcuNxyATLRQx7X7pFq1v/WnHJTs+u9H0MxMzOw==",
+  "dgSpecHash": "JNN5rhe7SY483fHwGNWesGC8rlxmpeuEm5g67H0xlGcN5N2i6gCvc8LGDczbkbscJj/fiwyxC77cqP1mshab4g==",
   "success": true,
   "projectFilePath": "C:\\Users\\Administrator\\Desktop\\MyPlantCare\\PlantAppAPI\\Core\\Application\\Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.extensions.configuration\\7.0.0\\microsoft.extensions.configuration.7.0.0.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0\\microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
