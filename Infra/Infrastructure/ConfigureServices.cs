@@ -1,4 +1,6 @@
-﻿using Infrastructure.Options;
+﻿using Domain.Interfaces.Repositories;
+using Infrastructure.Options;
+using Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
@@ -12,6 +14,7 @@ public static class ConfigureServices
         IConfiguration configuration)
     {
         services.Configure<ConnectionStringsOptions>(configuration.GetSection(ConnectionStringsOptions.ConnectionStringsName));
+        services.AddScoped<IPlantRepository, PlantRepository>();
         services.AddDbContext<Context>();
         return services;
     }

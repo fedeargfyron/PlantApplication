@@ -79,3 +79,5 @@ C:\Users\Administrator\Desktop\MyPlantCare\PlantAppAPI\PlantAppAPI\bin\Debug\net
 C:\Users\Administrator\Desktop\MyPlantCare\PlantAppAPI\PlantAppAPI\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
 C:\Users\Administrator\Desktop\MyPlantCare\PlantAppAPI\PlantAppAPI\bin\Debug\net7.0\Mono.TextTemplating.dll
 C:\Users\Administrator\Desktop\MyPlantCare\PlantAppAPI\PlantAppAPI\bin\Debug\net7.0\System.CodeDom.dll
+C:\Users\Administrator\Desktop\MyPlantCare\PlantAppAPI\PlantAppAPI\bin\Debug\net7.0\AutoMapper.dll
+C:\Users\Administrator\Desktop\MyPlantCare\PlantAppAPI\PlantAppAPI\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

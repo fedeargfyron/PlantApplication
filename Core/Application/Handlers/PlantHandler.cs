@@ -1,0 +1,26 @@
+﻿using Domain.Dtos.Plants;
+using Domain.Entities;
+using Domain.Interfaces.Handlers;
+using Domain.Interfaces.Services;
+
+namespace Application.Handlers
+{
+    public class PlantHandler : IPlantHandler
+    {
+        private readonly IPlantService _plantService;
+        public PlantHandler(IPlantService plantService) 
+        {
+            _plantService = plantService;
+        }
+
+        public Task AddPlantAsync(PlantDto dto) => _plantService.AddPlantAsync(dto);
+
+        public Task DeletePlantAsync(int id) => _plantService.DeletePlantAsync(id);
+
+        public Task<Plant> GetPlantByIdAsync(int id) => _plantService.GetPlantByIdAsync(id);
+
+        public Task<List<Plant>> GetPlantsAsync() => _plantService.GetAllAsync();
+
+        public Task UpdatePlantAsync(int id, UpdatePlantDto dto) => _plantService.UpdatePlantAsync(id, dto);
+    }
+}

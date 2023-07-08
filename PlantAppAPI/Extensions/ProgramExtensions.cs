@@ -11,6 +11,7 @@ public static class ProgramExtensions
 {
     public static void ConfigureWebApplicationBuilder(this WebApplicationBuilder builder)
     {
+        builder.Services.AddAutoMapper(typeof(Program));
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddInfrastructureConfiguration(builder.Configuration)
