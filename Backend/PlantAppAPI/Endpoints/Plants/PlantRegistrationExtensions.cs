@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Dtos.Plants;
 using Domain.Interfaces.Handlers;
+using Microsoft.AspNetCore.Mvc;
 using PlantAppAPI.Endpoints.Plants.Contracts.Request;
 using PlantAppAPI.Endpoints.Plants.Contracts.Response;
 
@@ -11,6 +12,12 @@ public static class PlantRegistrationExtensions
     public static void RegisterPlantAPIs(this WebApplication app)
     {
         var plants = app.MapGroup("/plants");
+
+        plants.MapPost("/test/imagekit", async ([FromBody] string base64Image, IImageKitHandler handler) =>
+        {
+            await handler.RecognizePlantAsync(base64Image);
+            return TypedResults.Ok();
+        });
 
         plants.MapGet("/", async (IPlantHandler handler, IMapper mapper) => 
         {

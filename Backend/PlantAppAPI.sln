@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infra\Inf
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{3955BCE3-B025-472D-93E7-7E68603A7F17}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "frontapp", "..\Frontend\frontapp.esproj", "{E15FD8A0-8476-4360-95E3-57A72382D9E6}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "frontapp", "..\Frontend\frontapp\frontapp.esproj", "{E15FD8A0-8476-4360-95E3-57A72382D9E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

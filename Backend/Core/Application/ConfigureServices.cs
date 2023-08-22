@@ -14,6 +14,9 @@ public static class ConfigureServices
     {
         services.AddScoped<IPlantHandler, PlantHandler>();
         services.AddScoped<IPlantService, PlantService>();
+        services.AddScoped<IImageKitService, ImageKitService>();
+        services.AddScoped<IImageKitHandler, ImageKitHandler>();
+
         return services;
     }
 }

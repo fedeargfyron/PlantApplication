@@ -1,8 +1,13 @@
 ﻿using Application;
 using Infrastructure;
+using Infrastructure.ExternalServices.ImageKit;
 using Microsoft.EntityFrameworkCore;
 using PlantAppAPI.Endpoints.Plants;
 using System.Diagnostics.CodeAnalysis;
+using Imagekit;
+using Imagekit.Sdk;
+using Microsoft.Extensions.Options;
+using Infrastructure.Options;
 
 namespace PlantAppAPI.Extensions;
 

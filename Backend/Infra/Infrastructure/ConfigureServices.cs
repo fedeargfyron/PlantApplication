@@ -1,4 +1,6 @@
-﻿using Domain.Interfaces.Repositories;
+﻿using Domain.Interfaces.ExternalServices;
+using Domain.Interfaces.Repositories;
+using Infrastructure.ExternalServices.ImageKit;
 using Infrastructure.Options;
 using Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +16,9 @@ public static class ConfigureServices
         IConfiguration configuration)
     {
         services.Configure<ConnectionStringsOptions>(configuration.GetSection(ConnectionStringsOptions.ConnectionStringsName));
+        services.Configure<ImageKitOptions>(configuration.GetSection(ImageKitOptions.ImageKitName));
         services.AddScoped<IPlantRepository, PlantRepository>();
+        services.AddScoped<IExternalImageKitService, ExternalImageKitService>();
         services.AddDbContext<Context>();
         return services;
     }
