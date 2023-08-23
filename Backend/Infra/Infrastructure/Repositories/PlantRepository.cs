@@ -3,7 +3,6 @@ using Domain.Dtos.Plants;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Update;
 
 namespace Infrastructure.Repositories;
 
@@ -17,9 +16,9 @@ internal class PlantRepository : IPlantRepository
         _mapper = mapper;
     }
 
-    public async Task AddAsync(PlantDto dto) 
+    public async Task AddAsync(Plant entity) 
     {
-        await _context.Plants.AddAsync(_mapper.Map<Plant>(dto));
+        await _context.Plants.AddAsync(entity);
         await _context.SaveChangesAsync();
     }
 

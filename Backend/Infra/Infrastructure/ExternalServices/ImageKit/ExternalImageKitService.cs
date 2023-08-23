@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 
 namespace Infrastructure.ExternalServices.ImageKit;
 
-public class ExternalImageKitService : IExternalImageKitService
+public class ExternalImageKitService : IExternalImageUploaderService
 {
     private readonly ImagekitClient _client;
     public ExternalImageKitService(IOptions<ImageKitOptions> options)
@@ -19,7 +19,7 @@ public class ExternalImageKitService : IExternalImageKitService
         var request = new FileCreateRequest
         {
             file = base64Image,
-            fileName = "test.png"
+            fileName = "test"
         };
         var response = await _client.UploadAsync(request);
         return response.url;

@@ -1,6 +1,6 @@
 ﻿namespace Domain.Interfaces.Services;
 
-public interface IImageKitService
+public interface IUploadPlantService
 {
     Task<string> UploadImageAsync(string base64Image);
 }

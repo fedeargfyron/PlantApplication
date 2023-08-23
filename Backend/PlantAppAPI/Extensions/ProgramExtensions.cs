@@ -8,6 +8,8 @@ using Imagekit;
 using Imagekit.Sdk;
 using Microsoft.Extensions.Options;
 using Infrastructure.Options;
+using Infrastructure.ExternalServices.PlantNet;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PlantAppAPI.Extensions;
 
@@ -19,8 +21,16 @@ public static class ProgramExtensions
         builder.Services.AddAutoMapper(typeof(Program));
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
         builder.Services.AddInfrastructureConfiguration(builder.Configuration)
             .AddCoreServices(builder.Configuration);
+
+        builder.Services.AddHttpClient<ExternalPlantNetService>((serviceProvider, httpClient) =>
+        {
+            var plantNetOptions = serviceProvider.GetRequiredService<IOptions<PlantNetOptions>>().Value;
+            httpClient.BaseAddress = new Uri(plantNetOptions.BaseUrl);
+        });
+        
     }
 
     public static void ConfigureWebApplication(this WebApplication app)

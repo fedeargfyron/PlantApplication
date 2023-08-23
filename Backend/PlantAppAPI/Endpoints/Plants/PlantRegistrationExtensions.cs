@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using Application.Handlers.RecognizePlantHandler;
+using Application.Handlers.SavePlantHandler;
+using AutoMapper;
 using Domain.Dtos.Plants;
 using Domain.Interfaces.Handlers;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +15,6 @@ public static class PlantRegistrationExtensions
     {
         var plants = app.MapGroup("/plants");
 
-        plants.MapPost("/test/imagekit", async ([FromBody] string base64Image, IImageKitHandler handler) =>
-        {
-            await handler.RecognizePlantAsync(base64Image);
-            return TypedResults.Ok();
-        });
-
         plants.MapGet("/", async (IPlantHandler handler, IMapper mapper) => 
         {
             var result = await handler.GetPlantsAsync();
@@ -30,12 +26,6 @@ public static class PlantRegistrationExtensions
             return TypedResults.Ok(mapper.Map<GetPlantResponse>(result));
         });
 
-        plants.MapPost("/", async (IPlantHandler handler, IMapper mapper, PostPlantRequest postPlantRequest) =>
-        {
-            await handler.AddPlantAsync(mapper.Map<PlantDto>(postPlantRequest));
-            return TypedResults.Ok();
-        });
-
         plants.MapPut("/{id}", async (IPlantHandler handler, IMapper mapper, int id, PutPlantRequest putPlantRequest) =>
         {
             await handler.UpdatePlantAsync(id, mapper.Map<UpdatePlantDto>(putPlantRequest));
@@ -45,6 +35,18 @@ public static class PlantRegistrationExtensions
         plants.MapDelete("/{id}", async (IPlantHandler handler, int id) =>
         {
             await handler.DeletePlantAsync(id);
+            return TypedResults.Ok();
+        });
+
+        plants.MapPost("/recognize", async ([FromBody] RecognizePlantHandlerRequest request, IRecognizePlantHandler handler) =>
+        {
+            await handler.HandleAsync(request);
+            return TypedResults.Ok();
+        });
+
+        plants.MapPost("/", async ([FromBody] SavePlantHandlerRequest request, ISavePlantHandler handler) =>
+        {
+            await handler.HandleAsync(request);
             return TypedResults.Ok();
         });
     }

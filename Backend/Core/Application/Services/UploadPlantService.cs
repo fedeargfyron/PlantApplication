@@ -5,10 +5,10 @@ using Domain.Interfaces.Services;
 
 namespace Application.Services;
 
-public class ImageKitService : IImageKitService
+public class UploadPlantService : IUploadPlantService
 {
-    private readonly IExternalImageKitService _externalImageKitService;
-    public ImageKitService(IExternalImageKitService externalImageKitService)
+    private readonly IExternalImageUploaderService _externalImageKitService;
+    public UploadPlantService(IExternalImageUploaderService externalImageKitService)
     {
         _externalImageKitService = externalImageKitService;
     }

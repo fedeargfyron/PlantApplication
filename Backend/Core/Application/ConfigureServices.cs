@@ -1,4 +1,5 @@
 ﻿using Application.Handlers;
+using Application.Handlers.RecognizePlantHandler;
 using Application.Services;
 using Domain.Interfaces.Handlers;
 using Domain.Interfaces.Services;
@@ -14,8 +15,10 @@ public static class ConfigureServices
     {
         services.AddScoped<IPlantHandler, PlantHandler>();
         services.AddScoped<IPlantService, PlantService>();
-        services.AddScoped<IImageKitService, ImageKitService>();
-        services.AddScoped<IImageKitHandler, ImageKitHandler>();
+        services.AddScoped<IUploadPlantService, UploadPlantService>();
+        services.AddScoped<IPlantInformationGetterService, PlantInformationGetterService>();
+        services.AddScoped<IPlantRecognizerService, PlantRecognizerService>();
+        services.AddScoped<IRecognizePlantHandler, RecognizePlantHandler>();
 
         return services;
     }

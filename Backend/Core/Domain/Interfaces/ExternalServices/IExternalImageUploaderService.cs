@@ -1,6 +1,6 @@
 ﻿namespace Domain.Interfaces.ExternalServices;
 
-public interface IExternalImageKitService
+public interface IExternalImageUploaderService
 {
     Task<string> UploadImageAsync(string base64Image);
 }
