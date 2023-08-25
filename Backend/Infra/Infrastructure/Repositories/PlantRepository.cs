@@ -9,11 +9,9 @@ namespace Infrastructure.Repositories;
 internal class PlantRepository : IPlantRepository
 {
     private readonly Context _context;
-    private readonly IMapper _mapper;
-    public PlantRepository(Context context, IMapper mapper)
+    public PlantRepository(Context context)
     {
         _context = context;
-        _mapper = mapper;
     }
 
     public async Task AddAsync(Plant entity) 

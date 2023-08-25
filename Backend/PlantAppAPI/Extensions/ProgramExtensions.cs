@@ -1,15 +1,17 @@
 ﻿using Application;
 using Infrastructure;
-using Infrastructure.ExternalServices.ImageKit;
-using Microsoft.EntityFrameworkCore;
-using PlantAppAPI.Endpoints.Plants;
-using System.Diagnostics.CodeAnalysis;
-using Imagekit;
-using Imagekit.Sdk;
-using Microsoft.Extensions.Options;
-using Infrastructure.Options;
 using Infrastructure.ExternalServices.PlantNet;
-using Microsoft.Extensions.DependencyInjection;
+using Infrastructure.Options;
+using Infrastructure.Security;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using PlantAppAPI.Endpoints.Plants;
+using PlantAppAPI.Endpoints.Security;
+using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 namespace PlantAppAPI.Extensions;
 
@@ -24,6 +26,34 @@ public static class ProgramExtensions
 
         builder.Services.AddInfrastructureConfiguration(builder.Configuration)
             .AddCoreServices(builder.Configuration);
+
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(config =>
+            {
+                config.RequireHttpsMetadata = false;
+                config.SaveToken = true;
+                config.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecretKey"])),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
+        builder.Services.AddAuthorization(options =>
+        {
+            var context = builder.Services.BuildServiceProvider()
+                       .GetService<Context>();
+
+            foreach (var permission in context!.Permissions)
+            {
+                options.AddPolicy(permission.Value.ToString(),
+                    policy => policy.Requirements.Add(new PermissionRequirement(permission.Value)));
+            }
+        });
+
+        builder.Services.AddScoped<IAuthorizationHandler, PermissionHandler>();
 
         builder.Services.AddHttpClient<ExternalPlantNetService>((serviceProvider, httpClient) =>
         {
@@ -46,7 +76,10 @@ public static class ProgramExtensions
         }
 
         app.RegisterPlantAPIs();
-
+        app.RegisterSecurityAPIs();
         app.UseHttpsRedirection();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
     }
 }

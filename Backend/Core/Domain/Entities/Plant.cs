@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain.Entities;
 
 public class Plant
 {
@@ -9,6 +11,7 @@ public class Plant
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; } = string.Empty;
     public string? Cycle { get; set; } = string.Empty;
+    [NotMapped]
     public List<string> Sunlight { get; set; } = new();
     public string ImageLink { get; set; } = string.Empty;
     public string Type { get; set; } = string.Empty;

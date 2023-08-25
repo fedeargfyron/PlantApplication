@@ -2,7 +2,9 @@
 using Application.Handlers.SavePlantHandler;
 using AutoMapper;
 using Domain.Dtos.Plants;
+using Domain.Enums;
 using Domain.Interfaces.Handlers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PlantAppAPI.Endpoints.Plants.Contracts.Request;
 using PlantAppAPI.Endpoints.Plants.Contracts.Response;
@@ -19,7 +21,9 @@ public static class PlantRegistrationExtensions
         {
             var result = await handler.GetPlantsAsync();
             return TypedResults.Ok(mapper.Map<List<GetPlantResponse>>(result));
-        });
+        }).RequireAuthorization(PermissionEnum.GetPlants.ToString());
+
+
         plants.MapGet("/{id}", async (IPlantHandler handler, IMapper mapper, int id) =>
         {
             var result = await handler.GetPlantByIdAsync(id);
@@ -42,7 +46,7 @@ public static class PlantRegistrationExtensions
         {
             await handler.HandleAsync(request);
             return TypedResults.Ok();
-        });
+        }).RequireAuthorization(PermissionEnum.RecognizePlants.ToString());
 
         plants.MapPost("/", async ([FromBody] SavePlantHandlerRequest request, ISavePlantHandler handler) =>
         {

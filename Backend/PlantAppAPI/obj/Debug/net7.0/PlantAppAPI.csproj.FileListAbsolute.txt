@@ -167,3 +167,8 @@ C:\Users\Administrator\Desktop\PlantApplication\Backend\PlantAppAPI\bin\Debug\ne
 C:\Users\Administrator\Desktop\PlantApplication\Backend\PlantAppAPI\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\Administrator\Desktop\PlantApplication\Backend\PlantAppAPI\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\Administrator\Desktop\PlantApplication\Backend\PlantAppAPI\bin\Debug\net7.0\OpenAI_API.dll
+C:\Users\Administrator\Desktop\PlantApplication\Backend\PlantAppAPI\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Administrator\Desktop\PlantApplication\Backend\PlantAppAPI\bin\Debug\net7.0\Microsoft.AspNetCore.Authorization.dll
+C:\Users\Administrator\Desktop\PlantApplication\Backend\PlantAppAPI\bin\Debug\net7.0\Microsoft.AspNetCore.Metadata.dll
+C:\Users\Administrator\Desktop\PlantApplication\Backend\PlantAppAPI\bin\Debug\net7.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Administrator\Desktop\PlantApplication\Backend\PlantAppAPI\bin\Debug\net7.0\Microsoft.Extensions.Options.dll

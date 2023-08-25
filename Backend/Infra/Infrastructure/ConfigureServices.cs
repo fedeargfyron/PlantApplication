@@ -25,6 +25,7 @@ public static class ConfigureServices
         services.AddScoped<IExternalImageUploaderService, ExternalImageKitService>();
         services.AddScoped<IExternalRecognizerService, ExternalPlantNetService>();
         services.AddScoped<IExternalPlantInformationGetterService, ExternalGPTService>();
+        services.AddScoped<IUserRepository, UserRepository>();
         services.AddDbContext<Context>();
         return services;
     }

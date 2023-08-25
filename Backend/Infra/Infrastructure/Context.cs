@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using Infrastructure.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -10,6 +11,8 @@ public class Context : DbContext
 {
     private readonly ConnectionStringsOptions _options;
     public DbSet<Plant> Plants { get; set; }
+    public DbSet<Permission> Permissions { get; set; }
+    public DbSet<Group> Groups { get; set; }
     public Context(DbContextOptions<Context> options, IOptions<ConnectionStringsOptions> connectionOptions) : base(options)
     {
         _options = connectionOptions.Value;
