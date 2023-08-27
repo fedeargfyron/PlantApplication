@@ -4,5 +4,5 @@ namespace Domain.Interfaces.Services;
 
 public interface ITokenService
 {
-    Task<string> GenerateToken(GetUserLoginResultDto getUserLoginResultDto);
+    string GenerateToken(GetUserLoginResultDto getUserLoginResultDto);
 }

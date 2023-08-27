@@ -4,5 +4,5 @@ namespace Domain.Interfaces.ExternalServices;
 
 public interface IExternalRecognizerService
 {
-    Task<GetPlantResponseDto> RecognizePlant(string url);
+    Task<GetPlantResponseDto?> RecognizePlant(string url);
 }

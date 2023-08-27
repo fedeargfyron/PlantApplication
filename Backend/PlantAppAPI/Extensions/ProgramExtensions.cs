@@ -8,9 +8,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using PlantAppAPI.Endpoints.Groups;
 using PlantAppAPI.Endpoints.Plants;
 using PlantAppAPI.Endpoints.Security;
+using PlantAppAPI.Endpoints.Users;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Text;
 
 namespace PlantAppAPI.Extensions;
@@ -20,7 +23,7 @@ public static class ProgramExtensions
 {
     public static void ConfigureWebApplicationBuilder(this WebApplicationBuilder builder)
     {
-        builder.Services.AddAutoMapper(typeof(Program));
+        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
@@ -35,7 +38,7 @@ public static class ProgramExtensions
                 config.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecretKey"])),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecretKey"]!)),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
@@ -77,6 +80,8 @@ public static class ProgramExtensions
 
         app.RegisterPlantAPIs();
         app.RegisterSecurityAPIs();
+        app.RegisterUserAPIs();
+        app.RegisterGroupAPIs();
         app.UseHttpsRedirection();
 
         app.UseAuthentication();

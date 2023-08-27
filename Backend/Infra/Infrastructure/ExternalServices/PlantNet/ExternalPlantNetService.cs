@@ -17,7 +17,7 @@ public class ExternalPlantNetService : IExternalRecognizerService
         _options = options.Value;
     }
 
-    public async Task<GetPlantResponseDto> RecognizePlant(string url)
+    public async Task<GetPlantResponseDto?> RecognizePlant(string url)
     {
         _client.BaseAddress = new Uri(_options.BaseUrl);
         return await _client.GetFromJsonAsync<GetPlantResponseDto>($"v2/identify/{"all"}?api-key={_options.ApiKey}&images={url}&include-related-images=true");

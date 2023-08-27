@@ -22,10 +22,11 @@ public static class ConfigureServices
         services.Configure<PlantNetOptions>(configuration.GetSection(PlantNetOptions.PlantNetName));
         services.Configure<GPTOptions>(configuration.GetSection(GPTOptions.GPTName));
         services.AddScoped<IPlantRepository, PlantRepository>();
+        services.AddScoped<IGroupRepository, GroupRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IExternalImageUploaderService, ExternalImageKitService>();
         services.AddScoped<IExternalRecognizerService, ExternalPlantNetService>();
         services.AddScoped<IExternalPlantInformationGetterService, ExternalGPTService>();
-        services.AddScoped<IUserRepository, UserRepository>();
         services.AddDbContext<Context>();
         return services;
     }

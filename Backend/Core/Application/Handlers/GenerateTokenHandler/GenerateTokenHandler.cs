@@ -15,6 +15,6 @@ public class GenerateTokenHandler : IGenerateTokenHandler
     public async Task<string> HandleAsync(GenerateTokenHandlerRequest request)
     {
         var getUserLoginResult = await _userService.GetUserLoginAsync(new(request.Email, request.Password));
-        return await _identityService.GenerateToken(getUserLoginResult);
+        return _identityService.GenerateToken(getUserLoginResult);
     }
 }

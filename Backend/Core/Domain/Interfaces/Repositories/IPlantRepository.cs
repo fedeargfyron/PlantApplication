@@ -3,11 +3,8 @@ using Domain.Entities;
 
 namespace Domain.Interfaces.Repositories;
 
-public interface IPlantRepository
+public interface IPlantRepository : IBaseRepository<Plant>
 {
-    Task<List<Plant>> GetAllAsync();
-    Task<Plant> GetByIdAsync(int id);
-    Task AddAsync(Plant entity);
     Task UpdateAsync(int id, UpdatePlantDto dto);
-    Task DeleteAsync(int id);
+    void DeleteByIdAsync(int id);
 }

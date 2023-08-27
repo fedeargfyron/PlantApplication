@@ -17,13 +17,27 @@ public class PlantService : IPlantService
         _mapper = mapper;
     }
 
-    public Task AddPlantAsync(PlantDto dto) => _plantRepository.AddAsync(_mapper.Map<Plant>(dto));
+    public async Task AddPlantAsync(PlantDto dto)
+    {
+        await _plantRepository.AddAsync(_mapper.Map<Plant>(dto));
+        await _plantRepository.SaveChangesAsync();
+    }
 
-    public Task DeletePlantAsync(int id) => _plantRepository.DeleteAsync(id);
+    public void DeletePlantByIdAsync(int id) => _plantRepository.DeleteByIdAsync(id);
 
     public Task<List<Plant>> GetAllAsync() => _plantRepository.GetAllAsync();
 
-    public Task<Plant> GetPlantByIdAsync(int id) => _plantRepository.GetByIdAsync(id);
+    public async ValueTask<Plant> GetPlantByIdAsync(int id)
+    {
+        var plant = await _plantRepository.GetByIdAsync(id);
+        
+        if(plant is null)
+        {
+            throw new ArgumentException("Plant doesnt exists");
+        }
+
+        return plant;
+    } 
 
     public Task UpdatePlantAsync(int plantId, UpdatePlantDto dto) => _plantRepository.UpdateAsync(plantId, dto);
 }

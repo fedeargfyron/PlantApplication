@@ -8,6 +8,6 @@ public interface IPlantService
     Task<List<Plant>> GetAllAsync();
     Task AddPlantAsync(PlantDto dto);
     Task UpdatePlantAsync(int plantId, UpdatePlantDto dto);
-    Task DeletePlantAsync(int id);
-    Task<Plant> GetPlantByIdAsync(int id);
+    void DeletePlantByIdAsync(int id);
+    ValueTask<Plant> GetPlantByIdAsync(int id);
 }

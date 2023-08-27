@@ -1,7 +1,17 @@
-﻿using Application.Handlers;
-using Application.Handlers.GenerateTokenHandler;
-using Application.Handlers.RecognizePlantHandler;
-using Application.Handlers.SavePlantHandler;
+﻿using Application.Handlers.GenerateTokenHandler;
+using Application.Handlers.Groups.AddGroupHandler;
+using Application.Handlers.Groups.GetAllGroupsHandler;
+using Application.Handlers.Groups.GetGroupByIdHandler;
+using Application.Handlers.Groups.RemoveGroupHandler;
+using Application.Handlers.Groups.UpdateGroupHandler;
+using Application.Handlers.Plants;
+using Application.Handlers.Plants.RecognizePlantHandler;
+using Application.Handlers.Plants.SavePlantHandler;
+using Application.Handlers.Users.AddUserHandler;
+using Application.Handlers.Users.GetAllUsersHandler;
+using Application.Handlers.Users.GetUserByIdHandler;
+using Application.Handlers.Users.RemoveUserHandler;
+using Application.Handlers.Users.UpdateUserHandler;
 using Application.Services;
 using Domain.Interfaces.Handlers;
 using Domain.Interfaces.Services;
@@ -17,8 +27,19 @@ public static class ConfigureServices
         IConfiguration configuration)
     {
         services.AddScoped<IPlantHandler, PlantHandler>();
+        services.AddScoped<IUpdateUserHandler, UpdateUserHandler>();
+        services.AddScoped<IRemoveUserHandler, RemoveUserHandler>();
+        services.AddScoped<IGetUserByIdHandler, GetUserByIdHandler>();
+        services.AddScoped<IGetAllUsersHandler, GetAllUsersHandler>();
+        services.AddScoped<IAddUserHandler, AddUserHandler>();
+        services.AddScoped<IUpdateGroupHandler, UpdateGroupHandler>();
+        services.AddScoped<IRemoveGroupHandler, RemoveGroupHandler>();
+        services.AddScoped<IGetGroupByIdHandler, GetGroupByIdHandler>();
+        services.AddScoped<IGetAllGroupsHandler, GetAllGroupsHandler>();
+        services.AddScoped<IAddGroupHandler, AddGroupHandler>();
         services.AddScoped<IPlantService, PlantService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IGroupService, GroupService>();
         services.AddScoped<IUploadPlantService, UploadPlantService>();
         services.AddScoped<IPlantInformationGetterService, PlantInformationGetterService>();
         services.AddScoped<IPlantRecognizerService, PlantRecognizerService>();

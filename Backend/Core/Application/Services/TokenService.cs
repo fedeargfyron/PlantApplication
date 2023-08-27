@@ -19,12 +19,9 @@ public class TokenService : ITokenService
         _options = options.Value;
     }
 
-    public async Task<string> GenerateToken(GetUserLoginResultDto getUserLoginResultDto)
+    public string GenerateToken(GetUserLoginResultDto getUserLoginResultDto)
     {
-        var claims = new List<Claim>()
-        {
-            //new Claim(PermissionEnum.GetPlants.ToString(), PermissionEnum.GetPlants.ToString())
-        };
+        var claims = getUserLoginResultDto.Permissions.Select(x => new Claim(x.ToString(), x.ToString()));
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey));
         var tokenDescriptor = new SecurityTokenDescriptor()

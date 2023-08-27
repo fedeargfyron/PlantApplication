@@ -13,6 +13,15 @@ public class PlantRecognizerService : IPlantRecognizerService
         _externalRecognizerService = externalRecognizerService;
     }
 
-    public Task<GetPlantResponseDto> RecognizePlant(string url) 
-        => _externalRecognizerService.RecognizePlant(url);
+    public async Task<GetPlantResponseDto> RecognizePlant(string url)
+    {
+        var plant = await _externalRecognizerService.RecognizePlant(url);
+
+        if (plant is null)
+        {
+            throw new ArgumentException("Error recognizing the plant");
+        }
+
+        return plant;
+    }
 }
