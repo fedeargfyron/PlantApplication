@@ -13,7 +13,6 @@ using PlantAppAPI.Endpoints.Plants;
 using PlantAppAPI.Endpoints.Security;
 using PlantAppAPI.Endpoints.Users;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using System.Text;
 
 namespace PlantAppAPI.Extensions;
@@ -56,8 +55,6 @@ public static class ProgramExtensions
             }
         });
 
-        builder.Services.AddScoped<IAuthorizationHandler, PermissionHandler>();
-
         builder.Services.AddHttpClient<ExternalPlantNetService>((serviceProvider, httpClient) =>
         {
             var plantNetOptions = serviceProvider.GetRequiredService<IOptions<PlantNetOptions>>().Value;
@@ -83,8 +80,5 @@ public static class ProgramExtensions
         app.RegisterUserAPIs();
         app.RegisterGroupAPIs();
         app.UseHttpsRedirection();
-
-        app.UseAuthentication();
-        app.UseAuthorization();
     }
 }

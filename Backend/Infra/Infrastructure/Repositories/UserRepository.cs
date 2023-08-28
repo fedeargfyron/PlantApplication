@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Infrastructure.Extensions;
 
 namespace Infrastructure.Repositories;
 
@@ -35,13 +36,19 @@ public class UserRepository : BaseRepository<User>, IUserRepository
 
     public async Task UpdateAsync(UpdateUserDto dto)
     {
-        var groups = dto.GroupsIds.Select(x => new Group() { Id = x });
-        _context.Groups.AttachRange(groups);
-        await _context.Users.Where(x => x.Id == dto.Id)
-            .ExecuteUpdateAsync(s =>
-                s.SetProperty(e => e.Username, e => dto.Username)
-                 .SetProperty(e => e.Location, e => dto.Location)
-                 .SetProperty(e => e.Groups, e => groups));
+        var user = await _context.Users.Include(x => x.Groups)
+            .FirstOrDefaultAsync(x => x.Id == dto.Id);
+
+        if (user == null)
+        {
+            throw new ArgumentException("Group doesnt exists");
+        }
+
+        user.Groups.SetNewEntities(dto.GroupsIds, _context, id => new Group { Id = id });
+        user.Username = dto.Username;
+        user.Location = dto.Location;
+
+        await _context.SaveChangesAsync();
     }
 
     public async Task AddWithRelationsAsync(User entity)

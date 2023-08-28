@@ -1,7 +1,7 @@
 ﻿using Domain.Dtos.Groups;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.Extensions;
 
 namespace Infrastructure.Repositories;
 
@@ -26,17 +26,20 @@ public class GroupRepository : BaseRepository<Group>, IGroupRepository
         _context.Groups.Remove(group);
     }
 
-    public Task UpdateAsync(UpdateGroupDto dto)
+    public async Task UpdateAsync(UpdateGroupDto dto)
     {
-        var users = dto.UsersIds.Select(x => new User() { Id = x });
-        var permissions = dto.PermissionsIds.Select(x => new Permission() { Id = x });
-        _context.Users.AttachRange(users);
-        _context.Permissions.AttachRange(permissions);
-        return _context.Groups.Where(x => x.Id == dto.Id)
-            .ExecuteUpdateAsync(s =>
-                s.SetProperty(e => e.Name, e => dto.Name)
-                 .SetProperty(e => e.Description, e => dto.Description)
-                 .SetProperty(e => e.Permissions, e => permissions)
-                 .SetProperty(e => e.Users, e => users));
+        var group = await _context.Groups.FindAsync(dto.Id);
+
+        if(group == null)
+        {
+            throw new ArgumentException("Group doesnt exists");
+        }
+
+        group.Users.SetNewEntities(dto.UsersIds, _context, id => new User { Id = id });
+        group.Permissions.SetNewEntities(dto.PermissionsIds, _context, id => new Permission { Id = id });
+        group.Name = dto.Name;
+        group.Description = dto.Description;
+
+        await _context.SaveChangesAsync();
     }
 }

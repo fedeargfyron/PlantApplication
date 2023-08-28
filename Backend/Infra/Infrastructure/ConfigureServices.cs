@@ -5,6 +5,8 @@ using Infrastructure.ExternalServices.ImageKit;
 using Infrastructure.ExternalServices.PlantNet;
 using Infrastructure.Options;
 using Infrastructure.Repositories;
+using Infrastructure.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
@@ -21,6 +23,7 @@ public static class ConfigureServices
         services.Configure<ImageKitOptions>(configuration.GetSection(ImageKitOptions.ImageKitName));
         services.Configure<PlantNetOptions>(configuration.GetSection(PlantNetOptions.PlantNetName));
         services.Configure<GPTOptions>(configuration.GetSection(GPTOptions.GPTName));
+        services.AddScoped<IAuthorizationHandler, PermissionHandler>();
         services.AddScoped<IPlantRepository, PlantRepository>();
         services.AddScoped<IGroupRepository, GroupRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
