@@ -10,7 +10,9 @@ public class UserEndpointProfile : Profile
 {
     public UserEndpointProfile()
     {
-        CreateMap<Group, GetAllGroupsResponse>();
+        CreateMap<Group, GetAllGroupsResponse>()
+            .ReverseMap();
+
         CreateMap<AddGroupRequest, AddGroupHandlerRequest>();
     }
 }

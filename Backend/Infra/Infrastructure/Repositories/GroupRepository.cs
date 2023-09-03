@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Infrastructure.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
@@ -28,7 +29,9 @@ public class GroupRepository : BaseRepository<Group>, IGroupRepository
 
     public async Task UpdateAsync(UpdateGroupDto dto)
     {
-        var group = await _context.Groups.FindAsync(dto.Id);
+        var group = await _context.Groups.Include(x => x.Permissions)
+            .Include(x => x.Users)
+            .FirstOrDefaultAsync(x => x.Id == dto.Id);
 
         if(group == null)
         {
@@ -39,7 +42,6 @@ public class GroupRepository : BaseRepository<Group>, IGroupRepository
         group.Permissions.SetNewEntities(dto.PermissionsIds, _context, id => new Permission { Id = id });
         group.Name = dto.Name;
         group.Description = dto.Description;
-
         await _context.SaveChangesAsync();
     }
 }

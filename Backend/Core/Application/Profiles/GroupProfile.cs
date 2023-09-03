@@ -20,6 +20,6 @@ public class GroupProfile : Profile
             .ForMember(dest => 
                 dest.Users,
                 opt => opt.MapFrom(src =>
-                src.UsersIds.Select(x => new Permission() { Id = x }).ToList()));
+                src.UsersIds.Select(x => new User() { Id = x }).ToList()));
     }
 }
