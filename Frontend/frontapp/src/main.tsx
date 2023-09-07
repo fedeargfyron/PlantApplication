@@ -11,6 +11,8 @@ import Home from './Screens/Home/index.jsx'
 import Root from './root.tsx'
 import Groups from './Screens/Groups/index.jsx'
 import GroupForm from './Screens/Groups/GroupForm/index.jsx'
+import Users from './Screens/Users/index.jsx'
+import UserForm from './Screens/Users/UserForm/index.jsx'
 
 
 const router = createBrowserRouter([
@@ -49,6 +51,27 @@ const router = createBrowserRouter([
                 element: 
                 <RouteGuard permission={Permission[Permission.UpdateGroup]}>
                   <GroupForm />
+                </RouteGuard>
+              },
+              {
+                path: "/users",
+                element: 
+                <RouteGuard permission={Permission[Permission.GetUsers]}>
+                  <Users />
+                </RouteGuard>
+              },
+              {
+                path: "/users/form",
+                element: 
+                <RouteGuard permission={Permission[Permission.AddUser]}>
+                  <UserForm />
+                </RouteGuard>
+              },
+              {
+                path: "/users/form/:id",
+                element: 
+                <RouteGuard permission={Permission[Permission.UpdateUser]}>
+                  <UserForm />
                 </RouteGuard>
               }
             ]

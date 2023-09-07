@@ -41,6 +41,9 @@ export default function GroupForm() {
     }, [id, fetchGroupById]);
 
     useEffect(() => {
+        if(!id)
+            return;
+
         if(!group)
             return;
 
@@ -49,7 +52,7 @@ export default function GroupForm() {
         setPermissionsSelected(group.permissionsIds);
         setUsersSelected(group.usersIds);
         setEditForm(true);
-    }, [group, setValue, setEditForm]);
+    }, [group, id, setValue, setEditForm]);
 
     const getRequestMethod = (body) => editForm ? axios.put(`https://localhost:44374/groups/${id}`, body,{
         headers: {

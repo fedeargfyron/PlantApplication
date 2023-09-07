@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.Dtos.Users;
+using Domain.Entities;
 using Domain.Interfaces.Services;
 
 namespace Application.Handlers.Users.GetUserByIdHandler;
@@ -11,6 +12,6 @@ public class GetUserByIdHandler : IGetUserByIdHandler
     {
         _userService = userService;
     }
-    public ValueTask<User> HandleAsync(GetUserByIdHandlerRequest request)
+    public Task<GetUserByIdResultDto> HandleAsync(GetUserByIdHandlerRequest request)
         => _userService.GetUserByIdAsync(request.UserId);
 }

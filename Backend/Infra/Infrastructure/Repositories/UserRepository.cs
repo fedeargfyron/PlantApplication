@@ -3,6 +3,7 @@ using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Extensions;
+using Domain.Dtos.Groups;
 
 namespace Infrastructure.Repositories;
 
@@ -57,8 +58,8 @@ public class UserRepository : BaseRepository<User>, IUserRepository
         await _context.Users.AddAsync(entity);
     }
 
-    public ValueTask<User?> GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<GetUserByIdResultDto?> GetByIdAsync(int id)
+        => _context.Users.Where(x => x.Id == id)
+            .Select(x => new GetUserByIdResultDto(x.Username, x.Email, x.Location, x.Groups.Select(x => x.Id)))
+            .SingleOrDefaultAsync();
 }
