@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using PlantAppAPI.Actions;
 using PlantAppAPI.Endpoints.Groups;
 using PlantAppAPI.Endpoints.Plants;
 using PlantAppAPI.Endpoints.Security;
@@ -30,7 +31,10 @@ public static class ProgramExtensions
 
         builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
         {
-            builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+            builder.WithOrigins("*")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+
         }));
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -84,6 +88,7 @@ public static class ProgramExtensions
         app.RegisterSecurityAPIs();
         app.RegisterUserAPIs();
         app.RegisterGroupAPIs();
+        app.RegisterPermissionAPIs();
         app.UseHttpsRedirection();
     }
 }

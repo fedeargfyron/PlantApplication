@@ -32,7 +32,7 @@ public class GroupService : IGroupService
     public Task<List<Group>> GetAllAsync()
         => _groupRepository.GetAllAsync();
 
-    public async ValueTask<Group> GetGroupByIdAsync(int id)
+    public async ValueTask<GetGroupByIdResultDto> GetGroupByIdAsync(int id)
     {
         var group = await _groupRepository.GetByIdAsync(id);
 

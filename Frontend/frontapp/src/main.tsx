@@ -2,14 +2,15 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import Login from './Screens/Login/index.tsx'
+import Login from './Screens/Login/index.jsx'
 import RouteGuard from './Components/RouteGuard/index.jsx'
 import { Permission } from './Enums/Permission.tsx'
 import Layout from './Components/Layout/index.jsx'
 import { NextUIProvider } from '@nextui-org/react'
-import Home from './Screens/Home/index.tsx'
-import Test from './Screens/Test/index.tsx'
+import Home from './Screens/Home/index.jsx'
 import Root from './root.tsx'
+import Groups from './Screens/Groups/index.jsx'
+import GroupForm from './Screens/Groups/GroupForm/index.jsx'
 
 
 const router = createBrowserRouter([
@@ -26,17 +27,35 @@ const router = createBrowserRouter([
                 element: <Home />
               },
               {
+                path: "/groups",
+                element: <Groups />
+              },
+              {
                 path: "/test",
-                element: <Test />
+                element: 
+                <RouteGuard permission={Permission[Permission.Login]}>
+                  <Login />
+                </RouteGuard>
+              },
+              {
+                path: "/groups/form",
+                element: 
+                <RouteGuard permission={Permission[Permission.AddGroup]}>
+                  <GroupForm />
+                </RouteGuard>
+              },
+              {
+                path: "/groups/form/:id",
+                element: 
+                <RouteGuard permission={Permission[Permission.UpdateGroup]}>
+                  <GroupForm />
+                </RouteGuard>
               }
             ]
           },
           {
             path: "/login",
-            element: 
-            <RouteGuard permission={Permission[Permission.Login]}>
-              <Login />
-            </RouteGuard>
+            element: <Login />
           }
         ]
     },

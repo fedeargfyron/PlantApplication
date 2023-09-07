@@ -7,4 +7,6 @@ public interface IPlantRepository : IBaseRepository<Plant>
 {
     Task UpdateAsync(int id, UpdatePlantDto dto);
     void DeleteByIdAsync(int id);
+    ValueTask<Plant?> GetByIdAsync(int id);
+
 }

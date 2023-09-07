@@ -8,7 +8,7 @@ const RouteGuard = ({children, permission}) => {
     const getToken = () => {
         let storageValue = localStorage.getItem("token");
 
-        if(storageValue == null){
+        if(!storageValue){
             return null;
         }
 

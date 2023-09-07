@@ -10,5 +10,5 @@ public interface IGroupService
     Task AddGroupAsync(AddGroupDto dto);
     Task UpdateGroupAsync(UpdateGroupDto dto);
     Task DeleteGroupByIdAsync(int id);
-    ValueTask<Group> GetGroupByIdAsync(int id);
+    ValueTask<GetGroupByIdResultDto> GetGroupByIdAsync(int id);
 }

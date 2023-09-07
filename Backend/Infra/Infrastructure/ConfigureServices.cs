@@ -25,6 +25,7 @@ public static class ConfigureServices
         services.Configure<GPTOptions>(configuration.GetSection(GPTOptions.GPTName));
         services.AddScoped<IAuthorizationHandler, PermissionHandler>();
         services.AddScoped<IPlantRepository, PlantRepository>();
+        services.AddScoped<IPermissionRepository, PermissionRepository>();
         services.AddScoped<IGroupRepository, GroupRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IExternalImageUploaderService, ExternalImageKitService>();

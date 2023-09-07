@@ -56,4 +56,9 @@ public class UserRepository : BaseRepository<User>, IUserRepository
         _context.Groups.AttachRange(entity.Groups);
         await _context.Users.AddAsync(entity);
     }
+
+    public ValueTask<User?> GetByIdAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
 }

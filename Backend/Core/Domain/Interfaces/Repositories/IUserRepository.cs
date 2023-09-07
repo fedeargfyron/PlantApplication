@@ -9,4 +9,5 @@ public interface IUserRepository : IBaseRepository<User>
     Task<GetUserLoginResultDto?> GetUserLoginAsync(GetUserLoginDto getUserLoginDto);
     void DeleteByIdAsync(int id);
     Task UpdateAsync(UpdateUserDto dto);
+    ValueTask<User?> GetByIdAsync(int id);
 }

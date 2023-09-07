@@ -4,6 +4,7 @@ using Application.Handlers.Groups.GetAllGroupsHandler;
 using Application.Handlers.Groups.GetGroupByIdHandler;
 using Application.Handlers.Groups.RemoveGroupHandler;
 using Application.Handlers.Groups.UpdateGroupHandler;
+using Application.Handlers.Permissions.GetAllPermissionsHandler;
 using Application.Handlers.Plants;
 using Application.Handlers.Plants.RecognizePlantHandler;
 using Application.Handlers.Plants.SavePlantHandler;
@@ -34,6 +35,7 @@ public static class ConfigureServices
         services.AddScoped<IAddUserHandler, AddUserHandler>();
         services.AddScoped<IUpdateGroupHandler, UpdateGroupHandler>();
         services.AddScoped<IRemoveGroupHandler, RemoveGroupHandler>();
+        services.AddScoped<IGetAllPermissionsHandler, GetAllPermissionsHandler>();
         services.AddScoped<IGetGroupByIdHandler, GetGroupByIdHandler>();
         services.AddScoped<IGetAllGroupsHandler, GetAllGroupsHandler>();
         services.AddScoped<IAddGroupHandler, AddGroupHandler>();
@@ -43,6 +45,7 @@ public static class ConfigureServices
         services.AddScoped<IUploadPlantService, UploadPlantService>();
         services.AddScoped<IPlantInformationGetterService, PlantInformationGetterService>();
         services.AddScoped<IPlantRecognizerService, PlantRecognizerService>();
+        services.AddScoped<IPermissionService, PermissionService>();
         services.AddScoped<IRecognizePlantHandler, RecognizePlantHandler>();
         services.AddSingleton<ITokenService, TokenService>();
         services.AddScoped<IGenerateTokenHandler, GenerateTokenHandler>();

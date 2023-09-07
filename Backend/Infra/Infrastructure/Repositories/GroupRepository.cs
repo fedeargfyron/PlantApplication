@@ -3,6 +3,8 @@ using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Xml.Linq;
 
 namespace Infrastructure.Repositories;
 
@@ -44,4 +46,9 @@ public class GroupRepository : BaseRepository<Group>, IGroupRepository
         group.Description = dto.Description;
         await _context.SaveChangesAsync();
     }
+
+    public Task<GetGroupByIdResultDto?> GetByIdAsync(int id)
+        => _context.Groups.Where(x => x.Id == id)
+            .Select(x => new GetGroupByIdResultDto(x.Name, x.Description, x.Permissions.Select(x => x.Id), x.Users.Select(x => x.Id)))
+            .SingleOrDefaultAsync();
 }

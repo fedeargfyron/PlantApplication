@@ -20,6 +20,11 @@ public class PlantRepository : BaseRepository<Plant>, IPlantRepository
         _context.Plants.Remove(plant);
     }
 
+    public ValueTask<Plant?> GetByIdAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task UpdateAsync(int id, UpdatePlantDto dto)
     {
         var plant = await _context.Plants

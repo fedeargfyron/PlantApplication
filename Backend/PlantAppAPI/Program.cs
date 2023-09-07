@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using PlantAppAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);

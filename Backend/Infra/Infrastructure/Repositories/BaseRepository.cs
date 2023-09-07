@@ -13,9 +13,6 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntit
         _context = context;
     }
 
-    public ValueTask<T?> GetByIdAsync(int id) 
-        => _context.Set<T>().FindAsync(id);
-
     public Task<List<T>> GetAllAsync()
         => _context.Set<T>().ToListAsync();
 

@@ -11,7 +11,7 @@ using PlantAppAPI.Endpoints.Groups.Contracts.Response;
 
 namespace PlantAppAPI.Endpoints.Groups;
 
-public static class GroupRegistrationExtensions
+public static class ActionRegistrationExtensions
 {
     public static void RegisterGroupAPIs(this WebApplication app)
     {
@@ -26,7 +26,7 @@ public static class GroupRegistrationExtensions
         groups.MapGet("/{id}", async (IGetGroupByIdHandler handler, IMapper mapper, int id) =>
         {
             var result = await handler.HandleAsync(new(id));
-            return TypedResults.Ok(mapper.Map<GetAllGroupsResponse>(result));
+            return TypedResults.Ok(mapper.Map<GetGroupByIdResponse>(result));
         }).RequireAuthorization(PermissionType.GetGroupById.ToString());
 
         groups.MapPut("/{id}", async (IUpdateGroupHandler handler, IMapper mapper, int id, [FromBody] PutGroupRequest request) =>
