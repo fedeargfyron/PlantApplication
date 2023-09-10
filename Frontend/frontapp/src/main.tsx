@@ -13,6 +13,7 @@ import Groups from './Screens/Groups/index.jsx'
 import GroupForm from './Screens/Groups/GroupForm/index.jsx'
 import Users from './Screens/Users/index.jsx'
 import UserForm from './Screens/Users/UserForm/index.jsx'
+import Plants from './Screens/Plants/index.jsx'
 
 
 const router = createBrowserRouter([
@@ -72,6 +73,14 @@ const router = createBrowserRouter([
                 element: 
                 <RouteGuard permission={Permission[Permission.UpdateUser]}>
                   <UserForm />
+                </RouteGuard>
+              }
+              ,
+              {
+                path: "/plants",
+                element: 
+                <RouteGuard permission={Permission[Permission.RecognizePlants]}>
+                  <Plants />
                 </RouteGuard>
               }
             ]

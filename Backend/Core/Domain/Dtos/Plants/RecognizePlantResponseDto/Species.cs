@@ -1,4 +1,4 @@
-﻿namespace Domain.Dtos.Plants.GetPlantResponse;
+﻿namespace Domain.Dtos.Plants.RecognizePlantResponseDto;
 
 public class Species
 {

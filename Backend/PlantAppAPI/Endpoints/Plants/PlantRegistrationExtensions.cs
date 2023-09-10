@@ -41,8 +41,8 @@ public static class PlantRegistrationExtensions
 
         plants.MapPost("/recognize", async ([FromBody] RecognizePlantHandlerRequest request, IRecognizePlantHandler handler) =>
         {
-            await handler.HandleAsync(request);
-            return TypedResults.Ok();
+            var result = await handler.HandleAsync(request);
+            return TypedResults.Ok(result);
         }).RequireAuthorization(PermissionType.RecognizePlants.ToString());
 
         plants.MapPost("/", async ([FromBody] SavePlantHandlerRequest request, ISavePlantHandler handler) =>

@@ -14,3 +14,39 @@ span::before{
 span::after{
 	border-bottom-width: .5px !important;
 }
+
+.filepond--wrapper,
+.filepond--root,
+.filepond--list-scroller,
+.filepond--list,
+.filepond--item{
+	height: 100% !important;
+	width: 100% !important;
+	padding: 0 !important;
+	margin: 0 !important;
+}
+
+.filepond--drop-label{
+	height: 100% !important;
+	z-index: 100 !important;
+}
+
+.filepond--list{
+	position: relative !important;
+	top: 0 !important;
+	left: 0 !important;
+}
+
+.filepond--item{
+	position: absolute !important;
+	top: 0;
+	left: 0;
+}
+
+.filepond--image-canvas-wrapper{
+	object-fit: cover !important;
+}
+
+.filepond--image-canvas-wrapper{
+	width: 100% !important;
+}

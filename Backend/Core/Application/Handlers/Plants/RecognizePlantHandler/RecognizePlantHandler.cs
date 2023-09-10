@@ -1,4 +1,5 @@
-﻿using Domain.Dtos.Plants.GetPlantResponse;
+﻿using Domain.Dtos.Plants;
+using Domain.Dtos.Plants.RecognizePlantResponseDto;
 using Domain.Interfaces.Services;
 
 namespace Application.Handlers.Plants.RecognizePlantHandler;
@@ -18,6 +19,7 @@ public class RecognizePlantHandler : IRecognizePlantHandler
     public async Task<GetPlantResponseDto> HandleAsync(RecognizePlantHandlerRequest request)
     {
         var imageUrl = await _imageKitService.UploadImageAsync(request.Base64Image);
-        return await _plantRecognizerService.RecognizePlant(imageUrl);
+        var recognizedPlant = await _plantRecognizerService.RecognizePlant(imageUrl);
+        return new(recognizedPlant.BestMatch, recognizedPlant.Results, imageUrl);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Domain.Dtos.Plants.GetPlantResponse;
+﻿using Domain.Dtos.Plants;
+using Domain.Dtos.Plants.RecognizePlantResponseDto;
 
 namespace Application.Handlers.Plants.RecognizePlantHandler;
 

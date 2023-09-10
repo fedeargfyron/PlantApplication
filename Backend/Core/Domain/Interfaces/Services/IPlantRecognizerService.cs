@@ -1,8 +1,8 @@
-﻿using Domain.Dtos.Plants.GetPlantResponse;
+﻿using Domain.Dtos.Plants.RecognizePlantResponseDto;
 
 namespace Domain.Interfaces.Services;
 
 public interface IPlantRecognizerService
 {
-    Task<GetPlantResponseDto> RecognizePlant(string url);
+    Task<RecognizePlantResponseDto> RecognizePlant(string url);
 }

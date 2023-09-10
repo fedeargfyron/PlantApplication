@@ -1,4 +1,4 @@
-﻿using Domain.Dtos.Plants.GetPlantResponse;
+﻿using Domain.Dtos.Plants.RecognizePlantResponseDto;
 using Domain.Interfaces.ExternalServices;
 using Domain.Interfaces.Services;
 
@@ -13,7 +13,7 @@ public class PlantRecognizerService : IPlantRecognizerService
         _externalRecognizerService = externalRecognizerService;
     }
 
-    public async Task<GetPlantResponseDto> RecognizePlant(string url)
+    public async Task<RecognizePlantResponseDto> RecognizePlant(string url)
     {
         var plant = await _externalRecognizerService.RecognizePlant(url);
 
@@ -22,6 +22,8 @@ public class PlantRecognizerService : IPlantRecognizerService
             throw new ArgumentException("Error recognizing the plant");
         }
 
+        plant.Results = plant.Results.Take(3).ToList();
+        plant.Results.ForEach(x => x.Images = x.Images.Take(3).ToList());
         return plant;
     }
 }

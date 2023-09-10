@@ -40,8 +40,8 @@ export default function NavbarLayout() {
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
-          <Link color="foreground" href="#">
-            Features
+          <Link color="foreground" href="/plants">
+           Plants
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
@@ -84,8 +84,8 @@ export default function NavbarLayout() {
           <p className="font-semibold">Signed in as</p>
           <p className="font-semibold">zoey@example.com</p>
         </DropdownItem>
-        <DropdownItem key="groups"><Link href="/groups">Groups</Link></DropdownItem>
-        <DropdownItem key="users"><Link href="/users">Users</Link></DropdownItem>
+        <DropdownItem onClick={() => navigate('/groups')} key="groups">Groups</DropdownItem>
+        <DropdownItem onClick={() => navigate('/users')} key="users">Users</DropdownItem>
         <DropdownItem onClick={logOut} key="logout" color="danger">
           Log Out
         </DropdownItem>

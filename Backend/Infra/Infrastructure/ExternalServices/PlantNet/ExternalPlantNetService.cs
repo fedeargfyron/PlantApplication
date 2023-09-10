@@ -1,4 +1,4 @@
-﻿using Domain.Dtos.Plants.GetPlantResponse;
+﻿using Domain.Dtos.Plants.RecognizePlantResponseDto;
 using Domain.Interfaces.ExternalServices;
 using Infrastructure.Options;
 using Microsoft.Extensions.Options;
@@ -17,10 +17,10 @@ public class ExternalPlantNetService : IExternalRecognizerService
         _options = options.Value;
     }
 
-    public async Task<GetPlantResponseDto?> RecognizePlant(string url)
+    public async Task<RecognizePlantResponseDto?> RecognizePlant(string url)
     {
         _client.BaseAddress = new Uri(_options.BaseUrl);
-        return await _client.GetFromJsonAsync<GetPlantResponseDto>($"v2/identify/{"all"}?api-key={_options.ApiKey}&images={url}&include-related-images=true");
+        return await _client.GetFromJsonAsync<RecognizePlantResponseDto>($"v2/identify/{"all"}?api-key={_options.ApiKey}&images={url}&include-related-images=true");
     }
 }
 

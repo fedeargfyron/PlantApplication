@@ -83,7 +83,7 @@ export default function GroupForm() {
                     <Tab key="group" title="Group">
                         <Card>
                             <CardBody>
-                                <Input label="Name" className="pb-3" {...register("name", { required: true })}/>
+                                <Input type="text" label="Name" className="pb-3" {...register("name", { required: true })}/>
                                 <Textarea
                                     isRequired
                                     label="Description"
