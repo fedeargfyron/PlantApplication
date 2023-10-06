@@ -2,6 +2,7 @@
 using Domain.Dtos.Plants;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using Domain.Interfaces.Security;
 using Domain.Interfaces.Services;
 
 namespace Application.Services;
@@ -9,11 +10,13 @@ namespace Application.Services;
 public class PlantService : IPlantService
 {
     private readonly IPlantRepository _plantRepository;
+    private readonly IApplicationUser _applicationUser;
     private readonly IMapper _mapper;
 
-    public PlantService(IPlantRepository plantRepository, IMapper mapper)
+    public PlantService(IPlantRepository plantRepository, IApplicationUser applicationUser, IMapper mapper)
     {
         _plantRepository = plantRepository;
+        _applicationUser = applicationUser;
         _mapper = mapper;
     }
 
@@ -22,7 +25,7 @@ public class PlantService : IPlantService
 
     public void DeletePlantByIdAsync(int id) => _plantRepository.DeleteByIdAsync(id);
 
-    public Task<List<Plant>> GetAllAsync() => _plantRepository.GetAllAsync();
+    public Task<List<Plant>> GetAllAsync() => _plantRepository.GetAllAsync(_applicationUser.GetUserId());
 
     public async ValueTask<Plant> GetPlantByIdAsync(int id)
     {

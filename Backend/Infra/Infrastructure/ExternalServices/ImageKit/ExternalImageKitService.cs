@@ -14,12 +14,12 @@ public class ExternalImageKitService : IExternalImageUploaderService
         _client = new ImagekitClient(clientConfiguration.PublicKey, clientConfiguration.PrivateKey, clientConfiguration.BaseUrl);
     }
 
-    public async Task<string> UploadImageAsync(string base64Image)
+    public async Task<string> UploadImageAsync(string base64Image, string fileName)
     {
         var request = new FileCreateRequest
         {
             file = base64Image,
-            fileName = "test"
+            fileName = fileName
         };
         var response = await _client.UploadAsync(request);
         return response.url;

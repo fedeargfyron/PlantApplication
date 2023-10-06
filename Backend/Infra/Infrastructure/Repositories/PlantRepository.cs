@@ -12,6 +12,9 @@ public class PlantRepository : BaseRepository<Plant>, IPlantRepository
     {
 
     }
+    public Task<List<Plant>> GetUserPlantsAsync(int id)
+        => _context.Plants.Where(x => x.UserId == id)
+                .ToListAsync();
 
     public async Task AddPlantAsync(Plant entity)
     {

@@ -13,6 +13,7 @@ public class UploadPlantService : IUploadPlantService
         _externalImageKitService = externalImageKitService;
     }
 
-    public Task<string> UploadImageAsync(string base64Image) => _externalImageKitService.UploadImageAsync(base64Image);
+    public Task<string> UploadImageAsync(string base64Image, string fileName) 
+        => _externalImageKitService.UploadImageAsync(base64Image, fileName);
 
 }

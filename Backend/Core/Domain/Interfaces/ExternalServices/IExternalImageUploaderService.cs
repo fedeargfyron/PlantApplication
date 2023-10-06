@@ -2,5 +2,5 @@
 
 public interface IExternalImageUploaderService
 {
-    Task<string> UploadImageAsync(string base64Image);
+    Task<string> UploadImageAsync(string base64Image, string fileName);
 }

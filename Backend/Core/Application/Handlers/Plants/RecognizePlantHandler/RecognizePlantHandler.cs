@@ -18,7 +18,7 @@ public class RecognizePlantHandler : IRecognizePlantHandler
 
     public async Task<GetPlantResponseDto> HandleAsync(RecognizePlantHandlerRequest request)
     {
-        var imageUrl = await _imageKitService.UploadImageAsync(request.Base64Image);
+        var imageUrl = await _imageKitService.UploadImageAsync(request.Base64Image, request.FileName);
         var recognizedPlant = await _plantRecognizerService.RecognizePlant(imageUrl);
         return new(recognizedPlant.BestMatch, recognizedPlant.Results, imageUrl);
     }
