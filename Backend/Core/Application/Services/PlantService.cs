@@ -17,11 +17,8 @@ public class PlantService : IPlantService
         _mapper = mapper;
     }
 
-    public async Task AddPlantAsync(PlantDto dto)
-    {
-        await _plantRepository.AddAsync(_mapper.Map<Plant>(dto));
-        await _plantRepository.SaveChangesAsync();
-    }
+    public Task AddPlantAsync(PlantDto dto)
+        => _plantRepository.AddPlantAsync(_mapper.Map<Plant>(dto));
 
     public void DeletePlantByIdAsync(int id) => _plantRepository.DeleteByIdAsync(id);
 

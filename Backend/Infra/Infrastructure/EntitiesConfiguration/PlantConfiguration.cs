@@ -15,5 +15,8 @@ public class PlantConfiguration : IEntityTypeConfiguration<Plant>
 
         builder.Property(e => e.Description)
             .HasMaxLength(255);
+
+        builder.HasOne(d => d.User).WithMany(p => p.Plants)
+            .HasForeignKey(d => d.UserId);
     }
 }

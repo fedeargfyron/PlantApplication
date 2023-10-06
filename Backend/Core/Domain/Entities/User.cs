@@ -7,4 +7,5 @@ public class User : BaseEntity
     public string Password { get; set; } = string.Empty;
     public string? Location { get; set; } = string.Empty;
     public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
+    public virtual ICollection<Plant> Plants { get; set; } = new List<Plant>();
 }

@@ -13,6 +13,12 @@ public class PlantRepository : BaseRepository<Plant>, IPlantRepository
 
     }
 
+    public async Task AddPlantAsync(Plant entity)
+    {
+        _context.Add(entity);
+        await _context.SaveChangesAsync();
+    }
+
     public void DeleteByIdAsync(int id)
     {
         var plant = new Plant() { Id = id };

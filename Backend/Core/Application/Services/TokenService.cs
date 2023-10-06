@@ -1,4 +1,5 @@
-﻿using Domain.Dtos.Users;
+﻿using Domain.Constants;
+using Domain.Dtos.Users;
 using Domain.Enums;
 using Domain.Interfaces.Services;
 using Domain.Options;
@@ -21,8 +22,8 @@ public class TokenService : ITokenService
 
     public string GenerateToken(GetUserLoginResultDto getUserLoginResultDto)
     {
-        var claims = getUserLoginResultDto.Permissions.Select(x => new Claim(x.ToString(), x.ToString()));
-
+        var claims = getUserLoginResultDto.Permissions.Select(x => new Claim(x.ToString(), x.ToString())).ToList();
+        claims.Add(new Claim(UserClaimConstants.UserIdClaim, getUserLoginResultDto.Id.ToString()));
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey));
         var tokenDescriptor = new SecurityTokenDescriptor()
         {

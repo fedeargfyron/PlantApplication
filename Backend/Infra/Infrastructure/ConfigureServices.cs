@@ -1,5 +1,6 @@
 ﻿using Domain.Interfaces.ExternalServices;
 using Domain.Interfaces.Repositories;
+using Domain.Interfaces.Security;
 using Infrastructure.ExternalServices.ChatGPT;
 using Infrastructure.ExternalServices.ImageKit;
 using Infrastructure.ExternalServices.PlantNet;
@@ -26,6 +27,8 @@ public static class ConfigureServices
         services.AddScoped<IAuthorizationHandler, PermissionHandler>();
         services.AddScoped<IPlantRepository, PlantRepository>();
         services.AddScoped<IPermissionRepository, PermissionRepository>();
+        services.AddScoped<IApplicationUser, ApplicationUser>();
+        services.AddHttpContextAccessor();
         services.AddScoped<IGroupRepository, GroupRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IExternalImageUploaderService, ExternalImageKitService>();
