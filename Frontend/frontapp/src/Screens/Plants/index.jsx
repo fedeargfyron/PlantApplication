@@ -1,5 +1,5 @@
 import { Button, Card, CardHeader, Image, CardFooter, CardBody, Modal, ModalContent, ModalBody, ModalHeader, useDisclosure, Divider, Input, Textarea } from "@nextui-org/react"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
@@ -18,14 +18,22 @@ export default function RecognizePlant() {
   const [selectedItem, setSelectedItem] = useState({});
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
 
+  const fetchPlants = usePlantStore((state) => state.fetchPlants);
+  var plantsStore = usePlantStore(state => state.plants);
+  console.log(plantsStore)
+  useEffect(() => {
+    fetchPlants();
+  }, [fetchPlants])
 
   const recognizePlant = usePlantStore((state) => state.recognizePlant);
   let recognizedPlant = usePlantStore(state => state.recognizedPlant);
   const removeRecognizedPlant = usePlantStore(state => state.removeRecognizedPlant);
 
   const submit = () => {
-    let base64image = files.at(0).getFileEncodeBase64String();
-    recognizePlant(base64image);
+    let file = files.at(0);
+    let fileName = `${file.filename}-${Date.now()}`;
+    let base64image = file.getFileEncodeBase64String();
+    recognizePlant(base64image, fileName);
   }
 
   const openModal = (index) => {

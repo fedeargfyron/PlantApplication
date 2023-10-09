@@ -3,6 +3,7 @@ using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Security;
 using Infrastructure.ExternalServices.ChatGPT;
 using Infrastructure.ExternalServices.ImageKit;
+using Infrastructure.ExternalServices.PlantId;
 using Infrastructure.ExternalServices.PlantNet;
 using Infrastructure.Options;
 using Infrastructure.Repositories;
@@ -23,6 +24,7 @@ public static class ConfigureServices
         services.Configure<ConnectionStringsOptions>(configuration.GetSection(ConnectionStringsOptions.ConnectionStringsName));
         services.Configure<ImageKitOptions>(configuration.GetSection(ImageKitOptions.ImageKitName));
         services.Configure<PlantNetOptions>(configuration.GetSection(PlantNetOptions.PlantNetName));
+        services.Configure<PlantIdOptions>(configuration.GetSection(PlantIdOptions.PlantIdName));
         services.Configure<GPTOptions>(configuration.GetSection(GPTOptions.GPTName));
         services.AddScoped<IAuthorizationHandler, PermissionHandler>();
         services.AddScoped<IPlantRepository, PlantRepository>();
@@ -34,6 +36,7 @@ public static class ConfigureServices
         services.AddScoped<IExternalImageUploaderService, ExternalImageKitService>();
         services.AddScoped<IExternalRecognizerService, ExternalPlantNetService>();
         services.AddScoped<IExternalPlantInformationGetterService, ExternalGPTService>();
+        services.AddScoped<IExternalHealthAssesmentService, ExternalPlantIdService>();
         services.AddDbContext<Context>();
         return services;
     }

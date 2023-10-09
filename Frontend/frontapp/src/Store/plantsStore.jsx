@@ -16,8 +16,9 @@ export const usePlantStore = create((set) => ({
       .then(res => set({ plants: res.data }))
       .catch(err => console.log(err));
   },
-  recognizePlant: (base64Image) => {
+  recognizePlant: (base64Image, filename) => {
       axios.post('https://localhost:44374/plants/recognize', {
+        "fileName": filename,
         "base64image": base64Image
       }, {
         headers: {

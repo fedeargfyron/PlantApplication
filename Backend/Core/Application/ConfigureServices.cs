@@ -6,6 +6,7 @@ using Application.Handlers.Groups.RemoveGroupHandler;
 using Application.Handlers.Groups.UpdateGroupHandler;
 using Application.Handlers.Permissions.GetAllPermissionsHandler;
 using Application.Handlers.Plants;
+using Application.Handlers.Plants.HealthAssesmentHandler;
 using Application.Handlers.Plants.RecognizePlantHandler;
 using Application.Handlers.Plants.SavePlantHandler;
 using Application.Handlers.Users.AddUserHandler;
@@ -36,6 +37,8 @@ public static class ConfigureServices
         services.AddScoped<IUpdateGroupHandler, UpdateGroupHandler>();
         services.AddScoped<IRemoveGroupHandler, RemoveGroupHandler>();
         services.AddScoped<IGetAllPermissionsHandler, GetAllPermissionsHandler>();
+        services.AddScoped<IHealthAssesmentHandler, HealthAssesmentHandler>();
+        services.AddScoped<IHealthAssesmentService, HealthAssesmentService>();
         services.AddScoped<IGetGroupByIdHandler, GetGroupByIdHandler>();
         services.AddScoped<IGetAllGroupsHandler, GetAllGroupsHandler>();
         services.AddScoped<IAddGroupHandler, AddGroupHandler>();

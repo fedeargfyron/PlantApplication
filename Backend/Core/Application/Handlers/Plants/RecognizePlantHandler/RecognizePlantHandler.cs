@@ -1,5 +1,4 @@
 ﻿using Domain.Dtos.Plants;
-using Domain.Dtos.Plants.RecognizePlantResponseDto;
 using Domain.Interfaces.Services;
 
 namespace Application.Handlers.Plants.RecognizePlantHandler;

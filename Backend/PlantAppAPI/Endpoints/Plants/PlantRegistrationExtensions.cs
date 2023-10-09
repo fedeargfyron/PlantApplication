@@ -1,4 +1,5 @@
-﻿using Application.Handlers.Plants.RecognizePlantHandler;
+﻿using Application.Handlers.Plants.HealthAssesmentHandler;
+using Application.Handlers.Plants.RecognizePlantHandler;
 using Application.Handlers.Plants.SavePlantHandler;
 using AutoMapper;
 using Domain.Dtos.Plants;
@@ -40,6 +41,12 @@ public static class PlantRegistrationExtensions
         }).RequireAuthorization(PermissionType.DeletePlants.ToString());
 
         plants.MapPost("/recognize", async ([FromBody] RecognizePlantHandlerRequest request, IRecognizePlantHandler handler) =>
+        {
+            var result = await handler.HandleAsync(request);
+            return TypedResults.Ok(result);
+        }).RequireAuthorization(PermissionType.RecognizePlants.ToString());
+
+        plants.MapPost("/healthassesment", async ([FromBody] HealthAssesmentHandlerRequest request, IHealthAssesmentHandler handler) =>
         {
             var result = await handler.HandleAsync(request);
             return TypedResults.Ok(result);

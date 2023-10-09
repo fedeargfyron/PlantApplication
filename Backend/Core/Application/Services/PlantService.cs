@@ -25,7 +25,8 @@ public class PlantService : IPlantService
 
     public void DeletePlantByIdAsync(int id) => _plantRepository.DeleteByIdAsync(id);
 
-    public Task<List<Plant>> GetAllAsync() => _plantRepository.GetAllAsync(_applicationUser.GetUserId());
+    public Task<List<Plant>> GetAllAsync() 
+        => _plantRepository.GetUserPlantsAsync(_applicationUser.GetUserId());
 
     public async ValueTask<Plant> GetPlantByIdAsync(int id)
     {
