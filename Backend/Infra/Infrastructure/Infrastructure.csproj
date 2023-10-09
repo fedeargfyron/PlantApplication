@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ExternalServices\WeatherAPI\Request\" />
     <Folder Include="Security\Policies\" />
   </ItemGroup>
 

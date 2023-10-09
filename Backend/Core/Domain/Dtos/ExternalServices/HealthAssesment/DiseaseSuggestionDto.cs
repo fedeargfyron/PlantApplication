@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Domain.Dtos.ExternalServices.HealthAssesment;
+﻿namespace Domain.Dtos.ExternalServices.HealthAssesment;
 
 public class DiseaseSuggestionDto
 {

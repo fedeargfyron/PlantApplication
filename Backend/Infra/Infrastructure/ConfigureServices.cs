@@ -25,6 +25,7 @@ public static class ConfigureServices
         services.Configure<ImageKitOptions>(configuration.GetSection(ImageKitOptions.ImageKitName));
         services.Configure<PlantNetOptions>(configuration.GetSection(PlantNetOptions.PlantNetName));
         services.Configure<PlantIdOptions>(configuration.GetSection(PlantIdOptions.PlantIdName));
+        services.Configure<WeatherAPIOptions>(configuration.GetSection(WeatherAPIOptions.WeatherAPIName));
         services.Configure<GPTOptions>(configuration.GetSection(GPTOptions.GPTName));
         services.AddScoped<IAuthorizationHandler, PermissionHandler>();
         services.AddScoped<IPlantRepository, PlantRepository>();
