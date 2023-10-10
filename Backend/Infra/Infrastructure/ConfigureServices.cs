@@ -30,6 +30,7 @@ public static class ConfigureServices
         services.AddScoped<IAuthorizationHandler, PermissionHandler>();
         services.AddScoped<IPlantRepository, PlantRepository>();
         services.AddScoped<IPermissionRepository, PermissionRepository>();
+        services.AddScoped<IWateringDayRepository, WateringDayRepository>();
         services.AddScoped<IApplicationUser, ApplicationUser>();
         services.AddHttpContextAccessor();
         services.AddScoped<IGroupRepository, GroupRepository>();

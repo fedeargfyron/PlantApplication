@@ -27,7 +27,7 @@ public class SavePlantHandler : ISavePlantHandler
             Cycle = result.Cycle,
             ScientificName = result.ScientificName,
             Sunlight = result.Sunlight,
-            Watering = result.Watering,
+            WateringDaysFrequency = result.WateringDaysFrequency,
             UserId = _applicationUser.GetUserId()
         });
     }

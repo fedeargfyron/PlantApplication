@@ -4,7 +4,7 @@ public class PlantDto
 {
     public string ScientificName { get; set; } = string.Empty;
     public string CommonName { get; set; } = string.Empty;
-    public string Watering { get; set; } = string.Empty;
+    public string WateringDaysFrequency { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; } = string.Empty;
     public string? Cycle { get; set; } = string.Empty;

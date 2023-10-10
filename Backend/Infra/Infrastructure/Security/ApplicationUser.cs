@@ -25,4 +25,18 @@ public class ApplicationUser : IApplicationUser
 
         return Convert.ToInt32(subject.Value);
     }
+
+    public DateTime GetUserMaximumCalculatedWateringDay()
+    {
+        var subject = _httpContextAccessor.HttpContext
+                          .User.Claims
+                          .FirstOrDefault(claim => claim.Type == UserClaimConstants.MaximumCalculatedWateringDay);
+
+        if (subject == null)
+        {
+            throw new InvalidOperationException("User id not registered");
+        }
+
+        return Convert.ToDateTime(subject.Value);
+    }
 }

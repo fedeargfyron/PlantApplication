@@ -14,6 +14,7 @@ using Application.Handlers.Users.GetAllUsersHandler;
 using Application.Handlers.Users.GetUserByIdHandler;
 using Application.Handlers.Users.RemoveUserHandler;
 using Application.Handlers.Users.UpdateUserHandler;
+using Application.Handlers.WateringCalendar.GetWateringDaysFromUserHandler;
 using Application.Services;
 using Domain.Interfaces.Handlers;
 using Domain.Interfaces.Services;
@@ -39,6 +40,8 @@ public static class ConfigureServices
         services.AddScoped<IGetAllPermissionsHandler, GetAllPermissionsHandler>();
         services.AddScoped<IHealthAssesmentHandler, HealthAssesmentHandler>();
         services.AddScoped<IHealthAssesmentService, HealthAssesmentService>();
+        services.AddScoped<IWateringCalendarService, WateringCalendarService>();
+        services.AddScoped<IGetWateringDaysFromUserHandler, GetWateringDaysFromUserHandler>();
         services.AddScoped<IGetGroupByIdHandler, GetGroupByIdHandler>();
         services.AddScoped<IGetAllGroupsHandler, GetAllGroupsHandler>();
         services.AddScoped<IAddGroupHandler, AddGroupHandler>();

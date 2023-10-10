@@ -12,6 +12,7 @@ using PlantAppAPI.Endpoints.Groups;
 using PlantAppAPI.Endpoints.Plants;
 using PlantAppAPI.Endpoints.Security;
 using PlantAppAPI.Endpoints.Users;
+using PlantAppAPI.Endpoints.WateringCalendar;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
@@ -89,6 +90,7 @@ public static class ProgramExtensions
         app.RegisterUserAPIs();
         app.RegisterGroupAPIs();
         app.RegisterPermissionAPIs();
+        app.RegisterWateringCalendarAPIs();
         app.UseHttpsRedirection();
     }
 }
