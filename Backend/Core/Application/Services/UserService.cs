@@ -2,6 +2,7 @@
 using Domain.Dtos.Users;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using Domain.Interfaces.Security;
 using Domain.Interfaces.Services;
 
 namespace Application.Services;
@@ -10,11 +11,13 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
+    private readonly IApplicationUser _applicationUser;
 
-    public UserService(IUserRepository userRepository, IMapper mapper)
+    public UserService(IUserRepository userRepository, IMapper mapper, IApplicationUser applicationUser)
     {
         _userRepository = userRepository;
         _mapper = mapper;
+        _applicationUser = applicationUser;
     }
     public async Task<GetUserLoginResultDto> GetUserLoginAsync(GetUserLoginDto getUserLoginDto)
     {
@@ -57,4 +60,10 @@ public class UserService : IUserService
 
     public Task UpdateUserAsync(UpdateUserDto dto)
         => _userRepository.UpdateAsync(dto);
+
+    public Task UpdateUserMaximumWateringDate(DateTime newMaximumWateringDate)
+    {
+        var userId = _applicationUser.GetUserId();
+        return _userRepository.UpdateUserMaximumWateringDate(userId, newMaximumWateringDate);
+    }
 }

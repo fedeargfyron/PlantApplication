@@ -3,5 +3,5 @@
 public interface IApplicationUser
 {
     int GetUserId();
-    DateTime GetUserMaximumCalculatedWateringDay();
+    Task<DateTime> GetUserMaximumCalculatedWateringDayAsync();
 }

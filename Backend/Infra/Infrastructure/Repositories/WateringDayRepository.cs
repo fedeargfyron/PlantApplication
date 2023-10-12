@@ -1,34 +1,40 @@
 ﻿using Domain.Dtos.WateringCalendar;
+using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class WateringDayRepository : IWateringDayRepository
+public class WateringDayRepository : BaseRepository<WateringDay>, IWateringDayRepository
 {
-    private readonly Context _context;
-
-    public WateringDayRepository(Context context)
+    public WateringDayRepository(Context context) : base(context)
     {
-        _context = context;
     }
 
-    public Task<List<GetWateringDayFromUserResultDto>> CreateAndGetWateringMonthOfUser(int userId, DateTime maximumCalculatedWateringDay)
+    public Task AddEntities(List<WateringDay> entities)
     {
-        throw new NotImplementedException();
+        _context.AddRange(entities);
+        return _context.SaveChangesAsync();
     }
 
-    public Task<List<GetWateringDayFromUserResultDto>> GetCurrentWateringDaysFromUser(int userId)
+    public Task<List<GetWateringDayFromUserResultDto>> GetCurrentWateringDaysFromUserAsync(int userId)
     {
         //TODO: Save in cache current
         var today = DateTime.Today;
-        var results = _context.WateringDays.Where(x => x.Plant.UserId == userId && x.Day.Year == today.Year && x.Day.Month >= today.Month)
-            .GroupBy(x => x.Day).Select(
-                x => new GetWateringDayFromUserResultDto(
-                    x.Key, 
-                    x.Select(p => new WateringDayPlantDto(p.PlantId, p.Plant.WateringDaysFrequency, p.Plant.Name, p.Plant.ImageLink, p.Plant.Outside)).ToList()
-                )).OrderBy(x => x.Day).ToListAsync();
 
-        return results;
+        return _context.Plants.Where(x => x.UserId == userId)
+            .Select(x => new GetWateringDayFromUserResultDto()
+            {
+                Id = x.Id,
+                WateringDaysFrequency = x.WateringDaysFrequency,
+                ImageLink = x.ImageLink,
+                Name = x.Name,
+                ScientificName = x.ScientificName,
+                Outside = x.Outside,
+                WateringSpecificDates = x.WateringDays.Where(w => w.Day.Year == today.Year && w.Day.Month >= today.Month)
+                                            .Select(w => w.Day)
+                                            .OrderBy(w => w)
+                                            .ToList()
+            }).ToListAsync();
     }
 }

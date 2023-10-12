@@ -58,8 +58,13 @@ public class UserRepository : BaseRepository<User>, IUserRepository
         await _context.Users.AddAsync(entity);
     }
 
+    //TODO: AddToCache??
     public Task<GetUserByIdResultDto?> GetByIdAsync(int id)
         => _context.Users.Where(x => x.Id == id)
-            .Select(x => new GetUserByIdResultDto(x.Username, x.Email, x.Location, x.Groups.Select(x => x.Id)))
+            .Select(x => new GetUserByIdResultDto(x.Username, x.Email, x.Location, x.MaximumCalculatedWateringDay, x.Groups.Select(x => x.Id)))
             .SingleOrDefaultAsync();
+
+    public Task UpdateUserMaximumWateringDate(int userId, DateTime newMaximumWateringDate)
+        => _context.Users.Where(x => x.Id == userId)
+            .ExecuteUpdateAsync(x => x.SetProperty(b => b.MaximumCalculatedWateringDay, newMaximumWateringDate));
 }

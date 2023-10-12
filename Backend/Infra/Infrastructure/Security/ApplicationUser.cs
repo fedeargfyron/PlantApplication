@@ -1,4 +1,5 @@
 ﻿using Domain.Constants;
+using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Security;
 using Microsoft.AspNetCore.Http;
 
@@ -7,9 +8,12 @@ namespace Infrastructure.Security;
 public class ApplicationUser : IApplicationUser
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    public ApplicationUser(IHttpContextAccessor httpContextAccessor)
+    private readonly IUserRepository _userRepository;
+
+    public ApplicationUser(IHttpContextAccessor httpContextAccessor, IUserRepository userRepository)
     {
         _httpContextAccessor = httpContextAccessor;
+        _userRepository = userRepository;
     }
 
     public int GetUserId()
@@ -26,17 +30,10 @@ public class ApplicationUser : IApplicationUser
         return Convert.ToInt32(subject.Value);
     }
 
-    public DateTime GetUserMaximumCalculatedWateringDay()
+    public async Task<DateTime> GetUserMaximumCalculatedWateringDayAsync()
     {
-        var subject = _httpContextAccessor.HttpContext
-                          .User.Claims
-                          .FirstOrDefault(claim => claim.Type == UserClaimConstants.MaximumCalculatedWateringDay);
-
-        if (subject == null)
-        {
-            throw new InvalidOperationException("User id not registered");
-        }
-
-        return Convert.ToDateTime(subject.Value);
+        var userId = GetUserId();
+        var user = await _userRepository.GetByIdAsync(userId);
+        return user!.MaximumCalculatedWateringDay;
     }
 }

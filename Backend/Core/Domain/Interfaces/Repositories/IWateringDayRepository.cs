@@ -1,9 +1,10 @@
 ﻿using Domain.Dtos.WateringCalendar;
+using Domain.Entities;
 
 namespace Domain.Interfaces.Repositories;
 
-public interface IWateringDayRepository
+public interface IWateringDayRepository : IBaseRepository<WateringDay>
 {
-    Task<List<GetWateringDayFromUserResultDto>> GetCurrentWateringDaysFromUser(int userId);
-    Task<List<GetWateringDayFromUserResultDto>> CreateAndGetWateringMonthOfUser(int userId, DateTime maximumCalculatedWateringDay);
+    Task<List<GetWateringDayFromUserResultDto>> GetCurrentWateringDaysFromUserAsync(int userId);
+    Task AddEntities(List<WateringDay> entities);
 }

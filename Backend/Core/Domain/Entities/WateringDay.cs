@@ -1,8 +1,7 @@
 ﻿namespace Domain.Entities;
 
-public class WateringDay
+public class WateringDay : BaseEntity
 {
-    public int Id { get; set; }
     public DateTime Day { get; set; }
     public int PlantId { get; set; }
     public Plant Plant { get; set; } = null!;

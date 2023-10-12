@@ -2,9 +2,11 @@
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Security;
 using Infrastructure.ExternalServices.ChatGPT;
+using Infrastructure.ExternalServices.GPT;
 using Infrastructure.ExternalServices.ImageKit;
 using Infrastructure.ExternalServices.PlantId;
 using Infrastructure.ExternalServices.PlantNet;
+using Infrastructure.ExternalServices.WeatherAPI;
 using Infrastructure.Options;
 using Infrastructure.Repositories;
 using Infrastructure.Security;
@@ -36,8 +38,10 @@ public static class ConfigureServices
         services.AddScoped<IGroupRepository, GroupRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IExternalImageUploaderService, ExternalImageKitService>();
+        services.AddScoped<IExternalWeatherService, ExternalWeatherAPIService>();
+        services.AddScoped<IExternalPlantRiskGetterService, ExternalGPTPlantRiskGetterService>();
         services.AddScoped<IExternalRecognizerService, ExternalPlantNetService>();
-        services.AddScoped<IExternalPlantInformationGetterService, ExternalGPTService>();
+        services.AddScoped<IExternalPlantInformationGetterService, ExternalGPTPlantInformationGetterService>();
         services.AddScoped<IExternalHealthAssesmentService, ExternalPlantIdService>();
         services.AddDbContext<Context>();
         return services;

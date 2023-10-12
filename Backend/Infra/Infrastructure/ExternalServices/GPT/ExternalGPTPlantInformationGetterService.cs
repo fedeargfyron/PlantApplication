@@ -8,12 +8,12 @@ using System.Text.Json;
 
 namespace Infrastructure.ExternalServices.ChatGPT;
 
-public class ExternalGPTService : IExternalPlantInformationGetterService
+public class ExternalGPTPlantInformationGetterService : IExternalPlantInformationGetterService
 {
     private readonly GPTOptions _options;
     private string _questionTemplate = "Necesito que respondas solo en JSON sobre la planta \"{plant}\" rellenando las siguientes caracteristicas: {\r\n\t\"CommonName\": \"\",\r\n\t\"ScientificName\": \"\",\r\n\t\"Cycle\": (Annual, Biennial, Perennial),\r\n\t\"WateringDaysFrequency\": (1, 2, 3, 2-4, etc),\r\n\t\"Sunlight\": [(Full sun, Full sun to partial shade, Partial shade (or part shade), Dappled sun/shade, Full shade, etc)]\r\n}";
 
-    public ExternalGPTService(IOptions<GPTOptions> options)
+    public ExternalGPTPlantInformationGetterService(IOptions<GPTOptions> options)
     {
         _options = options.Value;
     }

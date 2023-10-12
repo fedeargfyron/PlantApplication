@@ -6,5 +6,5 @@ public interface IWateringCalendarService
 {
     Task<List<GetWateringDayFromUserResultDto>> GetCurrentWateringDaysFromUser();
 
-    Task<List<GetWateringDayFromUserResultDto>> CreateAndGetWateringMonthOfUser();
+    Task CreateNewWateringDatesForUser(DateTime newMaximumCalculatedWateringDay);
 }

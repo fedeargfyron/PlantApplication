@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Dtos.Plants;
 using Domain.Entities;
+using Domain.Extensions;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Security;
 using Domain.Interfaces.Services;
@@ -20,8 +21,13 @@ public class PlantService : IPlantService
         _mapper = mapper;
     }
 
-    public Task AddPlantAsync(PlantDto dto)
-        => _plantRepository.AddPlantAsync(_mapper.Map<Plant>(dto));
+    public async Task AddPlantAsync(PlantDto dto)
+    {
+        var maximumCalculatedWateringDay = await _applicationUser.GetUserMaximumCalculatedWateringDayAsync();
+        var plant = _mapper.Map<Plant>(dto);
+        plant.WateringDays = plant.WateringDaysFrequency.GetWateringDays(DateTime.Today, maximumCalculatedWateringDay);
+        await _plantRepository.AddPlantAsync(plant);
+    }
 
     public void DeletePlantByIdAsync(int id) => _plantRepository.DeleteByIdAsync(id);
 

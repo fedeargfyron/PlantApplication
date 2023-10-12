@@ -1,4 +1,5 @@
 ﻿using Domain.Dtos.WateringCalendar;
+using Domain.Extensions;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Security;
 using Domain.Interfaces.Services;
@@ -16,24 +17,16 @@ public class WateringCalendarService : IWateringCalendarService
         _wateringDayRepository = wateringDayRepository;
     }
 
-    public async Task<List<GetWateringDayFromUserResultDto>> GetCurrentWateringDaysFromUser()
+    public Task<List<GetWateringDayFromUserResultDto>> GetCurrentWateringDaysFromUser()
     {
         var userId = _applicationUser.GetUserId();
-        var wateringDays = await _wateringDayRepository.GetCurrentWateringDaysFromUser(userId);
-
-        var maximumCalculatedWateringDay = _applicationUser.GetUserMaximumCalculatedWateringDay();
-        if (maximumCalculatedWateringDay < DateTime.Today.AddDays(7))
-        {
-            wateringDays.AddRange(await CreateAndGetWateringMonthOfUser());
-        }
-
-        return wateringDays;
+        return _wateringDayRepository.GetCurrentWateringDaysFromUserAsync(userId);
     }
 
-    public Task<List<GetWateringDayFromUserResultDto>> CreateAndGetWateringMonthOfUser()
+    public async Task CreateNewWateringDatesForUser(DateTime newMaximumCalculatedWateringDay)
     {
-        var userId = _applicationUser.GetUserId();
-        var maximumCalculatedWateringDay = _applicationUser.GetUserMaximumCalculatedWateringDay();
-        return _wateringDayRepository.CreateAndGetWateringMonthOfUser(userId, maximumCalculatedWateringDay);
+        var wateringDays = await GetCurrentWateringDaysFromUser();
+        var newEntities = wateringDays.GetNewMaximumWateringDayEntities(newMaximumCalculatedWateringDay);
+        await _wateringDayRepository.AddEntities(newEntities);
     }
 }

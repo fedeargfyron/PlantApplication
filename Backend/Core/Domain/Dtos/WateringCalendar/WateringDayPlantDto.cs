@@ -1,3 +1,10 @@
 ﻿namespace Domain.Dtos.WateringCalendar;
 
-public record WateringDayPlantDto(int Id, string WateringDaysFrequency, string Name, string ImageLink, bool Outside);
+public class WateringDayPlantDto
+{
+    public int Id { get; set; }
+    public string WateringDaysFrequency { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string ImageLink { get; set; } = string.Empty;
+    public bool Outside { get; set; }
+}

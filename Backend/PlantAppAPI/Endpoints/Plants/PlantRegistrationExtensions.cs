@@ -1,6 +1,7 @@
 ﻿using Application.Handlers.Plants.HealthAssesmentHandler;
 using Application.Handlers.Plants.RecognizePlantHandler;
 using Application.Handlers.Plants.SavePlantHandler;
+using Application.Handlers.RiskAlerts.GetRiskAlertsHandler;
 using AutoMapper;
 using Domain.Dtos.Plants;
 using Domain.Enums;
@@ -51,6 +52,13 @@ public static class PlantRegistrationExtensions
             var result = await handler.HandleAsync(request);
             return TypedResults.Ok(result);
         }).RequireAuthorization(PermissionType.RecognizePlants.ToString());
+
+        plants.MapPost("/riskalerts", async ([FromBody] GetRiskAlertsHandlerRequest request, IGetRiskAlertsHandler handler) =>
+        {
+            var result = await handler.HandleAsync(request);
+            return TypedResults.Ok(result);
+        }).RequireAuthorization(PermissionType.RecognizePlants.ToString());
+        
 
         plants.MapPost("/", async ([FromBody] SavePlantHandlerRequest request, ISavePlantHandler handler) =>
         {

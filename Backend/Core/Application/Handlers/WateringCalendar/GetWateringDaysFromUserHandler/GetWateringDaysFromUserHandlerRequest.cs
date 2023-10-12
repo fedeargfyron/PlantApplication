@@ -1,5 +1,3 @@
 ﻿namespace Application.Handlers.WateringCalendar.GetWateringDaysFromUserHandler;
 
-public class GetWateringDaysFromUserHandlerRequest
-{
-}
+public record GetWateringDaysFromUserHandlerRequest(bool? ShouldAddWateringMonth);
