@@ -37,6 +37,7 @@ public static class ConfigureServices
         services.AddHttpContextAccessor();
         services.AddScoped<IGroupRepository, GroupRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IPlantRiskRepository, PlantRiskRepository>();
         services.AddScoped<IExternalImageUploaderService, ExternalImageKitService>();
         services.AddScoped<IExternalWeatherService, ExternalWeatherAPIService>();
         services.AddScoped<IExternalPlantRiskGetterService, ExternalGPTPlantRiskGetterService>();

@@ -14,6 +14,7 @@ public class Context : DbContext
     public DbSet<Group> Groups { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<WateringDay> WateringDays { get; set; }
+    public DbSet<PlantRisk> PlantRisks { get; set; }
 
     public Context(DbContextOptions<Context> options, IOptions<ConnectionStringsOptions> connectionOptions) : base(options)
     {
