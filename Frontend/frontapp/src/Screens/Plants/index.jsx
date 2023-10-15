@@ -1,4 +1,4 @@
-import { Button, Card, CardHeader, Image, CardFooter, CardBody, Modal, ModalContent, ModalBody, ModalHeader, useDisclosure, Divider, Input, Textarea } from "@nextui-org/react"
+import { Button, Card, Image, CardFooter, CardBody, Modal, ModalContent, ModalBody, ModalHeader, useDisclosure, Divider, Input, Textarea } from "@nextui-org/react"
 import { useState, useEffect } from "react";
 import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
@@ -117,7 +117,7 @@ export default function RecognizePlant() {
                         />
                       </div>
                       <div className="flex justify-between p-2">
-                        <Button color="primary" onPress={onClose}>
+                        <Button color="success" onPress={onClose}>
                           Save plant
                         </Button>
                         <Button color="danger" onPress={onClose}>
@@ -175,71 +175,54 @@ export default function RecognizePlant() {
             </div>}
             </CardBody>
             <CardFooter className="bg-white/30 border-t-1 justify-between">
-              <Button isDisabled={!files.at(0) || recognizedPlant} className="text-tiny" onClick={submit} color="primary" radius="full" size="sm">
+              <Button isDisabled={!files.at(0) || recognizedPlant} className="text-tiny text-white" onClick={submit} color="success" radius="full" size="sm">
                 Recognize
               </Button>
-              <Button isDisabled={!recognizedPlant} className="text-tiny" color="secondary" radius="full" size="sm" onClick={removeRecognizedPlant}>
+              <Button isDisabled={!recognizedPlant} className="text-tiny" color="danger" radius="full" size="sm" onClick={removeRecognizedPlant}>
                 Remove
               </Button>
             </CardFooter>
           </Card>
-          <Card isFooterBlurred className="h-[300px] max-w-[225px] min-w-[200px] hover:cursor-pointer">
-            <CardHeader className="absolute z-10 top-1 flex-col items-start">
-              <h4 className="text-black font-medium text-2xl">Planta test {/*nombre planta*/}</h4>
-            </CardHeader>
+          <Card isFooterBlurred isPressable className="h-[300px] max-w-[225px] min-w-[200px]">
             <Image
               removeWrapper
               alt="Card example background"
               className="z-0 w-full h-full scale-125 -translate-y-8 object-cover"
               src="https://ik.imagekit.io/y2oac6m6s/test?updatedAt=1694210302114"
             />
-            <CardFooter className="absolute bg-white/30 bottom-0 border-t-1 border-zinc-100/50 z-10 justify-between">
-              <div>
-                <p className="text-black text-tiny">Stromanthe thalia (Vell.) J.M.A.Braga{/*nombre cientifico planta*/}</p>
-                <p className="text-black text-tiny">Esta es una descripcion {/*descripcion planta*/}</p>
+            <CardFooter className="absolute bg-white/30 bottom-0 border-t-1 border-zinc-100/50 z-10">
+              <div className="justify-start text-start">
+                <h4 className="font-bold">Stromanthe sanguinea</h4>
+                <p className="text-black text-tiny">Stromanthe thalia (Vell.) J.M.A.Braga</p>
               </div>
             </CardFooter>
           </Card>
-          <Card isFooterBlurred className="h-[300px] max-w-[225px] min-w-[200px]">
-            <CardHeader className="absolute z-10 top-1 flex-col items-start">
-              <p className="text-tiny text-white/60 uppercase font-bold">New</p>
-              <h4 className="text-black font-medium text-2xl">Planta test</h4>
-            </CardHeader>
+          <Card isFooterBlurred isPressable className="h-[300px] max-w-[225px] min-w-[200px]">
             <Image
               removeWrapper
               alt="Card example background"
-              className="z-0 w-full h-full scale-125 -translate-y-6 object-cover"
+              className="z-0 w-full h-full scale-125 -translate-y-8 object-cover"
               src="https://ik.imagekit.io/y2oac6m6s/test?updatedAt=1694210302114"
             />
-            <CardFooter className="absolute bg-white/30 bottom-0 border-t-1 border-zinc-100/50 z-10 justify-between">
-              <div>
-                <p className="text-black text-tiny">Available soon.</p>
-                <p className="text-black text-tiny">Get notified.</p>
+            <CardFooter className="absolute bg-white/30 bottom-0 border-t-1 border-zinc-100/50 z-10">
+              <div className="justify-start text-start">
+                <h4 className="font-bold">Stromanthe sanguinea</h4>
+                <p className="text-black text-tiny">Stromanthe thalia (Vell.) J.M.A.Braga</p>
               </div>
-              <Button className="text-tiny" color="primary" radius="full" size="sm">
-                Notify Me
-              </Button>
             </CardFooter>
           </Card>
-          <Card isFooterBlurred className="h-[300px] max-w-[225px] min-w-[200px]">
-            <CardHeader className="absolute z-10 top-1 flex-col items-start">
-              <p className="text-tiny text-white/60 uppercase font-bold">New</p>
-              <h4 className="text-black font-medium text-2xl">Planta test</h4>
-            </CardHeader>
+          <Card isFooterBlurred isPressable className="h-[300px] max-w-[225px] min-w-[200px]">
             <Image
               removeWrapper
               alt="Card example background"
-              className="z-0 w-full h-full scale-125 -translate-y-6 object-cover"
+              className="z-0 w-full h-full scale-125 -translate-y-8 object-cover"
               src="https://ik.imagekit.io/y2oac6m6s/test?updatedAt=1694210302114"
             />
-            <CardFooter className="absolute bg-white/30 bottom-0 border-t-1 border-zinc-100/50 z-10 justify-between">
-              <div>
-                <p className="text-black text-tiny">Available soon.</p>
-                <p className="text-black text-tiny">Get notified.</p>
+            <CardFooter className="absolute bg-white/30 bottom-0 border-t-1 border-zinc-100/50 z-10">
+              <div className="justify-start text-start">
+                <h4 className="font-bold">Stromanthe sanguinea</h4>
+                <p className="text-black text-tiny">Stromanthe thalia (Vell.) J.M.A.Braga</p>
               </div>
-              <Button className="text-tiny" color="primary" radius="full" size="sm">
-                Notify Me
-              </Button>
             </CardFooter>
           </Card>
         </div>

@@ -39,7 +39,7 @@ function Login() {
           <CardBody className="flex items-center justify-center">
             <Input label="Email" className="p-2 text-2xl" {...register("email", { required: true })}/>
             <Input type="password" label="Password" className="p-2 text-2xl" {...register("password", { required: true })} />
-            <Button type="submit" className="p-5 font-bold">Sign in</Button>
+            <Button type="submit" color="success" className="p-5 font-bold text-white">Sign In</Button>
           </CardBody>
         </Card>
       </form>

@@ -67,7 +67,7 @@ export default function UserForm() {
     }
 
     return (
-        <div className="container mx-auto">
+        <div className="container mx-auto pt-10">
             <form className="flex flex-col max-w-2xl mx-auto" onSubmit={handleSubmit(onSubmit)}>
                 <Tabs aria-label="Options" className="max-w-2xl">
                     <Tab key="user" title="User">
@@ -91,6 +91,8 @@ export default function UserForm() {
                                     <Checkbox
                                         value={group.id}
                                         key={group.id}
+                                        color="success"
+                                        className="text-white"
                                     >
                                         {group.name}
                                     </Checkbox>)}
@@ -101,10 +103,10 @@ export default function UserForm() {
                 </Tabs>
 
                 <div className="flex justify-start">
-                    <Button className="m-1" type="submit" color="success">
+                    <Button className="m-1 bg-green text-white" type="submit">
                         Save
                     </Button>
-                    <Button className="m-1" onClick={() => navigate('/users')} color="danger">
+                    <Button className="m-1" onClick={() => navigate('/users')} color="danger" variant="flat">
                         Cancel
                     </Button>
                 </div>

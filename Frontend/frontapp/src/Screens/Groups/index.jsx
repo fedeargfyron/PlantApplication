@@ -33,16 +33,16 @@ export default function App() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl">
+    <div className="mx-auto max-w-5xl pt-10">
       <div className="flex items-end justify-end pb-3">
-        <Button onClick={() => navigate("form")} color="primary">
+        <Button onClick={() => navigate("form")} className="bg-green text-white">
                 Add New
         </Button>
       </div>
       <Table aria-label="Example table with custom cells">
-      <TableHeader columns={columns}>
+      <TableHeader columns={columns} className="bg-softpink text-white">
         {(column) => (
-          <TableColumn key={column.uid} align="start">
+          <TableColumn key={column.uid} align="start" className="bg-softpink text-white" color="white">
             {column.name}
           </TableColumn>
         )}
@@ -60,7 +60,7 @@ export default function App() {
             <TableCell>
               <div className="relative flex items-center gap-2">
                 <Tooltip content="Edit group">
-                  <span onClick={() => navigate(`form/${item.id}`)} className="text-lg text-primary cursor-pointer active:opacity-50">
+                  <span onClick={() => navigate(`form/${item.id}`)} className="text-lg text-green cursor-pointer active:opacity-50">
                     <EditIcon />
                   </span>
                 </Tooltip>

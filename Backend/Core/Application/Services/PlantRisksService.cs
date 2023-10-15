@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using Domain.Dtos.PlantRisks;
+﻿using Domain.Dtos.PlantRisks;
 using Domain.Dtos.WateringCalendar;
 using Domain.Dtos.Weather.GetWeatherDtoContent;
-using Domain.Entities;
 using Domain.Extensions;
 using Domain.Functions;
 using Domain.Interfaces.ExternalServices;

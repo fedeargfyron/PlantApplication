@@ -27,30 +27,30 @@ export default function NavbarLayout() {
   }
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen}>
+    <Navbar onMenuOpenChange={setIsMenuOpen} className="text-softpink">
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
         <NavbarBrand>
-          <p className="font-bold">MyPlantCare</p>
+          <p className="font-bold text-xl">MyPlantCare</p>
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      <NavbarContent className="hidden sm:flex gap-4 text-xl" justify="center">
         <NavbarItem>
-          <Link color="foreground" href="/plants">
+          <Link className="text-softpink text-xl" href="/plants">
            Plants
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
-          <Link href="#" aria-current="page">
+          <Link className="text-softpink text-xl" href="#" aria-current="page">
             Customers
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
+          <Link className="text-softpink text-xl" href="#">
             Integrations
           </Link>
         </NavbarItem>
@@ -84,9 +84,9 @@ export default function NavbarLayout() {
           <p className="font-semibold">Signed in as</p>
           <p className="font-semibold">zoey@example.com</p>
         </DropdownItem>
-        <DropdownItem onClick={() => navigate('/groups')} key="groups">Groups</DropdownItem>
-        <DropdownItem onClick={() => navigate('/users')} key="users">Users</DropdownItem>
-        <DropdownItem onClick={logOut} key="logout" color="danger">
+        <DropdownItem onClick={() => navigate('/groups')} key="groups" className="text-softpink">Groups</DropdownItem>
+        <DropdownItem onClick={() => navigate('/users')} key="users" className="text-softpink">Users</DropdownItem>
+        <DropdownItem onClick={logOut} key="logout" className="text-softpink">
           Log Out
         </DropdownItem>
       </DropdownMenu>

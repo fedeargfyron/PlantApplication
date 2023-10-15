@@ -77,7 +77,7 @@ export default function GroupForm() {
     }
 
     return (
-        <div className="container mx-auto">
+        <div className="container mx-auto pt-10">
             <form className="flex flex-col max-w-2xl mx-auto" onSubmit={handleSubmit(onSubmit)}>
                 <Tabs aria-label="Options" className="max-w-2xl">
                     <Tab key="group" title="Group">
@@ -104,6 +104,8 @@ export default function GroupForm() {
                                 >
                                 {permissions && permissions.map(permission => 
                                 <Checkbox
+                                    className="text-white"
+                                    color="success"
                                     value={permission.id}
                                     key={permission.id}
                                 >
@@ -123,6 +125,8 @@ export default function GroupForm() {
                                     >
                                     {users && users.map(user => 
                                     <Checkbox
+                                        className="text-white"
+                                        color="success"
                                         value={user.id}
                                         key={user.id}
                                     >
@@ -143,10 +147,10 @@ export default function GroupForm() {
                 </Tabs>
 
                 <div className="flex justify-start">
-                    <Button className="m-1" type="submit" color="success">
+                    <Button className="m-1 bg-green text-white" type="submit">
                         Save
                     </Button>
-                    <Button className="m-1" onClick={() => navigate('/groups')} color="danger">
+                    <Button className="m-1" onClick={() => navigate('/groups')} color="danger" variant="flat">
                         Cancel
                     </Button>
                 </div>

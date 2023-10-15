@@ -8,14 +8,22 @@ export default {
         "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
-        extend: {},
-        colors: {
-            'softwhite': '#E5DDD8',
-            'softpink': '#A7607A',
-            'darkersoftwhite': '#d9cdc5',
-        }
+        extend: {}
     },
-    darkMode: "class",
-    plugins: [nextui()],
+    plugins: [nextui({
+        themes: {
+            light: {
+                colors: {
+                    primary: '#FFFAFA',
+                    success: '#8DA87A',
+                    green: '#8DA87A',
+                    softgreen: '#EFFFE5',
+                    boldgreen: '#6E9857',
+                    softpink: '#A7607A',
+                    softwhite: '#E5DDD8',
+                }
+            }
+        }
+    })],
 }
 
