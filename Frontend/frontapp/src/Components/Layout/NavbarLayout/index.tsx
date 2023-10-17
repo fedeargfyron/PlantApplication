@@ -34,34 +34,26 @@ export default function NavbarLayout() {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <p className="font-bold text-xl">MyPlantCare</p>
+          <Link className="text-softpink text-xl font-bold" href="/">
+            MyPlantCare
+          </Link>
         </NavbarBrand>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4 text-xl" justify="center">
-        <NavbarItem>
+        <NavbarItem isActive>
           <Link className="text-softpink text-xl" href="/plants">
            Plants
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link className="text-softpink text-xl" href="#" aria-current="page">
-            Customers
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link className="text-softpink text-xl" href="#">
-            Integrations
           </Link>
         </NavbarItem>
       </NavbarContent>
       {!token && 
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link href="/login">Login</Link>
+          <Link className="text-softpink" href="/login">Login</Link>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} className="bg-gradient-to-tr from-green-500 to-teal-500 text-white" color="primary" href="#" variant="flat">
+          <Button as={Link} className="bg-gradient-to-tr from-green-500 to-teal-500 text-softpink" color="primary" href="#" variant="flat">
             Sign Up
           </Button>
         </NavbarItem>
@@ -91,8 +83,6 @@ export default function NavbarLayout() {
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>}
-
-
       <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>

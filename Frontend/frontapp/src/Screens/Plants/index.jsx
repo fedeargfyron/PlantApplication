@@ -1,12 +1,11 @@
-import { Button, Card, Image, CardFooter, CardBody, Modal, ModalContent, ModalBody, ModalHeader, useDisclosure, Divider, Input, Textarea } from "@nextui-org/react"
+import { Button, Card, Image, CardFooter, CardBody } from "@nextui-org/react"
 import { useState, useEffect } from "react";
 import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
 import { usePlantStore } from "../../Store/plantsStore";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import PlantModal from '../../Components/PlantModal/index.jsx'
+import RiskAlerts from "../../Components/RiskAlerts";
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 import 'filepond/dist/filepond.min.css';
 
@@ -14,21 +13,19 @@ registerPlugin(FilePondPluginImagePreview, FilePondPluginFileEncode)
 
 export default function RecognizePlant() {
   const [files, setFiles] = useState([]);
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
-  const [selectedItem, setSelectedItem] = useState({});
-  const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const fetchPlants = usePlantStore((state) => state.fetchPlants);
-  var plantsStore = usePlantStore(state => state.plants);
-  console.log(plantsStore)
+  let plants = usePlantStore(state => state.plants);
   useEffect(() => {
     fetchPlants();
   }, [fetchPlants])
 
+
   const recognizePlant = usePlantStore((state) => state.recognizePlant);
   let recognizedPlant = usePlantStore(state => state.recognizedPlant);
   const removeRecognizedPlant = usePlantStore(state => state.removeRecognizedPlant);
-
+  
   const submit = () => {
     let file = files.at(0);
     let fileName = `${file.filename}-${Date.now()}`;
@@ -36,109 +33,12 @@ export default function RecognizePlant() {
     recognizePlant(base64image, fileName);
   }
 
-  const openModal = (index) => {
-    let item = recognizedPlant.results.at(index);
-    setSelectedItem(item);
-    setSelectedItemIndex(index);
-    onOpen();
-  }
-
-  const switchItem = (value) => {
-    let newIndex = selectedItemIndex + value;
-    let arrayLength = recognizedPlant.results.length;
-    if(newIndex < 0)
-      newIndex = arrayLength - 1;
-
-    if(newIndex >= arrayLength)
-      newIndex = 0
-
-    let item = recognizedPlant.results.at(newIndex);
-    setSelectedItem(item);
-    setSelectedItemIndex(newIndex);
-  }
-
   return (
     <>
-        <Modal 
-        backdrop="blur"
-        size="5xl"
-        isOpen={isOpen} 
-        onOpenChange={onOpenChange}>
-          <ModalContent>
-            {(onClose) => (
-              <>
-                <ModalHeader className="flex gap-1 max-h-[700px] bg-softwhite">Add new plant</ModalHeader>
-                <ModalBody className="flex flex-row max-h-[700px]">
-                  <Image
-                    removeWrapper
-                    alt="Card example background"
-                    className="max-w-[400px] max-h-full object-cover"
-                    src={recognizedPlant.userImageUrl}
-                  />
-                  <div className="flex bg-softwhite rounded">
-                    <div 
-                    className="basis-1/6 flex justify-center align-middle items-center hover:cursor-pointer hover:bg-darkersoftwhite rounded transition-all"
-                    onClick={() => switchItem(-1)}
-                    >
-                    <FontAwesomeIcon icon={faChevronLeft} className="text-2xl" />
-                    </div>
-                    <div className="basis-4/6 flex flex-col justify-between">
-                      <div>
-                        <div className="grid max-w-full grid-cols-3 gap-1">
-                          {selectedItem && selectedItem.images.map((image, index)=> 
-
-                            <Image 
-                            radius="none"
-                            removeWrapper
-                            alt = {`image ${index}`}
-                            src={image.url.m}
-                            className="border border-softwhite"
-                          />
-                          )}
-                        </div>
-                        <Divider className="my-4"/>
-                        <div className="flex justify-between">
-                          <div className="flex flex-col">
-                            <p className="text-bold text-lg capitalize">Match probability</p>
-                            <p className="text-bold text-m capitalize">%{(selectedItem && selectedItem.score * 100).toFixed(2)}</p>
-                          </div>
-                          <div className="flex flex-col">
-                            <p className="text-bold text-lg capitalize">Scientific name</p>
-                            <p className="text-bold text-m capitalize">{selectedItem && selectedItem.species.scientificName}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        <Input label="Personal name (optional)" />
-                        <Textarea
-                          label="Description"
-                          labelPlacement="outside"
-                          placeholder="Enter your description (optional)"
-                        />
-                      </div>
-                      <div className="flex justify-between p-2">
-                        <Button color="success" onPress={onClose}>
-                          Save plant
-                        </Button>
-                        <Button color="danger" onPress={onClose}>
-                          Close
-                        </Button>
-                      </div>
-                    </div>
-                    <div 
-                    className="basis-1/6 flex justify-center align-middle items-center hover:cursor-pointer hover:bg-darkersoftwhite rounded transition-all"
-                    onClick={() => switchItem(1)}
-                    >
-                      <FontAwesomeIcon icon={faChevronRight} className="text-2xl" />
-                    </div>  
-                  </div>
-                </ModalBody>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
+      <PlantModal selectedIndex = {selectedIndex} setSelectedIndex={setSelectedIndex}/>
       <div className="flex pt-5 justify-center h-screen bg-softwhite w-full mx-auto">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 relative h-fit">
+          <RiskAlerts plants={plants} />
           <Card isFooterBlurred className="h-[300px] max-w-[225px] min-w-[200px]">
             <CardBody className="p-0">
               {recognizedPlant ? <Image 
@@ -160,7 +60,7 @@ export default function RecognizePlant() {
             {recognizedPlant && 
             <div className="absolute bottom-0 grid max-w-[225px] grid-cols-3 justify-center text-center">
               {recognizedPlant.results.slice(0, 3).map((result, index) => 
-              <div className="hover:cursor-pointer" onClick={() => openModal(index)} key={`result-${index}`}>
+              <div className="hover:cursor-pointer" onClick={() => setSelectedIndex(index)} key={`result-${index}`}>
                 <Image 
                   radius="none"
                   removeWrapper
@@ -183,48 +83,21 @@ export default function RecognizePlant() {
               </Button>
             </CardFooter>
           </Card>
+          {plants && plants.map(x => 
           <Card isFooterBlurred isPressable className="h-[300px] max-w-[225px] min-w-[200px]">
             <Image
               removeWrapper
               alt="Card example background"
               className="z-0 w-full h-full scale-125 -translate-y-8 object-cover"
-              src="https://ik.imagekit.io/y2oac6m6s/test?updatedAt=1694210302114"
+              src={x.imageLink}
             />
             <CardFooter className="absolute bg-white/30 bottom-0 border-t-1 border-zinc-100/50 z-10">
               <div className="justify-start text-start">
-                <h4 className="font-bold">Stromanthe sanguinea</h4>
-                <p className="text-black text-tiny">Stromanthe thalia (Vell.) J.M.A.Braga</p>
+                <h4 className="font-bold">{x.name}</h4>
+                <p className="text-black text-tiny">{x.scientificName}</p>
               </div>
             </CardFooter>
-          </Card>
-          <Card isFooterBlurred isPressable className="h-[300px] max-w-[225px] min-w-[200px]">
-            <Image
-              removeWrapper
-              alt="Card example background"
-              className="z-0 w-full h-full scale-125 -translate-y-8 object-cover"
-              src="https://ik.imagekit.io/y2oac6m6s/test?updatedAt=1694210302114"
-            />
-            <CardFooter className="absolute bg-white/30 bottom-0 border-t-1 border-zinc-100/50 z-10">
-              <div className="justify-start text-start">
-                <h4 className="font-bold">Stromanthe sanguinea</h4>
-                <p className="text-black text-tiny">Stromanthe thalia (Vell.) J.M.A.Braga</p>
-              </div>
-            </CardFooter>
-          </Card>
-          <Card isFooterBlurred isPressable className="h-[300px] max-w-[225px] min-w-[200px]">
-            <Image
-              removeWrapper
-              alt="Card example background"
-              className="z-0 w-full h-full scale-125 -translate-y-8 object-cover"
-              src="https://ik.imagekit.io/y2oac6m6s/test?updatedAt=1694210302114"
-            />
-            <CardFooter className="absolute bg-white/30 bottom-0 border-t-1 border-zinc-100/50 z-10">
-              <div className="justify-start text-start">
-                <h4 className="font-bold">Stromanthe sanguinea</h4>
-                <p className="text-black text-tiny">Stromanthe thalia (Vell.) J.M.A.Braga</p>
-              </div>
-            </CardFooter>
-          </Card>
+          </Card>)}
         </div>
       </div>
     </>

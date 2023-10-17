@@ -3,20 +3,27 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useForm } from 'react-hook-form'
 import { useNavigate } from "react-router-dom";
+import { usePlantRiskStore } from '../../Store/plantsRisksStore.jsx';
+
 
 function Login() {
   const { register, handleSubmit } = useForm();
   const token = localStorage.getItem('token');
-
+  const fetchPlantsRisks = usePlantRiskStore((state) => state.fetchPlantsRisks);
   const navigate = useNavigate();
+
   useEffect(() => {
-    token && navigate("/")
-  }, [token, navigate])
+    if(!token)
+      return
+
+    navigate("/")
+  }, [token, navigate, fetchPlantsRisks])
 
   const login = (data) => {
     localStorage.setItem('token', data);
-    navigate("/");
+    navigate("/")
   }
+
 
   const onSubmit = (e) => {
     axios.post('https://localhost:44374/security', 
