@@ -18,12 +18,10 @@ public class PlantRiskRepository : IPlantRiskRepository
     public Task<bool> TodayPlantRisksExistsAsync()
         => _context.PlantRisks.AnyAsync(x => x.ObtentionDate == DateTime.Today);
 
-    public Task<List<PlantRiskDto>> GetTodayPlantRisksAsync()
+    public Task<List<GetPlantRiskResultDto>> GetTodayPlantRisksAsync()
         => _context.Plants
-            .Select(x => new PlantRiskDto
+            .Select(x => new GetPlantRiskResultDto
             {
-                Outside = x.Outside,
-                PlantId = x.Id,
                 PlantScientificName = x.ScientificName,
                 Risks = x.PlantRisks.Where(r => r.ObtentionDate == DateTime.Today).Select(r => new RiskDto()
                 {

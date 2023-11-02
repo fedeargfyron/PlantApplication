@@ -8,7 +8,7 @@ namespace Domain.Functions;
 public static class PlantRisksFunctions
 {
     //TODO: Agregar forecastDays y wateringDays filters
-    public static List<PlantRiskDto> FilterPlantRisks(List<PlantRiskDto> plantRisks, List<ForecastDayDto> forecastDays, List<GetWateringDayFromUserResultDto> wateringDays)
+    public static List<PlantRiskDto> FilterPlantRisks(List<PlantRiskDto> plantRisks, List<ForecastDayDto> forecastDays, List<GetPlantWithWateringDaysFromUserResultDto> wateringDays)
     {
         plantRisks.ForEach(x =>
         {

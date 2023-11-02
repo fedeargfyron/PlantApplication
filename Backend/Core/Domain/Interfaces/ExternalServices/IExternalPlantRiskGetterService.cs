@@ -6,5 +6,5 @@ namespace Domain.Interfaces.ExternalServices;
 
 public interface IExternalPlantRiskGetterService
 {
-    Task<List<PlantRiskDto>> GetPlantRisksAsync(List<ForecastDayDto> forecastDays, List<GetWateringDayFromUserResultDto> wateringDays);
+    Task<List<GetPlantRiskResultDto>> GetPlantRisksAsync(List<ForecastDayDto> forecastDays, List<string> plantNames);
 }

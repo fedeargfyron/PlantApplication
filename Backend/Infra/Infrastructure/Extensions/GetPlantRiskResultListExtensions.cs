@@ -1,19 +1,16 @@
 ﻿using Domain.Dtos.PlantRisks;
-using Domain.Dtos.WateringCalendar;
 using Infrastructure.ExternalServices.GPT.Contracts;
 
 namespace Infrastructure.Extensions;
 
 public static class GetPlantRiskResultListExtensions
 {
-    public static List<PlantRiskDto> ConvertToDtos(this List<GetPlantRiskResult> plantsRiskResults, List<GetWateringDayFromUserResultDto> wateringDays)
+    public static List<GetPlantRiskResultDto> ConvertToDtos(this List<GetPlantRiskResult> plantsRiskResults)
         => plantsRiskResults.Select(x =>
         {
-            var wateringDay = wateringDays.First(w => w.ScientificName == x.Plant);
-            return new PlantRiskDto()
+            return new GetPlantRiskResultDto()
             {
-                PlantId = wateringDay.Id,
-                PlantScientificName = wateringDay.ScientificName,
+                PlantScientificName = x.Plant,
                 Risks = x.Risks.Select(x => new RiskDto()
                 {
                     Day = DateTime.Today.AddDays(x.Day),
@@ -21,7 +18,6 @@ public static class GetPlantRiskResultListExtensions
                     Level = x.Level,
                     Risk = x.Risk
                 }).ToList(),
-                Outside = wateringDay.Outside
             };
         }).ToList();
 }

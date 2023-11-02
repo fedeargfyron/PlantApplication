@@ -17,13 +17,13 @@ public class WateringDayRepository : BaseRepository<WateringDay>, IWateringDayRe
         return _context.SaveChangesAsync();
     }
 
-    public Task<List<GetWateringDayFromUserResultDto>> GetCurrentWateringDaysFromUserAsync(int userId)
+    public Task<List<GetPlantWithWateringDaysFromUserResultDto>> GetCurrentWateringDaysFromUserAsync(int userId)
     {
         //TODO: Save in cache current
         var today = DateTime.Today;
 
         return _context.Plants.Where(x => x.UserId == userId)
-            .Select(x => new GetWateringDayFromUserResultDto()
+            .Select(x => new GetPlantWithWateringDaysFromUserResultDto()
             {
                 Id = x.Id,
                 WateringDaysFrequency = x.WateringDaysFrequency,

@@ -47,14 +47,13 @@ public class ExternalGPTPlantRiskGetterService : IExternalPlantRiskGetterService
     }
 
     //TODO: Create batch request (2 plants per request)
-    public async Task<List<PlantRiskDto>> GetPlantRisksAsync(List<ForecastDayDto> forecastDays, List<GetWateringDayFromUserResultDto> wateringDays)
+    public async Task<List<GetPlantRiskResultDto>> GetPlantRisksAsync(List<ForecastDayDto> forecastDays, List<string> plantNames)
     {
         var api = new OpenAIAPI(_options.ApiKey);
         var dayParameters = forecastDays.GetGPTDaysParameter();
-        var plantNames = wateringDays.GetScientificNames();
         var response = await api.Chat.CreateChatCompletionAsync(_questionTemplate.Replace("{days}", dayParameters)
                 .Replace("{plants}", string.Join(", ", plantNames)));
         var result =  JsonSerializer.Deserialize<List<GetPlantRiskResult>>(response.ToString())!;
-        return result.ConvertToDtos(wateringDays);
+        return result.ConvertToDtos();
     }
 }

@@ -6,4 +6,6 @@ public class SavePlantHandlerRequest
     public string ScientificName { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public bool Outside { get; set; }
+    public decimal Latitude { get; set; }
+    public decimal Longitude { get; set; }
 }

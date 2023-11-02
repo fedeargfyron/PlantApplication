@@ -5,9 +5,9 @@ namespace Domain.Extensions;
 
 public static class GetWateringDayFromUserResultDtoListExtensions
 {
-    public static List<WateringDay> GetNewMaximumWateringDayEntities(this List<GetWateringDayFromUserResultDto> wateringDays, DateTime newMaximumCalculatedWateringDay)
+    public static List<WateringDay> GetNewMaximumWateringDayEntities(this List<GetPlantWithWateringDaysFromUserResultDto> plantWithWateringDays, DateTime newMaximumCalculatedWateringDay)
     {
-        var maximumPlantWateringDay = wateringDays.Select(x => new { x.Id, x.WateringDaysFrequency, MaxDate = x.WateringSpecificDates.Max() }).ToList();
+        var maximumPlantWateringDay = plantWithWateringDays.Select(x => new { x.Id, x.WateringDaysFrequency, MaxDate = x.WateringSpecificDates.Max() }).ToList();
         return maximumPlantWateringDay.SelectMany(x => 
         {
             var entities = x.WateringDaysFrequency.GetWateringDays(x.MaxDate, newMaximumCalculatedWateringDay);
@@ -16,8 +16,8 @@ public static class GetWateringDayFromUserResultDtoListExtensions
         }).ToList();
     }
 
-    public static List<string> GetScientificNames(this List<GetWateringDayFromUserResultDto> wateringDays)
-        => wateringDays.Select(x => x.ScientificName)
+    public static List<string> GetScientificNames(this List<GetPlantWithWateringDaysFromUserResultDto> plantWithWateringDays)
+        => plantWithWateringDays.Select(x => x.ScientificName)
             .Distinct()
             .ToList();
 }

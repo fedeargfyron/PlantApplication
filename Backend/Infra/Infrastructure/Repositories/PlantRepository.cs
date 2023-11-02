@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Domain.Dtos.PlantRisks;
 using Domain.Dtos.Plants;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
@@ -41,5 +42,25 @@ public class PlantRepository : BaseRepository<Plant>, IPlantRepository
             .ExecuteUpdateAsync(s => 
                 s.SetProperty(e => e.Name, e => dto.Name)
                  .SetProperty(e => e.Outside, e => dto.Outside));
+    }
+
+    public async Task<List<TodayRisksByPlantResultDto>> TodayRisksByPlant(string scientificName)
+    {
+        var plant = await _context.Plants.Include(x => x.PlantRisks)
+            .FirstOrDefaultAsync(x => x.ScientificName == scientificName);
+
+        if (plant is null)
+        {
+            return new();
+        }
+            
+        return plant.PlantRisks.Select(x => new TodayRisksByPlantResultDto()
+        {
+            Day = x.Day,
+            Description = x.Description,
+            ObtentionDate = x.ObtentionDate,
+            Level = x.Level,
+            Risk = x.Risk
+        }).ToList();
     }
 }

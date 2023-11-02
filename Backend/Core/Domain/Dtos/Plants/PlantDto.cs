@@ -13,4 +13,6 @@ public class PlantDto
     public string Type { get; set; } = string.Empty;
     public bool Outside { get; set; }
     public int UserId { get; set; }
+    public decimal Latitude { get; set; }
+    public decimal Longitude { get; set; }
 }

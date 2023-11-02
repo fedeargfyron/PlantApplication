@@ -6,7 +6,7 @@ namespace Domain.Interfaces.Repositories;
 public interface IPlantRiskRepository
 {
     Task<bool> TodayPlantRisksExistsAsync();
-    Task<List<PlantRiskDto>> GetTodayPlantRisksAsync();
+    Task<List<GetPlantRiskResultDto>> GetTodayPlantRisksAsync();
 
     Task AddAsync(List<PlantRisk> entities);
 }

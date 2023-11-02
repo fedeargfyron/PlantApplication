@@ -1,4 +1,5 @@
-﻿using Domain.Dtos.Plants;
+﻿using Domain.Dtos.PlantRisks;
+using Domain.Dtos.Plants;
 using Domain.Entities;
 
 namespace Domain.Interfaces.Repositories;
@@ -10,5 +11,5 @@ public interface IPlantRepository : IBaseRepository<Plant>
     Task AddPlantAsync(Plant entity);
     void DeleteByIdAsync(int id);
     ValueTask<Plant?> GetByIdAsync(int id);
-
+    Task<List<TodayRisksByPlantResultDto>> TodayRisksByPlant(string scientificName);
 }

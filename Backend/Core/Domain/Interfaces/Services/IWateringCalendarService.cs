@@ -4,7 +4,7 @@ namespace Domain.Interfaces.Services;
 
 public interface IWateringCalendarService
 {
-    Task<List<GetWateringDayFromUserResultDto>> GetCurrentWateringDaysFromUser();
+    Task<List<GetPlantWithWateringDaysFromUserResultDto>> GetCurrentPlantWithWateringDaysFromUser();
 
     Task CreateNewWateringDatesForUser(DateTime newMaximumCalculatedWateringDay);
 }

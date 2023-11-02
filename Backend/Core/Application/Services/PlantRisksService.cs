@@ -2,7 +2,6 @@
 using Domain.Dtos.WateringCalendar;
 using Domain.Dtos.Weather.GetWeatherDtoContent;
 using Domain.Extensions;
-using Domain.Functions;
 using Domain.Interfaces.ExternalServices;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
@@ -20,16 +19,17 @@ public class PlantRisksService : IPlantRisksService
         _plantRiskRepository = plantRiskRepository;
     }
 
-    public async Task<List<PlantRiskDto>> GetPlantsRisksAsync(List<ForecastDayDto> forecastDays, List<GetWateringDayFromUserResultDto> wateringDays)
+    public async Task<List<PlantRiskDto>> GetPlantsRisksAsync(List<ForecastDayDto> forecastDays, List<GetPlantWithWateringDaysFromUserResultDto> plantsWithWateringDays)
     {
         var todayPlantRisksExists = await _plantRiskRepository.TodayPlantRisksExistsAsync();
         if (todayPlantRisksExists)
         {
-            return PlantRisksFunctions.FilterPlantRisks(await _plantRiskRepository.GetTodayPlantRisksAsync(), forecastDays, wateringDays);
+            var plantRisks = await _plantRiskRepository.GetTodayPlantRisksAsync();
+            return plantRisks.ConvertToDtos(plantsWithWateringDays);
         }
 
-        var plantRisksDtos = await _externalPlantRiskGetterService.GetPlantRisksAsync(forecastDays, wateringDays);
-        await _plantRiskRepository.AddAsync(plantRisksDtos.ConvertToEntities());
-        return PlantRisksFunctions.FilterPlantRisks(plantRisksDtos, forecastDays, wateringDays);
+        var plantRiskResults = await _externalPlantRiskGetterService.GetPlantRisksAsync(forecastDays, plantsWithWateringDays.GetScientificNames());
+        await _plantRiskRepository.AddAsync(plantRiskResults.ConvertToEntities(plantsWithWateringDays));
+        return plantRiskResults.ConvertToDtos(plantsWithWateringDays);
     }
 }

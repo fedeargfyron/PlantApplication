@@ -17,7 +17,7 @@ public class WateringCalendarService : IWateringCalendarService
         _wateringDayRepository = wateringDayRepository;
     }
 
-    public Task<List<GetWateringDayFromUserResultDto>> GetCurrentWateringDaysFromUser()
+    public Task<List<GetPlantWithWateringDaysFromUserResultDto>> GetCurrentPlantWithWateringDaysFromUser()
     {
         var userId = _applicationUser.GetUserId();
         return _wateringDayRepository.GetCurrentWateringDaysFromUserAsync(userId);
@@ -25,7 +25,7 @@ public class WateringCalendarService : IWateringCalendarService
 
     public async Task CreateNewWateringDatesForUser(DateTime newMaximumCalculatedWateringDay)
     {
-        var wateringDays = await GetCurrentWateringDaysFromUser();
+        var wateringDays = await GetCurrentPlantWithWateringDaysFromUser();
         var newEntities = wateringDays.GetNewMaximumWateringDayEntities(newMaximumCalculatedWateringDay);
         await _wateringDayRepository.AddEntities(newEntities);
     }

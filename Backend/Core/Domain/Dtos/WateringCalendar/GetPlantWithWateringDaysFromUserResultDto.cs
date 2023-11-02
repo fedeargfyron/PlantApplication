@@ -1,6 +1,6 @@
 ﻿namespace Domain.Dtos.WateringCalendar;
 
-public class GetWateringDayFromUserResultDto
+public class GetPlantWithWateringDaysFromUserResultDto
 {
     public int Id { get; set; }
     public string WateringDaysFrequency { get; set; } = string.Empty;

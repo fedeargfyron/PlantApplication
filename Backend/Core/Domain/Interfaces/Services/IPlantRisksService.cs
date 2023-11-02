@@ -6,5 +6,5 @@ namespace Domain.Interfaces.Services;
 
 public interface IPlantRisksService
 {
-    Task<List<PlantRiskDto>> GetPlantsRisksAsync(List<ForecastDayDto> forecastDays, List<GetWateringDayFromUserResultDto> wateringDays);
+    Task<List<PlantRiskDto>> GetPlantsRisksAsync(List<ForecastDayDto> forecastDays, List<GetPlantWithWateringDaysFromUserResultDto> wateringDays);
 }

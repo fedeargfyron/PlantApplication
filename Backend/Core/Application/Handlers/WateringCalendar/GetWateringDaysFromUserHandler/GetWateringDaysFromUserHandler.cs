@@ -17,7 +17,7 @@ public class GetWateringDaysFromUserHandler : IGetWateringDaysFromUserHandler
         _applicationUser = applicationUser;
         _userService = userService;
     }
-    public async Task<List<GetWateringDayFromUserResultDto>> HandleAsync(GetWateringDaysFromUserHandlerRequest request)
+    public async Task<List<GetPlantWithWateringDaysFromUserResultDto>> HandleAsync(GetWateringDaysFromUserHandlerRequest request)
     {
         var maximumCalculatedWateringDay = await _applicationUser.GetUserMaximumCalculatedWateringDayAsync();
         if (maximumCalculatedWateringDay < DateTime.Today.AddDays(14) || request.ShouldAddWateringMonth == true)
@@ -25,7 +25,7 @@ public class GetWateringDaysFromUserHandler : IGetWateringDaysFromUserHandler
             await CreateNewWateringDatesForUser(maximumCalculatedWateringDay);
         }
 
-        return await _wateringCalendarService.GetCurrentWateringDaysFromUser();
+        return await _wateringCalendarService.GetCurrentPlantWithWateringDaysFromUser();
     }
 
     private async Task CreateNewWateringDatesForUser(DateTime maximumCalculatedWateringDay)

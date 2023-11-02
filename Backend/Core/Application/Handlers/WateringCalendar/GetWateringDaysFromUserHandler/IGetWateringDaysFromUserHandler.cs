@@ -4,5 +4,5 @@ namespace Application.Handlers.WateringCalendar.GetWateringDaysFromUserHandler;
 
 public interface IGetWateringDaysFromUserHandler
 {
-    Task<List<GetWateringDayFromUserResultDto>> HandleAsync(GetWateringDaysFromUserHandlerRequest request);
+    Task<List<GetPlantWithWateringDaysFromUserResultDto>> HandleAsync(GetWateringDaysFromUserHandlerRequest request);
 }
