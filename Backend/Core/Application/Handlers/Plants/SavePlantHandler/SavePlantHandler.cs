@@ -30,7 +30,8 @@ public class SavePlantHandler : ISavePlantHandler
             WateringDaysFrequency = result.WateringDaysFrequency,
             UserId = _applicationUser.GetUserId(),
             Latitude = request.Latitude,
-            Longitude = request.Longitude
+            Longitude = request.Longitude,
+            Description = request.Description
         });
     }
 }

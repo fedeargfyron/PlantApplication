@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Button, Image, Modal, ModalContent, ModalBody, ModalHeader, Divider, Input, Textarea, useDisclosure } from "@nextui-org/react"
+import { Button, Image, Modal, ModalContent, ModalBody, ModalHeader, Divider, Input, Textarea, useDisclosure, Checkbox } from "@nextui-org/react"
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { usePlantStore } from '../../Store/plantsStore';
+import { useForm } from 'react-hook-form';
+import { GetToken } from '../Helpers/TokenHelper';
+import axios from 'axios'
 
 const PlantModal = ({selectedIndex, setSelectedIndex}) => {
   const {isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedItem, setSelectedItem] = useState({});
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
-  let recognizedPlant = usePlantStore(state => state.recognizedPlant);
+  const [isOutside, setIsOutside] = useState(true);
+  const { register, handleSubmit } = useForm();
+  
+  const recognizedPlant = usePlantStore(state => state.recognizedPlant);
+  const fetchPlants = usePlantStore((state) => state.fetchPlants);
 
   useEffect(() => {
     if(selectedIndex === -1)
@@ -22,6 +29,29 @@ const PlantModal = ({selectedIndex, setSelectedIndex}) => {
 
   const onClose = () => {
     setSelectedIndex(-1);
+  }
+
+  const onSubmit = (e) => {
+    let data = {
+      imageUrl: recognizedPlant.userImageUrl,
+      scientificName: selectedItem.species.scientificName,
+      name: e.personalname,
+      outside: isOutside,
+      description: e.description,
+    }
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      data.latitude = position.coords.latitude;
+      data.longitude = position.coords.longitude;
+    })
+    
+    axios.post('https://localhost:44374/plants', data, {
+      headers: {
+        Authorization: GetToken()
+      }
+    })
+      .then(() => fetchPlants())
+      .catch(err => console.log(err));
   }
 
   const switchItem = (value) => {
@@ -67,7 +97,7 @@ const PlantModal = ({selectedIndex, setSelectedIndex}) => {
                     >
                     <FontAwesomeIcon icon={faChevronLeft} className="text-2xl" />
                     </div>
-                    <div className="basis-4/6 flex flex-col justify-between">
+                    <form onSubmit={handleSubmit(onSubmit)} className="basis-4/6 flex flex-col justify-between">
                       <div>
                         <div className="grid max-w-full grid-cols-3 gap-1">
                           {selectedItem && selectedItem.images.map((image, index)=> 
@@ -95,22 +125,26 @@ const PlantModal = ({selectedIndex, setSelectedIndex}) => {
                         </div>
                       </div>
                       <div>
-                        <Input label="Personal name (optional)" />
+                        <Input label="Personal name (optional)" {...register("personalname")} />
                         <Textarea
+                          {...register("description")}
                           label="Description"
                           labelPlacement="outside"
                           placeholder="Enter your description (optional)"
                         />
+                        <Checkbox color="success" className="text-white" isSelected={isOutside} onValueChange={setIsOutside}>
+                          Outside
+                        </Checkbox>
                       </div>
                       <div className="flex justify-between p-2">
-                        <Button className="bg-green text-white" onPress={onClose}>
+                        <Button className="bg-green text-white" type='submit'>
                           Save plant
                         </Button>
                         <Button color="danger" variant="flat" onPress={onClose}>
                           Close
                         </Button>
                       </div>
-                    </div>
+                    </form>
                     <div 
                     className="basis-1/6 flex justify-center align-middle items-center hover:cursor-pointer hover:bg-darkersoftwhite rounded transition-all"
                     onClick={() => switchItem(1)}
