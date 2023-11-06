@@ -17,6 +17,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@nextui-org/react": "^2.1.10",
     "axios": "^1.5.0",
+    "date-fns": "^2.30.0",
     "filepond": "^4.30.4",
     "filepond-plugin-file-encode": "^2.1.11",
     "filepond-plugin-image-crop": "^2.0.6",
