@@ -1,4 +1,5 @@
 ﻿using Domain.Dtos.ExternalServices.HealthAssesment;
+using Domain.Dtos.Plants;
 
 namespace Domain.Interfaces.ExternalServices;
 

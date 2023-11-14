@@ -1,3 +1,3 @@
 ﻿namespace Application.Handlers.Plants.HealthAssesmentHandler;
 
-public record HealthAssesmentHandlerRequest(string Base64Image, decimal Latitude, decimal Longitude);
+public record HealthAssesmentHandlerRequest(string Base64Image, decimal Latitude, decimal Longitude, int PlantId);

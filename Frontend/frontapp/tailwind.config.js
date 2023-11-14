@@ -21,6 +21,7 @@ export default {
                     boldgreen: '#6E9857',
                     softpink: '#A7607A',
                     softwhite: '#E5DDD8',
+                    softblue: '#1a8fff'
                 }
             }
         }

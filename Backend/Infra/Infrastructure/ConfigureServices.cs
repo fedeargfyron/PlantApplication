@@ -36,6 +36,7 @@ public static class ConfigureServices
         services.AddScoped<IApplicationUser, ApplicationUser>();
         services.AddHttpContextAccessor();
         services.AddScoped<IGroupRepository, GroupRepository>();
+        services.AddScoped<IHealthAssesmentRepository, HealthAssesmentRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPlantRiskRepository, PlantRiskRepository>();
         services.AddScoped<IExternalImageUploaderService, ExternalImageKitService>();

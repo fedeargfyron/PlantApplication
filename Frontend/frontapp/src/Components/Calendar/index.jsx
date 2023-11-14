@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { format, addDays, startOfWeek, startOfMonth, endOfMonth, endOfWeek, isSameMonth, isSameDay, parse, addMonths, subMonths } from 'date-fns'
 import './calendar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronLeft, faChevronRight, faTemperatureHigh, faWind, faCloudRain, faDroplet } from '@fortawesome/free-solid-svg-icons'
+import { faChevronLeft, faChevronRight, faTemperatureHigh, faWind, faCloudRain, faDroplet, faHandHoldingDroplet } from '@fortawesome/free-solid-svg-icons'
 import { usePlantRiskStore } from '../../Store/plantsRisksStore.jsx';
+import { wateringDaysStore } from "../../Store/wateringDaysStore";
+
 
 let icons = {
   'Rain': faCloudRain,
@@ -16,9 +18,11 @@ const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [risks, setRisks] = useState([]);
-  let fetchPlantsRisks = usePlantRiskStore(state => state.fetchPlantsRisks);
-  let plantRisks = usePlantRiskStore(state => state.plantRisks);
-  
+  const fetchPlantsRisks = usePlantRiskStore(state => state.fetchPlantsRisks);
+  const plantRisks = usePlantRiskStore(state => state.plantRisks);
+  const fetchWateringDays = wateringDaysStore(state => state.fetchWateringDays);
+  const wateringDays = wateringDaysStore(state => state.wateringDays);
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       const lat = position.coords.latitude;
@@ -26,6 +30,12 @@ const Calendar = () => {
       fetchPlantsRisks(lat, long);
     })
   }, [fetchPlantsRisks])
+
+
+  useEffect(() => {
+    fetchWateringDays();
+  }, [fetchWateringDays])
+  console.log(wateringDays);
 
   useEffect(() => {
     setRisks(plantRisks.map(x => x.risks).flat())
@@ -109,13 +119,16 @@ const Calendar = () => {
     let day = startDate;
     let formattedDate = "";
 
+    const wateringSpecificDates = [...new Set(wateringDays.map(x => x.wateringSpecificDates).flat())].map(x => new Date(x).getTime());
+
+
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
         formattedDate = format(day, dateFormat);
         const cloneDay = day;
         days.push(
           <div
-            className={`col cell ${
+            className={`col cell flex flex-col justify-between p-1 ${
               !isSameMonth(day, monthStart)
                 ? "disabled"
                 : isSameDay(day, selectedDate) ? "selected" : ""
@@ -123,9 +136,14 @@ const Calendar = () => {
             key={day}
             onClick={() => onDateClick(parse(cloneDay))}
           >
-            {getTodayRisks(cloneDay)}
-            <span className="number">{formattedDate}</span>
-            <span className="bg">{formattedDate}</span>
+            <div>
+              {getTodayRisks(cloneDay)}
+              <span className="number">{formattedDate}</span>
+              <span className="bg">{formattedDate}</span>
+            </div>
+            <div>
+              {wateringSpecificDates.includes(cloneDay.getTime()) && <FontAwesomeIcon icon={faHandHoldingDroplet} className="text-softblue" />}
+            </div>
           </div>
         );
         day = addDays(day, 1);
