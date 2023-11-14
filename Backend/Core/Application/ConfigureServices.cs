@@ -6,6 +6,7 @@ using Application.Handlers.Groups.RemoveGroupHandler;
 using Application.Handlers.Groups.UpdateGroupHandler;
 using Application.Handlers.Permissions.GetAllPermissionsHandler;
 using Application.Handlers.Plants;
+using Application.Handlers.Plants.GetHealthAssesmentsByIdHandler;
 using Application.Handlers.Plants.GetHealthAssesmentsHandler;
 using Application.Handlers.Plants.HealthAssesmentHandler;
 using Application.Handlers.Plants.RecognizePlantHandler;
@@ -46,6 +47,7 @@ public static class ConfigureServices
         services.AddScoped<IWateringCalendarService, WateringCalendarService>();
         services.AddScoped<IGetWateringDaysFromUserHandler, GetWateringDaysFromUserHandler>();
         services.AddScoped<IGetHealthAssesmentsHandler, GetHealthAssesmentsHandler>();
+        services.AddScoped<IGetHealthAssesmentByIdHandler, GetHealthAssesmentByIdHandler>();
         services.AddScoped<IGetGroupByIdHandler, GetGroupByIdHandler>();
         services.AddScoped<IGetAllGroupsHandler, GetAllGroupsHandler>();
         services.AddScoped<IAddGroupHandler, AddGroupHandler>();

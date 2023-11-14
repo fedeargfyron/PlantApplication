@@ -35,7 +35,6 @@ const Calendar = () => {
   useEffect(() => {
     fetchWateringDays();
   }, [fetchWateringDays])
-  console.log(wateringDays);
 
   useEffect(() => {
     setRisks(plantRisks.map(x => x.risks).flat())

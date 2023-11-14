@@ -7,4 +7,5 @@ public interface IHealthAssesmentService
 {
     Task<HealthAssesmentResultDto> DoHealthAssestment(DoHealthAssestmentRequestDto requestDto);
     Task<List<GetHealthAssesmentDto>> GetHealthAssesmentsAsync();
+    Task<GetHealthAssesmentByIdDto> GetHealthAssesmentByIdAsync(int id);
 }

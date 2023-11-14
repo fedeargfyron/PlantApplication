@@ -5,6 +5,7 @@ namespace Domain.Interfaces.Repositories;
 
 public interface IHealthAssesmentRepository
 {
-    Task<List<GetHealthAssesmentDto>> GetAllAsync();
+    Task<List<GetHealthAssesmentDto>> GetAllAsync(int userId);
     Task AddAsync(HealthAssesment entity);
+    Task<GetHealthAssesmentByIdDto> GetHealthAssesmentByIdAsync(int id);
 }

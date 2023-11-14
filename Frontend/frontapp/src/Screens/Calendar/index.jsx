@@ -1,20 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import Calendar from "../../Components/Calendar";
-
+import HealthAssesments from "../../Components/HealthAssesments";
+import HealthAssesmentModal from "../../Components/HealthAssesmentModal";
 export default function App() {
+  const [healthAssesmentId, setHealthAssesmentId] = useState(-1);
 
   return (
     <div className="mx-auto max-w-5xl pt-10 flex flex-col">
+        <HealthAssesmentModal id={healthAssesmentId} setHealthAssesmentId={setHealthAssesmentId}/>
         <Calendar />
-        <div className="info grid grid-cols-4">
-          <div className="bg-white p-1">
-            <p>Date</p>
-            <p>Plant</p>
-          </div>
-          <div className="bg-white p-1"></div>
-          <div className="bg-white p-1"></div>
-          <div className="bg-white p-1"></div>
-        </div>
+        <HealthAssesments healthAssesmentId={healthAssesmentId} setHealthAssesmentId={setHealthAssesmentId} />
     </div>
   );
 }

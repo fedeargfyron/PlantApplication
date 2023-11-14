@@ -1,6 +1,4 @@
-﻿using Application.Handlers.Plants.HealthAssesmentHandler;
-using Domain.Dtos.ExternalServices.HealthAssesment;
-using Domain.Dtos.Plants;
+﻿using Domain.Dtos.Plants;
 
 namespace Application.Handlers.Plants.GetHealthAssesmentsHandler;
 

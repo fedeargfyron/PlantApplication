@@ -19,4 +19,5 @@ public class Plant : BaseEntity
     public virtual User User { get; set; } = null!;
     public virtual List<WateringDay> WateringDays { get; set; } = new();
     public virtual List<PlantRisk> PlantRisks { get; set; } = new();
+    public virtual List<HealthAssesment> HealthAssesments { get; set; } = new();
 }

@@ -1,4 +1,5 @@
-﻿using Application.Handlers.Plants.GetHealthAssesmentsHandler;
+﻿using Application.Handlers.Plants.GetHealthAssesmentsByIdHandler;
+using Application.Handlers.Plants.GetHealthAssesmentsHandler;
 using Application.Handlers.Plants.HealthAssesmentHandler;
 using Application.Handlers.Plants.RecognizePlantHandler;
 using Application.Handlers.Plants.SavePlantHandler;
@@ -48,9 +49,15 @@ public static class PlantRegistrationExtensions
             return TypedResults.Ok(result);
         }).RequireAuthorization(PermissionType.RecognizePlants.ToString());
 
-        plants.MapGet("/healthassesment", async ([FromBody] GetHealthAssesmentsHandlerRequest request, IGetHealthAssesmentsHandler handler) =>
+        plants.MapGet("/healthassesment", async (IGetHealthAssesmentsHandler handler) =>
         {
-            var result = await handler.HandleAsync(request);
+            var result = await handler.HandleAsync(new GetHealthAssesmentsHandlerRequest());
+            return TypedResults.Ok(result);
+        }).RequireAuthorization(PermissionType.RecognizePlants.ToString());
+
+        plants.MapGet("/healthassesment/{id}", async (IGetHealthAssesmentByIdHandler handler, int id) =>
+        {
+            var result = await handler.HandleAsync(new GetHealthAssesmentByIdHandlerRequest(id));
             return TypedResults.Ok(result);
         }).RequireAuthorization(PermissionType.RecognizePlants.ToString());
 
