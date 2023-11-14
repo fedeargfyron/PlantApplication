@@ -21,7 +21,7 @@ public class HealthAssesmentRepository : IHealthAssesmentRepository
     }
 
     public Task<List<GetHealthAssesmentDto>> GetAllAsync(int userId)
-        => _context.HealthAssesments.Where(x => x.UserId == userId).Select(x => new GetHealthAssesmentDto(x.Id, x.Plant.Name, x.Date, x.Disease, x.IsHealthyProbability))
+        => _context.HealthAssesments.Where(x => x.UserId == userId).Select(x => new GetHealthAssesmentDto(x.Id, x.Plant.Name, x.Date, x.Disease, x.IsHealthyProbability, x.PlantImage))
             .ToListAsync();
 
     public Task<GetHealthAssesmentByIdDto> GetHealthAssesmentByIdAsync(int id)

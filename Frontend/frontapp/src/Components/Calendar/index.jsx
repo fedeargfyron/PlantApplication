@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { format, addDays, startOfWeek, startOfMonth, endOfMonth, endOfWeek, isSameMonth, isSameDay, parse, addMonths, subMonths } from 'date-fns'
+import { format, addDays, startOfWeek, startOfMonth, endOfMonth, endOfWeek, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns'
 import './calendar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faChevronRight, faTemperatureHigh, faWind, faCloudRain, faDroplet, faHandHoldingDroplet } from '@fortawesome/free-solid-svg-icons'
@@ -14,7 +14,7 @@ let icons = {
   'Humidity': faDroplet,
 }
 
-const Calendar = () => {
+const Calendar = ({setSelectedCalendarDay}) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [risks, setRisks] = useState([]);
@@ -133,7 +133,7 @@ const Calendar = () => {
                 : isSameDay(day, selectedDate) ? "selected" : ""
             }`}
             key={day}
-            onClick={() => onDateClick(parse(cloneDay))}
+            onClick={() => onDateClick(cloneDay)}
           >
             <div>
               {getTodayRisks(cloneDay)}
@@ -158,6 +158,8 @@ const Calendar = () => {
   }
 
   const onDateClick = (day) => {
+    console.log(day)
+    setSelectedCalendarDay(day);
     setSelectedDate(day);
   };
 

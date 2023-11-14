@@ -51,29 +51,29 @@ const HealthAssesmentModal = ({id, setHealthAssesmentId}) => {
                         </div>
                         <div className="flex flex-col">
                           <p className="text-bold text-lg capitalize font-bold">Is Healthy Probability</p>
-                          <p className="text-bold text-m capitalize">{healthAssesment.isHealthyProbability}</p>
-                        </div>
-                        <div className="flex flex-col">
-                          <p className="text-bold text-lg capitalize font-bold">Disease</p>
-                          <p className="text-bold text-m capitalize">{healthAssesment.disease}</p>
-                        </div>
-                        <div className="flex flex-col">
-                          <p className="text-bold text-lg capitalize font-bold">Disease Probability</p>
-                          <p className="text-bold text-m capitalize">{healthAssesment.diseaseProbability}</p>
-                        </div>
-                    </div>
-                    <div className="flex flex-col w-6/12 justify-between">
-                        <div className="flex flex-col">
-                          <p className="text-bold text-lg capitalize font-bold">Disease Description</p>
-                          <p className="text-bold text-m capitalize">{healthAssesment.diseaseDescription}</p>
+                          <p className="text-bold text-m capitalize">%{healthAssesment.isHealthyProbability * 100}</p>
                         </div>
                         <div className="flex flex-col">
                           <p className="text-bold text-lg capitalize font-bold">Disease Common Names</p>
                           <p className="text-bold text-m capitalize">{healthAssesment.diseaseCommonNames}</p>
                         </div>
                         <div className="flex flex-col">
+                          <p className="text-bold text-lg capitalize font-bold">Disease Probability</p>
+                          <p className="text-bold text-m capitalize">%{healthAssesment.diseaseProbability * 100}</p>
+                        </div>
+                    </div>
+                    <div className="flex flex-col w-6/12 justify-between">
+                      <div className="flex flex-col">
                           <p className="text-bold text-lg capitalize font-bold">Date</p>
                           <p className="text-bold text-m capitalize">{healthAssesment.date}</p>
+                        </div>
+                        <div className="flex flex-col">
+                          <p className="text-bold text-lg capitalize font-bold">Disease</p>
+                          <p className="text-bold text-m capitalize">{healthAssesment.disease}</p>
+                        </div>
+                        <div className="flex flex-col">
+                          <p className="text-bold text-lg capitalize font-bold">Disease Description</p>
+                          <p className="text-bold text-m capitalize">{healthAssesment.diseaseDescription}</p>
                         </div>
                     </div>
                   </div>
