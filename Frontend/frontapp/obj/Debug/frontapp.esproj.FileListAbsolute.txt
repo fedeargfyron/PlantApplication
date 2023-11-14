@@ -1,1 +1,2 @@
 C:\Users\Administrator\Desktop\PlantApplication\Frontend\frontapp\obj\Debug\frontapp.esproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\PlantApplication\Frontend\frontapp\obj\Debug\frontapp.esproj.CoreCompileInputs.cache

@@ -7,7 +7,7 @@ public static class GetWateringDayFromUserResultDtoListExtensions
 {
     public static List<WateringDay> GetNewMaximumWateringDayEntities(this List<GetPlantWithWateringDaysFromUserResultDto> plantWithWateringDays, DateTime newMaximumCalculatedWateringDay)
     {
-        var maximumPlantWateringDay = plantWithWateringDays.Select(x => new { x.Id, x.WateringDaysFrequency, MaxDate = x.WateringSpecificDates.Max() }).ToList();
+        var maximumPlantWateringDay = plantWithWateringDays.Select(x => new { x.Id, x.WateringDaysFrequency, MaxDate = x.WateringSpecificDates.Any() ? x.WateringSpecificDates.Max() : DateTime.Today }).ToList();
         return maximumPlantWateringDay.SelectMany(x => 
         {
             var entities = x.WateringDaysFrequency.GetWateringDays(x.MaxDate, newMaximumCalculatedWateringDay);

@@ -7,7 +7,7 @@ const HealthAssesmentModal = ({id, setHealthAssesmentId}) => {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const fetchHealthAssesmentById = useHealthAssesmentsStore(state => state.fetchHealthAssesmentById);
     const healthAssesment = useHealthAssesmentsStore((state) => state.healthAssesment); 
-
+    console.log(healthAssesment);
     const onClose = () => {
         setHealthAssesmentId(-1);
       }
@@ -21,7 +21,7 @@ const HealthAssesmentModal = ({id, setHealthAssesmentId}) => {
         onOpen();
     }, [fetchHealthAssesmentById, id, onOpen])
 
-    if(id === -1){
+    if(id === -1 || healthAssesment == null){
         return;
     }
 
@@ -35,7 +35,7 @@ const HealthAssesmentModal = ({id, setHealthAssesmentId}) => {
           <ModalContent>
             {() => (
               <>
-                <ModalHeader className="flex gap-1 max-h-[700px] bg-softwhite">Health Assesment</ModalHeader>
+                <ModalHeader className="flex gap-1 max-h-[700px]">Health Assesment</ModalHeader>
                 <ModalBody className="flex flex-row max-h-[700px]">
                   <Image
                     removeWrapper
@@ -43,15 +43,37 @@ const HealthAssesmentModal = ({id, setHealthAssesmentId}) => {
                     className="max-w-[400px] max-h-full object-cover"
                     src={healthAssesment.plantImage}
                   />
-                  <div className="flex bg-softwhite">
-                    <div className="flex justify-between">
+                  <div className="flex w-full justify-between p-2">
+                    <div className="flex flex-col w-6/12 justify-between">
                         <div className="flex flex-col">
-                        <p className="text-bold text-lg capitalize">Match probability</p>
-                        <p className="text-bold text-m capitalize">%</p>
+                          <p className="text-bold text-lg capitalize font-bold">Plant</p>
+                          <p className="text-bold text-m capitalize">{healthAssesment.plantName}</p>
                         </div>
                         <div className="flex flex-col">
-                        <p className="text-bold text-lg capitalize">Scientific name</p>
-                        <p className="text-bold text-m capitalize"></p>
+                          <p className="text-bold text-lg capitalize font-bold">Is Healthy Probability</p>
+                          <p className="text-bold text-m capitalize">{healthAssesment.isHealthyProbability}</p>
+                        </div>
+                        <div className="flex flex-col">
+                          <p className="text-bold text-lg capitalize font-bold">Disease</p>
+                          <p className="text-bold text-m capitalize">{healthAssesment.disease}</p>
+                        </div>
+                        <div className="flex flex-col">
+                          <p className="text-bold text-lg capitalize font-bold">Disease Probability</p>
+                          <p className="text-bold text-m capitalize">{healthAssesment.diseaseProbability}</p>
+                        </div>
+                    </div>
+                    <div className="flex flex-col w-6/12 justify-between">
+                        <div className="flex flex-col">
+                          <p className="text-bold text-lg capitalize font-bold">Disease Description</p>
+                          <p className="text-bold text-m capitalize">{healthAssesment.diseaseDescription}</p>
+                        </div>
+                        <div className="flex flex-col">
+                          <p className="text-bold text-lg capitalize font-bold">Disease Common Names</p>
+                          <p className="text-bold text-m capitalize">{healthAssesment.diseaseCommonNames}</p>
+                        </div>
+                        <div className="flex flex-col">
+                          <p className="text-bold text-lg capitalize font-bold">Date</p>
+                          <p className="text-bold text-m capitalize">{healthAssesment.date}</p>
                         </div>
                     </div>
                   </div>

@@ -22,6 +22,7 @@ const HealthAssesments = ({ setHealthAssesmentId }) => {
 
     return (
         <>
+            <h1 className='text-xl font-bold pt-2'>Health assesments</h1>
             <div className="info grid grid-cols-4 gap-1 pt-1">
                 {healthAssesments.length > 0 && healthAssesments.map(x => 
                     <Card key={x.date + x.plantName} isPressable onPress={() => setHealthAssesmentId(x.id)} className={`${getBackgroundColor(x.isHealthyProbability)}`}>
