@@ -15,6 +15,7 @@ import Users from './Screens/Users/index.jsx'
 import UserForm from './Screens/Users/UserForm/index.jsx'
 import Plants from './Screens/Plants/index.jsx'
 import Calendar from './Screens/Calendar/index.jsx'
+import Plant from './Screens/Plant/index.jsx'
 
 
 const router = createBrowserRouter([
@@ -89,7 +90,14 @@ const router = createBrowserRouter([
                 <RouteGuard permission={Permission[Permission.RecognizePlants]}>
                   <Calendar />
                 </RouteGuard>
-              }
+              },
+              {
+                path: "/plants/:id",
+                element: 
+                <RouteGuard permission={Permission[Permission.GetPlantById]}>
+                  <Plant />
+                </RouteGuard>
+              },
             ]
           },
           {

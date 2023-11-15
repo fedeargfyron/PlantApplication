@@ -36,10 +36,10 @@ const RiskAlerts = ({plants}) => {
 
   return (
     <div className="absolute -left-12">
-      <RiskAlert icon={faTemperatureHigh} type={'Temperature'} plantsRisks={risks}/>
-      <RiskAlert icon={faCloudRain} type={'Rain'} plantsRisks={risks}/>
-      <RiskAlert icon={faDroplet} type={'Humidity'} plantsRisks={risks}/>
-      <RiskAlert icon={faWind} type={'Wind'} plantsRisks={risks}/>
+      <RiskAlert key={'Temperature'} icon={faTemperatureHigh} type={'Temperature'} plantsRisks={risks}/>
+      <RiskAlert key={'Rain'} icon={faCloudRain} type={'Rain'} plantsRisks={risks}/>
+      <RiskAlert key={'Humidity'} icon={faDroplet} type={'Humidity'} plantsRisks={risks}/>
+      <RiskAlert key={'Wind'} icon={faWind} type={'Wind'} plantsRisks={risks}/>
     </div>
   );
 }

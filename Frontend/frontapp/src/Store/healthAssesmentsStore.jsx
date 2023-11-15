@@ -15,7 +15,6 @@ export const useHealthAssesmentsStore = create((set) => ({
       .catch(err => console.log(err));
   },
   fetchHealthAssesmentById: (id) => {
-    console.log(id);
     axios.get(`https://localhost:44374/plants/healthassesment/${id}`, {
         headers: {
           Authorization: GetToken()

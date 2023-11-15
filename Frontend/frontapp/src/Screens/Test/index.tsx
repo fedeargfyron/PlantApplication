@@ -1,5 +1,4 @@
 function Test() {
-  console.log("hola")
   return (
     <div>
         <h1 className="text-2xl font-bold underline">

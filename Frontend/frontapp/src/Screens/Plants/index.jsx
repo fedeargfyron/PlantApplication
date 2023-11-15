@@ -8,13 +8,14 @@ import PlantModal from '../../Components/PlantModal/index.jsx'
 import RiskAlerts from "../../Components/RiskAlerts";
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 import 'filepond/dist/filepond.min.css';
+import { useNavigate } from "react-router-dom";
 
 registerPlugin(FilePondPluginImagePreview, FilePondPluginFileEncode)
 
 export default function RecognizePlant() {
   const [files, setFiles] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-
+  const navigate = useNavigate();
   const fetchPlants = usePlantStore((state) => state.fetchPlants);
   let plants = usePlantStore(state => state.plants);
   useEffect(() => {
@@ -38,8 +39,8 @@ export default function RecognizePlant() {
       <PlantModal selectedIndex = {selectedIndex} setSelectedIndex={setSelectedIndex}/>
       <div className="flex pt-5 justify-center h-screen bg-softwhite w-full mx-auto">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 relative h-fit">
-          <RiskAlerts plants={plants} />
-          <Card isFooterBlurred className="h-[300px] max-w-[225px] min-w-[200px]">
+          <RiskAlerts key='alerts' plants={plants} />
+          <Card key='newCard' isFooterBlurred className="h-[300px] max-w-[225px] min-w-[200px]">
             <CardBody className="p-0">
               {recognizedPlant ? <Image 
                   radius="none"
@@ -84,7 +85,7 @@ export default function RecognizePlant() {
             </CardFooter>
           </Card>
           {plants && plants.map(x => 
-          <Card isFooterBlurred isPressable className="h-[300px] max-w-[225px] min-w-[200px]">
+          <Card onPress={() => navigate(`${x.id}`)} isFooterBlurred isPressable className="h-[300px] max-w-[225px] min-w-[200px]">
             <Image
               removeWrapper
               alt="Card example background"

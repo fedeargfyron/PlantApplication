@@ -5,7 +5,7 @@ import axios from 'axios'
 export const usePlantStore = create((set) => ({
   plants: [],
   plantsLoading: false,
-  plant: {},
+  plant: null,
   recognizedPlant: null,
   fetchPlants: () => {
     axios.get('https://localhost:44374/plants', {
@@ -14,6 +14,15 @@ export const usePlantStore = create((set) => ({
         }
       })
       .then(res => set({ plants: res.data }))
+      .catch(err => console.log(err));
+  },
+  fetchPlantById: (id) => {
+    axios.get(`https://localhost:44374/plants/${id}`, {
+        headers: {
+          Authorization: GetToken()
+        }
+      })
+      .then(res => set({ plant: res.data }))
       .catch(err => console.log(err));
   },
   recognizePlant: (base64Image, filename) => {

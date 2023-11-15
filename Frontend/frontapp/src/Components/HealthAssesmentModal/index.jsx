@@ -7,7 +7,6 @@ const HealthAssesmentModal = ({id, setHealthAssesmentId}) => {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const fetchHealthAssesmentById = useHealthAssesmentsStore(state => state.fetchHealthAssesmentById);
     const healthAssesment = useHealthAssesmentsStore((state) => state.healthAssesment); 
-    console.log(healthAssesment);
     const onClose = () => {
         setHealthAssesmentId(-1);
       }
