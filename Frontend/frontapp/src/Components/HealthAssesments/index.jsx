@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardFooter, Image } from "@nextui-org/react"
 import { useHealthAssesmentsStore } from '../../Store/healthAssesmentsStore'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTriangleExclamation, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
-const HealthAssesments = ({ setHealthAssesmentId }) => {
+import RecognizeCard from '../RecognizeCard';
+
+const HealthAssesments = ({ setHealthAssesmentId, maxHealthAssesmentsCards, plantId, addNewHealthAssesment }) => {
     const fetchHealthAssesments = useHealthAssesmentsStore(state => state.fetchHealthAssesments);
     const healthAssesments = useHealthAssesmentsStore((state) => state.healthAssesments); 
-
+    const [actualHealthAssesments, setActualHealthAssesments] = useState([])
     const getIcon = (probability) => {
         if(probability > 0.8){
             return <FontAwesomeIcon icon={faCircleCheck} className='text-success text-2xl' />
@@ -22,11 +24,19 @@ const HealthAssesments = ({ setHealthAssesmentId }) => {
         fetchHealthAssesments();
     }, [fetchHealthAssesments])
 
+    useEffect(() => {
+        if(!plantId)
+            return setActualHealthAssesments(healthAssesments);
+
+        console.log(healthAssesments.filter(x => x.id == plantId))
+        setActualHealthAssesments(healthAssesments.filter(x => x.id == plantId));
+    }, [healthAssesments, setActualHealthAssesments])
+
     return (
         <>
             <h1 className='text-xl font-bold pt-2'>Health assesments</h1>
             <div className="info grid grid-cols-4 gap-1 pt-1">
-                {healthAssesments.length > 0 && healthAssesments.map(x => 
+                {actualHealthAssesments.length > 0 && actualHealthAssesments.map(x => 
                     <Card key={x.date + x.plantName} isPressable onPress={() => setHealthAssesmentId(x.id)}>
                         <Image
                         removeWrapper
@@ -47,6 +57,7 @@ const HealthAssesments = ({ setHealthAssesmentId }) => {
                         </CardFooter>
                     </Card>
                 )}
+                {addNewHealthAssesment && <RecognizeCard id={plantId} />}
             </div>
         </>
        

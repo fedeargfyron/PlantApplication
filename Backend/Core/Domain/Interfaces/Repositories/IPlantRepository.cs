@@ -10,6 +10,6 @@ public interface IPlantRepository : IBaseRepository<Plant>
     Task UpdateAsync(int id, UpdatePlantDto dto);
     Task AddPlantAsync(Plant entity);
     void DeleteByIdAsync(int id);
-    ValueTask<Plant?> GetByIdAsync(int id);
+    Task<GetPlantByIdResultDto?> GetByIdAsync(int id);
     Task<List<TodayRisksByPlantResultDto>> TodayRisksByPlant(string scientificName);
 }

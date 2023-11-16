@@ -62,7 +62,7 @@ public class PlantService : IPlantService
     public Task<List<Plant>> GetAllAsync() 
         => _plantRepository.GetUserPlantsAsync(_applicationUser.GetUserId());
 
-    public async ValueTask<Plant> GetPlantByIdAsync(int id)
+    public async Task<GetPlantByIdResultDto> GetPlantByIdAsync(int id)
     {
         var plant = await _plantRepository.GetByIdAsync(id);
         

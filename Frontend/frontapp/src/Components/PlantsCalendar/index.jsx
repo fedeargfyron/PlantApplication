@@ -28,8 +28,6 @@ const PlantsCalendar = ({setSelectedCalendarDay}) => {
   }, [fetchPlantsRisks])
 
   const wateringSpecificDates = [...new Set(wateringDays.map(x => x.wateringSpecificDates).flat())].map(x => new Date(x).getTime());
-  console.log(plantRisks);
-  console.log(wateringDays)
   useEffect(() => {
     fetchWateringDays();
   }, [fetchWateringDays])

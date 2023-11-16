@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace Domain.Dtos.Plants;
 
-namespace Domain.Entities;
-
-public class Plant : BaseEntity
+public class GetPlantByIdResultDto
 {
     public string ScientificName { get; set; } = string.Empty;
     public string CommonName { get; set; } = string.Empty;
@@ -13,9 +11,4 @@ public class Plant : BaseEntity
     public string ImageLink { get; set; } = string.Empty;
     public string Type { get; set; } = string.Empty;
     public bool Outside { get; set; }
-    public int UserId { get; set; }
-    public virtual User User { get; set; } = null!;
-    public virtual List<WateringDay> WateringDays { get; set; } = new();
-    public virtual List<PlantRisk> PlantRisks { get; set; } = new();
-    public virtual List<HealthAssesment> HealthAssesments { get; set; } = new();
 }

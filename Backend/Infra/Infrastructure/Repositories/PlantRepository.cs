@@ -30,10 +30,21 @@ public class PlantRepository : BaseRepository<Plant>, IPlantRepository
         _context.Plants.Remove(plant);
     }
 
-    public ValueTask<Plant?> GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<GetPlantByIdResultDto?> GetByIdAsync(int id)
+        => _context.Plants.Where(x => x.Id == id)
+                .Select(x => new GetPlantByIdResultDto()
+                {
+                    ScientificName = x.ScientificName,
+                    CommonName = x.CommonName,
+                    Cycle = x.Cycle,
+                    Description = x.Description,
+                    ImageLink = x.ImageLink,
+                    Name = x.Name,
+                    Outside = x.Outside,
+                    Type = x.Type,
+                    WateringDaysFrequency = x.WateringDaysFrequency
+                })
+                .FirstOrDefaultAsync();
 
     public async Task UpdateAsync(int id, UpdatePlantDto dto)
     {

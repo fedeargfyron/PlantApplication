@@ -28,7 +28,7 @@ public static class PlantRegistrationExtensions
         plants.MapGet("/{id}", async (IPlantHandler handler, IMapper mapper, int id) =>
         {
             var result = await handler.GetPlantByIdAsync(id);
-            return TypedResults.Ok(mapper.Map<GetPlantResponse>(result));
+            return TypedResults.Ok(result);
         }).RequireAuthorization(PermissionType.GetPlantById.ToString());
 
         plants.MapPut("/{id}", async (IPlantHandler handler, IMapper mapper, int id, PutPlantRequest putPlantRequest) =>
