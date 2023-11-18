@@ -11,12 +11,17 @@ public class HealthAssesmentService : IHealthAssesmentService
 {
     private readonly IExternalHealthAssesmentService _externalHealthAssesmentService;
     private readonly IHealthAssesmentRepository _healthAssesmentRepository;
+    private readonly IExternalImageUploaderService _externalImageUploaderService;
     private readonly IApplicationUser _applicationUser;
 
-    public HealthAssesmentService(IExternalHealthAssesmentService externalHealthAssesmentService, IHealthAssesmentRepository healthAssesmentRepository, IApplicationUser applicationUser)
+    public HealthAssesmentService(IExternalHealthAssesmentService externalHealthAssesmentService, 
+        IHealthAssesmentRepository healthAssesmentRepository,
+        IExternalImageUploaderService externalImageUploaderService,
+        IApplicationUser applicationUser)
     {
         _externalHealthAssesmentService = externalHealthAssesmentService;
         _healthAssesmentRepository = healthAssesmentRepository;
+        _externalImageUploaderService = externalImageUploaderService;
         _applicationUser = applicationUser;
     }
 
@@ -25,6 +30,7 @@ public class HealthAssesmentService : IHealthAssesmentService
         var result = await _externalHealthAssesmentService.DoHealthAssestment(requestDto);
         var disease = result.Result.Disease.Suggestions.First();
         var userId = _applicationUser.GetUserId();
+        var imageUrl = await _externalImageUploaderService.UploadImageAsync(requestDto.Base64Image, requestDto.FileName);
         await _healthAssesmentRepository.AddAsync(new()
         {
             Disease = disease.Name,
@@ -34,7 +40,7 @@ public class HealthAssesmentService : IHealthAssesmentService
             IsHealthy = result.Result.IsHealthy.Result,
             IsHealthyProbability = result.Result.IsHealthy.Probability,
             PlantId = requestDto.PlantId,
-            PlantImage = requestDto.Base64Image,
+            PlantImage = imageUrl,
             UserId = userId
         });
 

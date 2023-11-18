@@ -23,4 +23,19 @@ export const useHealthAssesmentsStore = create((set) => ({
       .then(res => set({ healthAssesment: res.data }))
       .catch(err => console.log(err));
   },
+  addHealthAssesment: (latitude, longitude, plantId, base64Image, fileName) => {
+    axios.post('https://localhost:44374/plants/healthassesment', {
+      "latitude": latitude,
+      "longitude": longitude,
+      "plantId": plantId,
+      "base64Image": base64Image,
+      "fileName": fileName
+    }, {
+      headers: {
+        Authorization: GetToken()
+      }
+    })
+    .then(res => set({ plantRisks: res.data }))
+    .catch(err => console.log(err));
+  }
 }));

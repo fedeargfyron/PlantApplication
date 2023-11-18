@@ -1,26 +1,31 @@
 import React, { useState } from 'react';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
-import 'filepond/dist/filepond.min.css';
 import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
 import { Button, Card, CardFooter, CardBody } from "@nextui-org/react"
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
+import 'filepond/dist/filepond.min.css';
+import { useHealthAssesmentsStore } from '../../Store/healthAssesmentsStore';
 
 registerPlugin(FilePondPluginImagePreview, FilePondPluginFileEncode)
 
-const RecognizeCard = ({id}) => {
+const RecognizeCard = ({plantId}) => {
     const [files, setFiles] = useState([]);
-
+    const addHealthAssesment = useHealthAssesmentsStore(state => state.addHealthAssesment);
     const submit = () => {
-        let file = files.at(0);
-        let fileName = `${file.filename}-${Date.now()}`;
-        let base64image = file.getFileEncodeBase64String();
-        recognizePlant(base64image, fileName);
+        navigator.geolocation.getCurrentPosition((position) => {
+            const lat = position.coords.latitude;
+            const long = position.coords.longitude;
+            let file = files.at(0);
+            let fileName = `${file.filename}-${Date.now()}`;
+            let base64image = file.getFileEncodeBase64String();
+            addHealthAssesment(lat, long, plantId, base64image, fileName);
+        })
     }
 
     return (
-        <Card key='newCard' isFooterBlurred className="max-w-full max-h-full">
-            <CardBody className="p-0">
+        <Card key='newCard' isFooterBlurred className="max-w-full max-h-full min-h-[200px]">
+            <CardBody>
                 <FilePond
                     files={files}
                     maxFiles={1}

@@ -5,20 +5,46 @@ import PlantCalendar from "../../Components/PlantCalendar";
 import HealthAssesments from "../../Components/HealthAssesments";
 import HealthAssesmentModal from "../../Components/HealthAssesmentModal";
 import { useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Plant() {
     const [healthAssesmentId, setHealthAssesmentId] = useState(-1);
     const [isOutside, setIsOutside] = useState(false);
+    const navigate = useNavigate();
     const [selectedCalendarDay, setSelectedCalendarDay] = useState(null);
+    const { register, setValue, handleSubmit } = useForm();
     const params = useParams();
     const plantId = params.id;
     const fetchPlantById = usePlantStore((state) => state.fetchPlantById);
+    const updatePlantById = usePlantStore((state) => state.updatePlantById);
     const plant = usePlantStore(state => state.plant);
 
     useEffect(() => {
+        if(!plant)
+            return;
+
+        console.log(plant)
+        setValue("name", plant.name);
+        setValue("description", plant.description);
+        setIsOutside(plant.outside)
+      }, [plant, setValue, setIsOutside])
+
+    useEffect(() => {
         fetchPlantById(plantId);
-      }, [fetchPlantById])
+      }, [fetchPlantById, plantId])
+
+    const onSubmit = (e) => {
+        let body = {
+            name: e.name,
+            outside: isOutside,
+            description: e.description
+        }
+
+        updatePlantById(body, plantId)
+        navigate('/plants');
+    }   
 
     return (
         <div className="flex justify-center pt-10 min-h-screen bg-softwhite w-full">
@@ -29,7 +55,7 @@ export default function Plant() {
             </div>
             <div className="p-2 flex flex-col">
                 {plant && 
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex flex-col justify-center w-fit">
                         <Card isFooterBlurred className="h-[400px] mb-3">
                             <Image
@@ -49,6 +75,7 @@ export default function Plant() {
                                             "text-lg bg-transparent"
                                         ]
                                     }}
+                                    {...register("name", { required: true })}
                                 />
                                 <p className="pt-1 text-black text-sm">{plant.scientificName}</p>
                             </div>
@@ -89,14 +116,15 @@ export default function Plant() {
                             <Textarea
                             labelPlacement="outside"
                             placeholder="Description"
+                            {...register("description")}
                             >
                                 {plant.description}
                             </Textarea>
                             <div className="flex justify-start pt-2">
-                                <Button className=" text-white text-md p-4 mr-2" color="success" radius="full" size="sm">
+                                <Button type="submit" className=" text-white text-md p-4 mr-2" color="success" radius="full" size="sm">
                                     Update
                                 </Button>
-                                <Button className="p-4 text-md" color="danger" radius="full" size="sm">
+                                <Button className="p-4 text-md" color="danger" radius="full" size="sm" onClick={() => navigate('/plants')}>
                                     Back
                                 </Button>
                             </div>

@@ -83,7 +83,7 @@ export default function RecognizePlant() {
                 Remove
               </Button>
             </CardFooter>
-          </Card>
+          </Card> 
           {plants && plants.map(x => 
           <Card onPress={() => navigate(`${x.id}`)} isFooterBlurred isPressable className="h-[300px] max-w-[225px] min-w-[200px]">
             <Image

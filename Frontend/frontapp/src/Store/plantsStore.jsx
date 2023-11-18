@@ -37,5 +37,14 @@ export const usePlantStore = create((set) => ({
       .then(res => set({ recognizedPlant: res.data }))
       .catch(err => console.log(err));
   },
+  updatePlantById: (data, id) => {
+    axios.put(`https://localhost:44374/plants/${id}`, data , {
+        headers: {
+          Authorization: GetToken()
+        }
+      })
+      .then(res => set({ plant: res.data }))
+      .catch(err => console.log(err));
+  },
   removeRecognizedPlant: () => set(() => ({ recognizedPlant: null }))
 }));

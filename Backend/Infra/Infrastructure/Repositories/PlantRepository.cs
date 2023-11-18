@@ -52,7 +52,8 @@ public class PlantRepository : BaseRepository<Plant>, IPlantRepository
             .Where(x => x.Id == id)
             .ExecuteUpdateAsync(s => 
                 s.SetProperty(e => e.Name, e => dto.Name)
-                 .SetProperty(e => e.Outside, e => dto.Outside));
+                 .SetProperty(e => e.Outside, e => dto.Outside)
+                 .SetProperty(e => e.Description, e => dto.Description));
     }
 
     public async Task<List<TodayRisksByPlantResultDto>> TodayRisksByPlant(string scientificName)

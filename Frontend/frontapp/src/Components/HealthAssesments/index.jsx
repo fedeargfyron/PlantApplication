@@ -28,9 +28,8 @@ const HealthAssesments = ({ setHealthAssesmentId, maxHealthAssesmentsCards, plan
         if(!plantId)
             return setActualHealthAssesments(healthAssesments);
 
-        console.log(healthAssesments.filter(x => x.id == plantId))
-        setActualHealthAssesments(healthAssesments.filter(x => x.id == plantId));
-    }, [healthAssesments, setActualHealthAssesments])
+        setActualHealthAssesments(healthAssesments.filter(x => x.plantId == plantId));
+    }, [healthAssesments, setActualHealthAssesments, plantId])
 
     return (
         <>
@@ -57,7 +56,7 @@ const HealthAssesments = ({ setHealthAssesmentId, maxHealthAssesmentsCards, plan
                         </CardFooter>
                     </Card>
                 )}
-                {addNewHealthAssesment && <RecognizeCard id={plantId} />}
+                {addNewHealthAssesment && <RecognizeCard plantId={plantId} />}
             </div>
         </>
        

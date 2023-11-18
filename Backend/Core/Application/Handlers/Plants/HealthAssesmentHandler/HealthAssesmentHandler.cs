@@ -13,5 +13,5 @@ public class HealthAssesmentHandler : IHealthAssesmentHandler
     }
 
     public Task<HealthAssesmentResultDto> HandleAsync(HealthAssesmentHandlerRequest request)
-        => _healthAssesmentService.DoHealthAssestment(new(request.Base64Image, request.Latitude, request.Longitude, request.PlantId));
+        => _healthAssesmentService.DoHealthAssestment(new(request.Base64Image, request.Latitude, request.Longitude, request.PlantId, request.FileName));
 }
