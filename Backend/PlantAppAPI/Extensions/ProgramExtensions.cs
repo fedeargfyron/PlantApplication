@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PlantAppAPI.Actions;
 using PlantAppAPI.Endpoints.Groups;
+using PlantAppAPI.Endpoints.Metrics;
 using PlantAppAPI.Endpoints.Plants;
 using PlantAppAPI.Endpoints.Security;
 using PlantAppAPI.Endpoints.Users;
@@ -88,6 +89,7 @@ public static class ProgramExtensions
         app.RegisterPlantAPIs();
         app.RegisterSecurityAPIs();
         app.RegisterUserAPIs();
+        app.RegisterMetricAPIs();
         app.RegisterGroupAPIs();
         app.RegisterPermissionAPIs();
         app.RegisterWateringCalendarAPIs();

@@ -16,6 +16,7 @@ import UserForm from './Screens/Users/UserForm/index.jsx'
 import Plants from './Screens/Plants/index.jsx'
 import Calendar from './Screens/Calendar/index.jsx'
 import Plant from './Screens/Plant/index.jsx'
+import Metrics from './Screens/Metrics/index.jsx'
 
 
 const router = createBrowserRouter([
@@ -98,6 +99,13 @@ const router = createBrowserRouter([
                   <Plant />
                 </RouteGuard>
               },
+              {
+                path: "/metrics/",
+                element: 
+                <RouteGuard permission={Permission[Permission.GetPlantById]}>
+                  <Metrics />
+                </RouteGuard>
+              }
             ]
           },
           {

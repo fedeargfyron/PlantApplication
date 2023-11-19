@@ -4,6 +4,9 @@ using Application.Handlers.Groups.GetAllGroupsHandler;
 using Application.Handlers.Groups.GetGroupByIdHandler;
 using Application.Handlers.Groups.RemoveGroupHandler;
 using Application.Handlers.Groups.UpdateGroupHandler;
+using Application.Handlers.Metrics.CreatedUsersAmountHandler;
+using Application.Handlers.Metrics.HealthyPlantsAmountHandler;
+using Application.Handlers.Metrics.ScansAmountHandler;
 using Application.Handlers.Permissions.GetAllPermissionsHandler;
 using Application.Handlers.Plants;
 using Application.Handlers.Plants.GetHealthAssesmentsByIdHandler;
@@ -48,6 +51,9 @@ public static class ConfigureServices
         services.AddScoped<IGetWateringDaysFromUserHandler, GetWateringDaysFromUserHandler>();
         services.AddScoped<IGetHealthAssesmentsHandler, GetHealthAssesmentsHandler>();
         services.AddScoped<IGetHealthAssesmentByIdHandler, GetHealthAssesmentByIdHandler>();
+        services.AddScoped<IScansAmountHandler, ScansAmountHandler>();
+        services.AddScoped<IHealthyPlantsAmountHandler, HealthyPlantsAmountHandler>();
+        services.AddScoped<ICreatedUsersAmountHandler, CreatedUsersAmountHandler>();
         services.AddScoped<IGetGroupByIdHandler, GetGroupByIdHandler>();
         services.AddScoped<IGetAllGroupsHandler, GetAllGroupsHandler>();
         services.AddScoped<IAddGroupHandler, AddGroupHandler>();
@@ -57,6 +63,7 @@ public static class ConfigureServices
         services.AddScoped<IGroupService, GroupService>();
         services.AddScoped<IUploadPlantService, UploadPlantService>();
         services.AddScoped<IPlantInformationGetterService, PlantInformationGetterService>();
+        services.AddScoped<IMetricsService, MetricsService>();
         services.AddScoped<IGetRiskAlertsHandler, GetRiskAlertsHandler>();
         services.AddScoped<IPlantRecognizerService, PlantRecognizerService>();
         services.AddScoped<IPermissionService, PermissionService>();

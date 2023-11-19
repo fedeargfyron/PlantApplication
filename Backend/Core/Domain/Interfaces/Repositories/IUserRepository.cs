@@ -1,4 +1,5 @@
-﻿using Domain.Dtos.Users;
+﻿using Domain.Dtos.Metrics;
+using Domain.Dtos.Users;
 using Domain.Entities;
 
 namespace Domain.Interfaces.Repositories;
@@ -11,4 +12,5 @@ public interface IUserRepository : IBaseRepository<User>
     void DeleteByIdAsync(int id);
     Task UpdateAsync(UpdateUserDto dto);
     Task<GetUserByIdResultDto?> GetByIdAsync(int id);
+    Task<List<AmountByMonthDto>> GetCreatedUsersAmountByMonthAsync();
 }

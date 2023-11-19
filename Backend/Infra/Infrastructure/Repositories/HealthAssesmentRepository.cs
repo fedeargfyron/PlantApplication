@@ -1,7 +1,9 @@
-﻿using Domain.Dtos.Plants;
+﻿using Domain.Dtos.Metrics;
+using Domain.Dtos.Plants;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace Infrastructure.Repositories;
 
@@ -40,4 +42,15 @@ public class HealthAssesmentRepository : IHealthAssesmentRepository
                     PlantName = x.Plant.Name
                 })
                 .SingleAsync();
+
+    public Task<List<AmountByMonthDto>> GetHealthyPlantsAmountByMonthAsync()
+        => _context.HealthAssesments.Where(x => x.IsHealthy)
+            .GroupBy(x => new { x.Date.Year, x.Date.Month })
+            .Select(x => new AmountByMonthDto(DateTime.ParseExact($"{x.Key.Year}/{x.Key.Month}", "yyyy/M", CultureInfo.InvariantCulture), x.Count()))
+            .ToListAsync();
+
+    public Task<List<AmountByMonthDto>> GetScansAmountByMonthAsync()
+        => _context.HealthAssesments.GroupBy(x => new { x.Date.Year, x.Date.Month })
+            .Select(x => new AmountByMonthDto(DateTime.ParseExact($"{x.Key.Year}/{x.Key.Month}", "yyyy/M", CultureInfo.InvariantCulture), x.Count()))
+            .ToListAsync();
 }

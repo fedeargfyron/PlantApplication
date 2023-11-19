@@ -4,6 +4,8 @@ using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Extensions;
 using Domain.Dtos.Groups;
+using Domain.Dtos.Metrics;
+using System.Globalization;
 
 namespace Infrastructure.Repositories;
 
@@ -67,4 +69,9 @@ public class UserRepository : BaseRepository<User>, IUserRepository
     public Task UpdateUserMaximumWateringDate(int userId, DateTime newMaximumWateringDate)
         => _context.Users.Where(x => x.Id == userId)
             .ExecuteUpdateAsync(x => x.SetProperty(b => b.MaximumCalculatedWateringDay, newMaximumWateringDate));
+
+    public Task<List<AmountByMonthDto>> GetCreatedUsersAmountByMonthAsync()
+        => _context.Users.GroupBy(x => new { x.CreatedAt.Year, x.CreatedAt.Month })
+                .Select(x => new AmountByMonthDto(DateTime.ParseExact($"{x.Key.Year}/{x.Key.Month}", "yyyy/M", CultureInfo.InvariantCulture), x.Count()))
+                .ToListAsync();
 }
