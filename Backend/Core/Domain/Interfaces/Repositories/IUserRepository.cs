@@ -13,4 +13,5 @@ public interface IUserRepository : IBaseRepository<User>
     Task UpdateAsync(UpdateUserDto dto);
     Task<GetUserByIdResultDto?> GetByIdAsync(int id);
     Task<List<AmountByMonthDto>> GetCreatedUsersAmountByMonthAsync();
+    Task<User?> GetUserByEmailAsync(string email);
 }

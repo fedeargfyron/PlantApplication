@@ -1,8 +1,6 @@
 ﻿using Application.Handlers.Metrics.CreatedUsersAmountHandler;
 using Application.Handlers.Metrics.HealthyPlantsAmountHandler;
 using Application.Handlers.Metrics.ScansAmountHandler;
-using Application.Handlers.Permissions.GetAllPermissionsHandler;
-using Domain.Enums;
 
 namespace PlantAppAPI.Endpoints.Metrics;
 

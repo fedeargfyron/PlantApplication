@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Helpers;
+using AutoMapper;
 using Domain.Dtos.Users;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
@@ -65,5 +66,32 @@ public class UserService : IUserService
     {
         var userId = _applicationUser.GetUserId();
         return _userRepository.UpdateUserMaximumWateringDate(userId, newMaximumWateringDate);
+    }
+
+    public Task RegisterUserAsync(RegisterUserDto registerUserDto)
+    {
+        var encryptedPassword = EncryptionHelper.Encrypt(registerUserDto.Password);
+        _userRepository.Add(new User()
+        {
+            Username = registerUserDto.Username,
+            Password = encryptedPassword,
+            Email = registerUserDto.Email
+        });
+        return _userRepository.SaveChangesAsync();
+    }
+
+    public async Task<RecoverPasswordResultDto> RecoverPassword(string Email)
+    {
+        var user = await _userRepository.GetUserByEmailAsync(Email);
+
+        if(user is null)
+        {
+            throw new ArgumentException($"Email is invalid");
+        }
+
+        var newPassword = PasswordHelper.Generate(10, 2);
+        user.Password = EncryptionHelper.Encrypt(newPassword);
+        await _userRepository.SaveChangesAsync();
+        return new(newPassword);
     }
 }

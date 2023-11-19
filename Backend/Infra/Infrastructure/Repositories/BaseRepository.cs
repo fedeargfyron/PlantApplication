@@ -16,9 +16,9 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntit
     public Task<List<T>> GetAllAsync()
         => _context.Set<T>().ToListAsync();
 
-    public virtual async Task AddAsync(T entity)
+    public virtual void Add(T entity)
     {
-        await _context.Set<T>().AddAsync(entity);
+       _context.Set<T>().Add(entity);
     }
 
     public void Delete(T entity)

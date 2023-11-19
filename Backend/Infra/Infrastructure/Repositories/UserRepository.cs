@@ -74,4 +74,8 @@ public class UserRepository : BaseRepository<User>, IUserRepository
         => _context.Users.GroupBy(x => new { x.CreatedAt.Year, x.CreatedAt.Month })
                 .Select(x => new AmountByMonthDto(DateTime.ParseExact($"{x.Key.Year}/{x.Key.Month}", "yyyy/M", CultureInfo.InvariantCulture), x.Count()))
                 .ToListAsync();
+
+    public Task<User?> GetUserByEmailAsync(string email)
+        => _context.Users.Where(x => x.Email == email)
+            .FirstOrDefaultAsync();
 }

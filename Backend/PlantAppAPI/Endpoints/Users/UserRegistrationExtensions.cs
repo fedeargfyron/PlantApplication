@@ -1,9 +1,13 @@
 ﻿using Application.Handlers.Users.AddUserHandler;
 using Application.Handlers.Users.GetAllUsersHandler;
 using Application.Handlers.Users.GetUserByIdHandler;
+using Application.Handlers.Users.RecoverUserPasswordHandler;
+using Application.Handlers.Users.RegisterUserHandler;
 using Application.Handlers.Users.RemoveUserHandler;
+using Application.Handlers.Users.ResetUserPaswordHandler;
 using Application.Handlers.Users.UpdateUserHandler;
 using AutoMapper;
+using Azure.Core;
 using Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 using PlantAppAPI.Endpoints.Users.Contracts.Request;
@@ -45,5 +49,23 @@ public static class UserRegistrationExtensions
             await handler.HandleAsync(new(request.Username, request.Email, request.Location, request.GroupsIds));
             return TypedResults.Ok();
         }).RequireAuthorization(PermissionType.AddUser.ToString());
+
+        users.MapPost("/recover", async ([FromBody] RecoverUserPasswordHandlerRequest request, IRecoverUserPasswordHandler handler) =>
+        {
+            var result = await handler.HandleAsync(request);
+            return TypedResults.Ok(result);
+        });
+
+        users.MapPost("/register", async ([FromBody] RegisterUserHandlerRequest request, IRegisterUserHandler handler) =>
+        {
+            await handler.HandleAsync(request);
+            return TypedResults.Ok();
+        });
+
+        users.MapPost("/reset", async ([FromBody] ResetUserPaswordHandlerRequest request, IResetUserPaswordHandler handler) =>
+        {
+            var result = await handler.HandleAsync(request);
+            return TypedResults.Ok(result);
+        });
     }
 }

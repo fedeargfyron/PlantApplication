@@ -17,6 +17,7 @@ import Plants from './Screens/Plants/index.jsx'
 import Calendar from './Screens/Calendar/index.jsx'
 import Plant from './Screens/Plant/index.jsx'
 import Metrics from './Screens/Metrics/index.jsx'
+import Register from './Screens/Register/index.jsx'
 
 
 const router = createBrowserRouter([
@@ -111,6 +112,10 @@ const router = createBrowserRouter([
           {
             path: "/login",
             element: <Login />
+          },
+          {
+            path: "/register",
+            element: <Register />
           }
         ]
     },
