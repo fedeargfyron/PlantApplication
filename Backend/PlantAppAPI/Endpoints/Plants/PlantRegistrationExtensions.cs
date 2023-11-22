@@ -37,9 +37,9 @@ public static class PlantRegistrationExtensions
             return TypedResults.Ok();
         }).RequireAuthorization(PermissionType.ModifyPlants.ToString());
 
-        plants.MapDelete("/{id}", (IPlantHandler handler, int id) =>
+        plants.MapDelete("/{id}", async (IPlantHandler handler, int id) =>
         {
-            handler.DeletePlant(id);
+            await handler.DeletePlant(id);
             return TypedResults.Ok();
         }).RequireAuthorization(PermissionType.DeletePlants.ToString());
 

@@ -1,23 +1,37 @@
 import React, { useState, useEffect } from "react";
-import {Tabs, Tab, Card, CardBody, Input, Button, CheckboxGroup, Checkbox} from "@nextui-org/react";
+import {Tabs, Tab, Card, CardBody, Input, Button, CheckboxGroup, Checkbox, CircularProgress} from "@nextui-org/react";
 import { useForm } from 'react-hook-form'
 import { useGroupStore } from '../../../Store/groupsStore.jsx'
 import { useUserStore } from '../../../Store/usersStore.jsx'
 import { useNavigate, useParams } from 'react-router-dom'
-import { GetToken } from '../../../Components/Helpers/TokenHelper.jsx';
-
-import axios from 'axios'
+import InformationModal from "../../../Components/InformationModal/index.jsx";
 
 export default function UserForm() {
     const [editForm, setEditForm] = useState(false);
-    const { register, setValue, handleSubmit } = useForm();
+    const [open, setOpen] = useState(false);
+    const { 
+        register, 
+        setValue, 
+        handleSubmit, 
+        formState: { errors } 
+    } = useForm();
     const [groupsSelected, setGroupsSelected] = useState([]);
     const navigate = useNavigate();
     const params = useParams();
     const id = params.id;
 
-    const fetchUserById = useUserStore((state) => state.fetchUserById);
-    let user = useUserStore(state => state.user);
+    let {
+        user, 
+        userIsError, 
+        userIsLoading,
+        fetchUserById,
+        addUser,
+        addUserIsError, 
+        addUserIsLoading,
+        updateUser,
+        updateUserIsError, 
+        updateUserIsLoading,
+    } = useUserStore(state => state);
 
     const fetchGroups = useGroupStore((state) => state.fetchGroups);
     let groups = useGroupStore(state => state.groups);
@@ -25,6 +39,27 @@ export default function UserForm() {
     useEffect(() => {
       fetchGroups();
     }, [fetchGroups])
+
+    useEffect(() => {
+        if(userIsLoading || userIsError)
+            return setOpen(true)
+    
+        setOpen(false)
+      }, [userIsLoading, userIsError])
+
+    useEffect(() => {
+    if(addUserIsLoading || addUserIsError)
+        return setOpen(true)
+
+        setOpen(false)
+    }, [addUserIsLoading, addUserIsError])
+
+    useEffect(() => {
+        if(updateUserIsLoading || updateUserIsError)
+            return setOpen(true)
+    
+            setOpen(false)
+    }, [updateUserIsLoading, updateUserIsError])
 
     useEffect(() => {
         if (id) fetchUserById(id);
@@ -44,17 +79,7 @@ export default function UserForm() {
         setEditForm(true);
     }, [user, id, setValue, setEditForm]);
 
-    const getRequestMethod = (body) => editForm ? axios.put(`https://localhost:44374/users/${id}`, body,{
-        headers: {
-          Authorization: GetToken()
-        }
-      }) : axios.post('https://localhost:44374/users', body, {
-        headers: {
-          Authorization: GetToken()
-        }
-      })
-
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         let body = {
             username: e.username,
             email: e.email,
@@ -62,20 +87,28 @@ export default function UserForm() {
             groupsIds: groupsSelected,
         }
 
-        getRequestMethod(body).then(() => navigate('/users'))
-                .catch(err => console.log(err));
+        if(editForm){
+            updateUser(body, id, navigate);
+            return;
+        }
+
+        addUser(body, navigate);
     }
 
     return (
         <div className="container mx-auto pt-10">
+            <InformationModal open={open} setOpen={setOpen}>
+                {(userIsLoading || addUserIsLoading || updateUserIsLoading) && <CircularProgress />}
+                {(userIsError || addUserIsError || updateUserIsError) && <p>Error!</p>}
+            </InformationModal>
             <form className="flex flex-col max-w-2xl mx-auto" onSubmit={handleSubmit(onSubmit)}>
                 <Tabs aria-label="Options" className="max-w-2xl">
                     <Tab key="user" title="User">
                         <Card>
                             <CardBody>
-                                <Input label="Username" className="pb-3" {...register("username", { required: true })}/>
-                                <Input label="Email" className="pb-3" disabled={editForm} {...register("email", { required: true })}/>
-                                <Input label="Location" className="pb-3" {...register("location", { required: true })}/>
+                                <Input label="Username" placeholder="username" className="pb-3" color = {errors.username ? 'danger' : ''} {...register("username", { required: true })}/>
+                                <Input label="Email" placeholder="email123@gmail.com" className="pb-3" color = {errors.email ? 'danger' : ''} disabled={editForm}  {...register("email", { required: true })}/>
+                                <Input label="Location" placeholder="rosario" className="pb-3" color= {errors.location ? 'danger' : ''} {...register("location", { required: true })}/>
                             </CardBody>
                         </Card>  
                     </Tab>

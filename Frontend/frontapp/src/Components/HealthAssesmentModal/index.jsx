@@ -1,15 +1,20 @@
 import React, { useEffect } from 'react';
-import { Image, Modal, ModalContent, ModalBody, ModalHeader, useDisclosure } from "@nextui-org/react"
+import { Image, Modal, ModalContent, ModalBody, ModalHeader, useDisclosure, CircularProgress } from "@nextui-org/react"
 import { useHealthAssesmentsStore } from '../../Store/healthAssesmentsStore'
 
 const HealthAssesmentModal = ({id, setHealthAssesmentId}) => {
 
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
-    const fetchHealthAssesmentById = useHealthAssesmentsStore(state => state.fetchHealthAssesmentById);
-    const healthAssesment = useHealthAssesmentsStore((state) => state.healthAssesment); 
+    const {
+      fetchHealthAssesmentById,
+      healthAssesment, 
+      healthAssesmentIsLoading, 
+      healthAssesmentIsError
+    } = useHealthAssesmentsStore((state) => state); 
+    
     const onClose = () => {
         setHealthAssesmentId(-1);
-      }
+    }
 
     useEffect(() => {
         if(id === -1){
@@ -36,6 +41,8 @@ const HealthAssesmentModal = ({id, setHealthAssesmentId}) => {
               <>
                 <ModalHeader className="flex gap-1 max-h-[700px]">Health Assesment</ModalHeader>
                 <ModalBody className="flex flex-row max-h-[700px]">
+                  {healthAssesmentIsLoading && <CircularProgress />}
+                  {healthAssesmentIsError && <p>Error!</p>}
                   <Image
                     removeWrapper
                     alt="Card example background"

@@ -4,3 +4,4 @@ public interface IRemoveUserHandler
 {
     Task HandleAsync(RemoveUserHandlerRequest request);
 }
+    

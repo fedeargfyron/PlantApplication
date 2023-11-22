@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip, Button, User, Chip } from "@nextui-org/react";
+import React, { useEffect, useState, useMemo } from "react";
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip, Button, User, Chip, CircularProgress, Pagination } from "@nextui-org/react";
 import {EditIcon} from "../../Components/Icons/EditIcon.jsx";
 import {DeleteIcon} from "../../Components/Icons/DeleteIcon.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { useUserStore } from '../../Store/usersStore.jsx'
 import { useNavigate } from "react-router-dom";
-import { GetToken } from '../../Components/Helpers/TokenHelper.jsx';
-import axios from 'axios';
+import InformationModal from "../../Components/InformationModal/index.jsx";
 
 const columns = [
   {name: "ID", uid: "id"},
@@ -17,15 +16,39 @@ const columns = [
 ];
 
 export default function App() {
-
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const fetchUsers = useUserStore((state) => state.fetchUsers);
-  const resetPassword = useUserStore((state) => state.resetPassword);
+  const {
+    users,
+    fetchUsers,
+    resetPassword,
+    usersIsLoading,
+    usersIsError,
+    deleteUserIsLoading,
+    deleteUserIsError,
+    deleteUser
+  } = useUserStore((state) => state);
 
-  let users = useUserStore(state => state.users);
+  const [page, setPage] = useState(1);
+  const maxItemsPerPage = 8;
+  const pages = Math.ceil(users.length / maxItemsPerPage);
+  const items = useMemo(() => {
+      const start = (page - 1) * maxItemsPerPage;
+      const end = start + maxItemsPerPage;
+  
+      return users.slice(start, end);
+    }, [page, users, maxItemsPerPage]);
+
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers])
+
+  useEffect(() => {
+    if(deleteUserIsLoading || deleteUserIsError)
+        return setOpen(true)
+
+    setOpen(false)
+  }, [deleteUserIsLoading, deleteUserIsError])
 
   const onReset = (email) => {
     let data = {
@@ -35,24 +58,34 @@ export default function App() {
     resetPassword(data);
   }
 
-  const deleteUser = (id) => {
-    axios.delete(`https://localhost:44374/users/${id}`, {
-        headers: {
-          Authorization: GetToken()
-        }
-      })
-      .then(() => fetchUsers())
-      .catch(err => console.log(err));
-  }
-
   return (
     <div className="mx-auto max-w-5xl pt-10">
+      <InformationModal open={open} setOpen={setOpen}>
+        {(deleteUserIsLoading) && <CircularProgress />}
+        {(deleteUserIsError) && <p>Error!</p>}
+      </InformationModal>
       <div className="flex items-end justify-end pb-3">
         <Button onClick={() => navigate("form")} className="bg-green text-white">
                 Add New
         </Button>
       </div>
-      <Table aria-label="Example table with custom cells">
+      <Table bottomContent = {
+        <>
+        {usersIsLoading && <div className="flex justify-center"><CircularProgress /></div>}
+        {usersIsError && <p>Error!</p>}
+        <div className="flex justify-center p-5">
+            <Pagination
+              isCompact
+              showControls
+              showShadow
+              color="success"
+              page={page}
+              total={pages}
+              onChange={(page) => setPage(page)}
+            />
+          </div>
+        </>
+      } aria-label="Example table with custom cells">
       <TableHeader columns={columns} className="bg-softpink text-white">
         {(column) => (
           <TableColumn key={column.uid} align="start" className="bg-softpink text-white">
@@ -60,7 +93,7 @@ export default function App() {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody items={users}>
+      <TableBody items={items}>
         {(item) => (
           <TableRow key={item.id}>
             <TableCell>{item.id}</TableCell>
@@ -79,16 +112,16 @@ export default function App() {
             </TableCell>
             <TableCell>
               <div className="relative flex items-center gap-2">
-                <Tooltip color="success" content="Edit user">
+                <Tooltip className="text-white" color="success" content="Edit user">
                   <span onClick={() => navigate(`form/${item.id}`)} className="text-lg text-green cursor-pointer active:opacity-50">
                     <EditIcon />
                   </span>
                 </Tooltip>
-                <Tooltip color="warning" content="Reset password">
+                <Tooltip className="text-white" color="warning" content="Reset password">
                   <FontAwesomeIcon onClick={() => onReset(item.email)} icon={faArrowRotateLeft} className="text-lg text-warning cursor-pointer active:opacity-50"/>
                 </Tooltip>
                 <Tooltip color="danger" content="Delete user">
-                  <span onClick={() => deleteUser(item.id)} className="text-lg text-danger cursor-pointer active:opacity-50">
+                  <span onClick={() => deleteUser(item.id, fetchUsers)} className="text-lg text-danger cursor-pointer active:opacity-50">
                     <DeleteIcon />
                   </span>
                 </Tooltip>

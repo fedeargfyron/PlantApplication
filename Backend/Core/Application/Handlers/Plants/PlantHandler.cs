@@ -15,7 +15,7 @@ namespace Application.Handlers.Plants
 
         public Task AddPlantAsync(PlantDto dto) => _plantService.AddPlantAsync(dto);
 
-        public void DeletePlant(int id) => _plantService.DeletePlantByIdAsync(id);
+        public Task DeletePlant(int id) => _plantService.DeletePlantByIdAsync(id);
 
         public Task<GetPlantByIdResultDto> GetPlantByIdAsync(int id) => _plantService.GetPlantByIdAsync(id);
 

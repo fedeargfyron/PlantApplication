@@ -15,5 +15,5 @@ export const usePlantRiskStore = create((set) => ({
     })
     .then(res => set({ plantRisks: res.data }))
     .catch(err => console.log(err));
-},
+},  
 }));

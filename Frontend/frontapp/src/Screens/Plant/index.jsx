@@ -1,4 +1,4 @@
-import { Button, Card, Image, CardFooter, Input, Table, TableHeader, TableRow, TableCell, TableColumn, TableBody, Textarea, Checkbox  } from "@nextui-org/react"
+import { Button, Card, Image, CardFooter, Input, Table, TableHeader, TableRow, TableCell, TableColumn, TableBody, Textarea, Checkbox, CircularProgress  } from "@nextui-org/react"
 import { useState, useEffect } from "react";
 import { usePlantStore } from "../../Store/plantsStore";
 import PlantCalendar from "../../Components/PlantCalendar";
@@ -14,18 +14,25 @@ export default function Plant() {
     const [isOutside, setIsOutside] = useState(false);
     const navigate = useNavigate();
     const [selectedCalendarDay, setSelectedCalendarDay] = useState(null);
-    const { register, setValue, handleSubmit } = useForm();
+    const { 
+        register, 
+        setValue, 
+        handleSubmit, 
+        formState: { errors } } = useForm();
     const params = useParams();
     const plantId = params.id;
-    const fetchPlantById = usePlantStore((state) => state.fetchPlantById);
-    const updatePlantById = usePlantStore((state) => state.updatePlantById);
-    const plant = usePlantStore(state => state.plant);
+    const { 
+        fetchPlantById, 
+        plantIsError, 
+        plantIsLoading,
+        updatePlantById,
+        plant
+    } = usePlantStore((state) => state);
 
     useEffect(() => {
         if(!plant)
             return;
 
-        console.log(plant)
         setValue("name", plant.name);
         setValue("description", plant.description);
         setIsOutside(plant.outside)
@@ -42,7 +49,7 @@ export default function Plant() {
             description: e.description
         }
 
-        updatePlantById(body, plantId)
+        updatePlantById(body, plantId);
         navigate('/plants');
     }   
 
@@ -51,12 +58,14 @@ export default function Plant() {
             <div className="w-1/2 p-2 flex flex-col">
                 <HealthAssesmentModal id={healthAssesmentId} setHealthAssesmentId={setHealthAssesmentId}/>
                 <PlantCalendar id={Number(plantId)} setSelectedCalendarDay={setSelectedCalendarDay}/>
-                <HealthAssesments healthAssesmentId={healthAssesmentId} plantId={plantId} addNewHealthAssesment={true} setHealthAssesmentId={setHealthAssesmentId} />
+                <HealthAssesments healthAssesmentId={healthAssesmentId} plantId={plantId} addNewHealthAssesment={true} maxHealthAssesmentsCards={3} setHealthAssesmentId={setHealthAssesmentId} />
             </div>
             <div className="p-2 flex flex-col">
                 {plant && 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex flex-col justify-center w-fit">
+                        {plantIsLoading && <CircularProgress />}
+                        {plantIsError && <p>Error!</p>}
                         <Card isFooterBlurred className="h-[400px] mb-3">
                             <Image
                                 removeWrapper
@@ -70,12 +79,13 @@ export default function Plant() {
                                     variant='bordered'
                                     radius="sm"
                                     defaultValue={plant.name}
+                                    color= {errors.name ? 'danger' : ''}
                                     classNames={{
                                         input: [
                                             "text-lg bg-transparent"
                                         ]
                                     }}
-                                    {...register("name", { required: true })}
+                                    {...register("name", { required: "Required" })}
                                 />
                                 <p className="pt-1 text-black text-sm">{plant.scientificName}</p>
                             </div>

@@ -1,21 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Button, Image, Modal, ModalContent, ModalBody, ModalHeader, Divider, Input, Textarea, useDisclosure, Checkbox } from "@nextui-org/react"
+import { Button, Image, Modal, ModalContent, ModalBody, ModalHeader, Divider, Input, Textarea, useDisclosure, Checkbox, CircularProgress } from "@nextui-org/react"
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { usePlantStore } from '../../Store/plantsStore';
 import { useForm } from 'react-hook-form';
-import { GetToken } from '../Helpers/TokenHelper';
-import axios from 'axios'
+import InformationModal from '../InformationModal';
 
 const PlantModal = ({selectedIndex, setSelectedIndex}) => {
   const {isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedItem, setSelectedItem] = useState({});
+  const [open, setOpen] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
   const [isOutside, setIsOutside] = useState(true);
-  const { register, handleSubmit } = useForm();
+  const { 
+    register, 
+    handleSubmit, 
+    formState: { errors }
+  } = useForm();
   
-  const recognizedPlant = usePlantStore(state => state.recognizedPlant);
-  const fetchPlants = usePlantStore((state) => state.fetchPlants);
+  const {
+    recognizedPlant, 
+    addPlant,
+    fetchPlants,
+    addPlantIsError,
+    addPlantIsLoading
+  } = usePlantStore(state => state);
 
   useEffect(() => {
     if(selectedIndex === -1)
@@ -31,6 +40,13 @@ const PlantModal = ({selectedIndex, setSelectedIndex}) => {
     setSelectedIndex(-1);
   }
 
+  useEffect(() => {
+    if(addPlantIsLoading || addPlantIsError)
+        return setOpen(true)
+
+    setOpen(false)
+  }, [addPlantIsLoading, addPlantIsError])
+  
   const onSubmit = (e) => {
     let data = {
       imageUrl: recognizedPlant.userImageUrl,
@@ -45,13 +61,7 @@ const PlantModal = ({selectedIndex, setSelectedIndex}) => {
       data.longitude = position.coords.longitude;
     })
     
-    axios.post('https://localhost:44374/plants', data, {
-      headers: {
-        Authorization: GetToken()
-      }
-    })
-      .then(() => fetchPlants())
-      .catch(err => console.log(err));
+    addPlant(data, fetchPlants);
   }
 
   const switchItem = (value) => {
@@ -79,6 +89,10 @@ const PlantModal = ({selectedIndex, setSelectedIndex}) => {
         isOpen={isOpen} 
         onClose={onClose}
         onOpenChange={onOpenChange}>
+          <InformationModal open={open} setOpen={setOpen}>
+            {(addPlantIsLoading) && <CircularProgress />}
+            {(addPlantIsError) && <p>Error!</p>}
+          </InformationModal>
           <ModalContent>
             {(onClose) => (
               <>
@@ -125,7 +139,7 @@ const PlantModal = ({selectedIndex, setSelectedIndex}) => {
                         </div>
                       </div>
                       <div>
-                        <Input label="Personal name (optional)" {...register("personalname")} />
+                        <Input label="Personal name" color={errors.personalname ? 'danger' : ''} placeholder='Planta patio 1' {...register("personalname", { required: "Required" })} />
                         <Textarea
                           {...register("description")}
                           label="Description"

@@ -2,5 +2,5 @@
 
 public interface IRemoveGroupHandler
 {
-    void HandleAsync(RemoveGroupHandlerRequest request);
+    Task HandleAsync(RemoveGroupHandlerRequest request);
 }

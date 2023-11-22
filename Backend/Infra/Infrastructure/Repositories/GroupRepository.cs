@@ -3,8 +3,6 @@ using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Xml.Linq;
 
 namespace Infrastructure.Repositories;
 

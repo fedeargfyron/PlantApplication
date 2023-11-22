@@ -1,14 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardFooter, Image } from "@nextui-org/react"
+import { Card, CardFooter, Image, CircularProgress, Pagination } from "@nextui-org/react"
 import { useHealthAssesmentsStore } from '../../Store/healthAssesmentsStore'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTriangleExclamation, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import RecognizeCard from '../RecognizeCard';
 
 const HealthAssesments = ({ setHealthAssesmentId, maxHealthAssesmentsCards, plantId, addNewHealthAssesment }) => {
-    const fetchHealthAssesments = useHealthAssesmentsStore(state => state.fetchHealthAssesments);
-    const healthAssesments = useHealthAssesmentsStore((state) => state.healthAssesments); 
+    const {
+        fetchHealthAssesments,
+        healthAssesments, 
+        healthAssesmentsIsLoading, 
+        healthAssesmentsIsError
+    } = useHealthAssesmentsStore((state) => state); 
     const [actualHealthAssesments, setActualHealthAssesments] = useState([])
+    const [page, setPage] = React.useState(1);
+    const pages = Math.ceil(actualHealthAssesments.length / maxHealthAssesmentsCards);
+    const items = React.useMemo(() => {
+        const start = (page - 1) * maxHealthAssesmentsCards;
+        const end = start + maxHealthAssesmentsCards;
+    
+        return actualHealthAssesments.slice(start, end);
+      }, [page, actualHealthAssesments, maxHealthAssesmentsCards]);
+
     const getIcon = (probability) => {
         if(probability > 0.8){
             return <FontAwesomeIcon icon={faCircleCheck} className='text-success text-2xl' />
@@ -25,17 +38,26 @@ const HealthAssesments = ({ setHealthAssesmentId, maxHealthAssesmentsCards, plan
     }, [fetchHealthAssesments])
 
     useEffect(() => {
+        
+
+
+    }, [actualHealthAssesments, maxHealthAssesmentsCards])
+
+    useEffect(() => {
         if(!plantId)
             return setActualHealthAssesments(healthAssesments);
 
         setActualHealthAssesments(healthAssesments.filter(x => x.plantId == plantId));
+
     }, [healthAssesments, setActualHealthAssesments, plantId])
 
     return (
         <>
             <h1 className='text-xl font-bold pt-2'>Health assesments</h1>
+            {healthAssesmentsIsLoading && <CircularProgress />}
+            {healthAssesmentsIsError && <p>Error!</p>}
             <div className="info grid grid-cols-4 gap-1 pt-1">
-                {actualHealthAssesments.length > 0 && actualHealthAssesments.map(x => 
+                {actualHealthAssesments.length > 0 && items.map(x => 
                     <Card key={x.date + x.plantName} isPressable onPress={() => setHealthAssesmentId(x.id)}>
                         <Image
                         removeWrapper
@@ -58,6 +80,18 @@ const HealthAssesments = ({ setHealthAssesmentId, maxHealthAssesmentsCards, plan
                 )}
                 {addNewHealthAssesment && <RecognizeCard plantId={plantId} />}
             </div>
+            <div className='flex p-5 justify-center'>
+                <Pagination
+                isCompact
+                showControls
+                showShadow
+                color="success"
+                page={page}
+                total={pages}
+                onChange={(page) => setPage(page)}
+                />
+            </div>
+            
         </>
        
     );

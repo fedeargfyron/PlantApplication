@@ -23,7 +23,7 @@ public class PlantRepository : BaseRepository<Plant>, IPlantRepository
         await _context.SaveChangesAsync();
     }
 
-    public void DeleteByIdAsync(int id)
+    public void DeleteById(int id)
     {
         var plant = new Plant() { Id = id };
         _context.Plants.Attach(plant);

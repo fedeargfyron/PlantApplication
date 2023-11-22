@@ -11,7 +11,7 @@ export default function App() {
         <CalendarDayModal selectedCalendarDay={selectedCalendarDay} setSelectedCalendarDay={setSelectedCalendarDay}/>
         <HealthAssesmentModal id={healthAssesmentId} setHealthAssesmentId={setHealthAssesmentId}/>
         <PlantsCalendar setSelectedCalendarDay={setSelectedCalendarDay}/>
-        <HealthAssesments healthAssesmentId={healthAssesmentId} setHealthAssesmentId={setHealthAssesmentId} />
+        <HealthAssesments healthAssesmentId={healthAssesmentId} maxHealthAssesmentsCards={4} setHealthAssesmentId={setHealthAssesmentId} />
     </div>
   );
 }

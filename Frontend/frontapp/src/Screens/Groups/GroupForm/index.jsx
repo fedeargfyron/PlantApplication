@@ -1,26 +1,40 @@
 import React, { useState, useEffect } from "react";
-import {Tabs, Tab, Card, CardBody, Input, Textarea, Button, CheckboxGroup, Checkbox, User, Chip} from "@nextui-org/react";
+import {Tabs, Tab, Card, CardBody, Input, Textarea, Button, CheckboxGroup, Checkbox, User, Chip, CircularProgress } from "@nextui-org/react";
 import { useForm } from 'react-hook-form'
 import { useGroupStore } from '../../../Store/groupsStore.jsx'
 import { useUserStore } from '../../../Store/usersStore.jsx'
 import { usePermissionStore } from '../../../Store/permissionsStore.jsx'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Permission } from '../../../Enums/Permission.tsx'
-import { GetToken } from '../../../Components/Helpers/TokenHelper.jsx';
-
-import axios from 'axios'
+import InformationModal from "../../../Components/InformationModal/index.jsx";
 
 export default function GroupForm() {
     const [editForm, setEditForm] = useState(false);
-    const { register, setValue, handleSubmit } = useForm();
+    const [open, setOpen] = useState(false);
+    const { 
+        register, 
+        setValue, 
+        handleSubmit, 
+        formState: { errors } 
+    } = useForm();
     const [usersSelected, setUsersSelected] = useState([]);
     const [permissionsSelected, setPermissionsSelected] = useState([]);
     const navigate = useNavigate();
     const params = useParams();
     const id = params.id;
 
-    const fetchGroupById = useGroupStore((state) => state.fetchGroupById);
-    let group = useGroupStore(state => state.group);
+    let {
+        fetchGroupById,
+        group,
+        groupIsError, 
+        groupIsLoading,
+        addGroup,
+        addGroupIsError, 
+        addGroupIsLoading,
+        updateGroup,
+        updateGroupIsError, 
+        updateGroupIsLoading,
+    } = useGroupStore(state => state);
 
     const fetchUsers = useUserStore((state) => state.fetchUsers);
     let users = useUserStore(state => state.users);
@@ -35,6 +49,27 @@ export default function GroupForm() {
     useEffect(() => {
         fetchPermissions();
     }, [fetchPermissions]);
+
+    useEffect(() => {
+        if(groupIsLoading || groupIsError)
+            return setOpen(true)
+    
+        setOpen(false)
+      }, [groupIsLoading, groupIsError])
+
+    useEffect(() => {
+    if(addGroupIsLoading || addGroupIsError)
+        return setOpen(true)
+
+        setOpen(false)
+    }, [addGroupIsLoading, addGroupIsError])
+
+    useEffect(() => {
+        if(updateGroupIsLoading || updateGroupIsError)
+            return setOpen(true)
+    
+            setOpen(false)
+    }, [updateGroupIsLoading, updateGroupIsError])
 
     useEffect(() => {
         if (id) fetchGroupById(id);
@@ -54,16 +89,6 @@ export default function GroupForm() {
         setEditForm(true);
     }, [group, id, setValue, setEditForm]);
 
-    const getRequestMethod = (body) => editForm ? axios.put(`https://localhost:44374/groups/${id}`, body,{
-        headers: {
-          Authorization: GetToken()
-        }
-      }) : axios.post('https://localhost:44374/groups', body, {
-        headers: {
-          Authorization: GetToken()
-        }
-      })
-
     const onSubmit = (e) => {
         let body = {
             name: e.name,
@@ -72,18 +97,26 @@ export default function GroupForm() {
             permissionsIds: permissionsSelected
         }
 
-        getRequestMethod(body).then(() => navigate('/groups'))
-                .catch(err => console.log(err));
+        if(editForm){
+            updateGroup(body, id, navigate);
+            return;
+        }
+
+        addGroup(body, navigate);
     }
 
     return (
         <div className="container mx-auto pt-10">
+            <InformationModal open={open} setOpen={setOpen}>
+                {(groupIsLoading || addGroupIsLoading || updateGroupIsLoading) && <CircularProgress />}
+                {(groupIsError || addGroupIsError || updateGroupIsError) && <p>Error!</p>}
+            </InformationModal>
             <form className="flex flex-col max-w-2xl mx-auto" onSubmit={handleSubmit(onSubmit)}>
                 <Tabs aria-label="Options" className="max-w-2xl">
                     <Tab key="group" title="Group">
                         <Card>
                             <CardBody>
-                                <Input type="text" label="Name" className="pb-3" {...register("name", { required: true })}/>
+                                <Input type="text" label="Name" placeholder="name" color = {errors.name ? 'danger' : ''} className="pb-3" {...register("name", { required: true })}/>
                                 <Textarea
                                     isRequired
                                     label="Description"

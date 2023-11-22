@@ -35,9 +35,9 @@ public static class ActionRegistrationExtensions
             return TypedResults.Ok();
         }).RequireAuthorization(PermissionType.UpdateGroup.ToString());
 
-        groups.MapDelete("/{id}", (IRemoveGroupHandler handler, int id) =>
+        groups.MapDelete("/{id}", async (IRemoveGroupHandler handler, int id) =>
         {
-            handler.HandleAsync(new(id));
+            await handler.HandleAsync(new(id));
             return TypedResults.Ok();
         }).RequireAuthorization(PermissionType.DeleteGroup.ToString());
 

@@ -1,12 +1,13 @@
 import React from "react";
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, DropdownItem, DropdownMenu, Avatar, Dropdown, DropdownTrigger} from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from '../../../Store/usersStore.jsx'
 
 export default function NavbarLayout() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
-  
+  const { logout } = useUserStore((state) => state);
   const menuItems = [
     "Profile",
     "Dashboard",
@@ -24,6 +25,7 @@ export default function NavbarLayout() {
   const logOut = () => {
     localStorage.removeItem('token');
     navigate('/login');
+    logout();
   }
 
   return (

@@ -17,10 +17,10 @@ public class PlantService : IPlantService
     private readonly IExternalPlantRiskGetterService _externalPlantRiskGetterService;
     private readonly IMapper _mapper;
 
-    public PlantService(IPlantRepository plantRepository, 
-        IApplicationUser applicationUser, 
-        IExternalWeatherService externalWeatherService, 
-        IExternalPlantRiskGetterService externalPlantRiskGetterService, 
+    public PlantService(IPlantRepository plantRepository,
+        IApplicationUser applicationUser,
+        IExternalWeatherService externalWeatherService,
+        IExternalPlantRiskGetterService externalPlantRiskGetterService,
         IMapper mapper)
     {
         _plantRepository = plantRepository;
@@ -57,7 +57,11 @@ public class PlantService : IPlantService
         return plantRisks.ConvertToEntitiesWithoutId();
     }
 
-    public void DeletePlantByIdAsync(int id) => _plantRepository.DeleteByIdAsync(id);
+    public Task DeletePlantByIdAsync(int id)
+    {
+        _plantRepository.DeleteById(id);
+        return _plantRepository.SaveChangesAsync();
+    }
 
     public Task<List<Plant>> GetAllAsync() 
         => _plantRepository.GetUserPlantsAsync(_applicationUser.GetUserId());

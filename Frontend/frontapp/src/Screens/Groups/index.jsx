@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip, Button } from "@nextui-org/react";
+import React, { useEffect, useState, useMemo } from "react";
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip, Button, CircularProgress, Pagination } from "@nextui-org/react";
 import {EditIcon} from "../../Components/Icons/EditIcon.jsx";
 import {DeleteIcon} from "../../Components/Icons/DeleteIcon.jsx";
 import { useGroupStore } from '../../Store/groupsStore.jsx'
 import { useNavigate } from "react-router-dom";
-import { GetToken } from '../../Components/Helpers/TokenHelper.jsx';
-import axios from 'axios';
+import InformationModal from "../../Components/InformationModal/index.jsx";
 
 const columns = [
   {name: "ID", uid: "id"},
@@ -14,32 +13,66 @@ const columns = [
 ];
 
 export default function App() {
-
   const navigate = useNavigate();
-  const fetchGroups = useGroupStore((state) => state.fetchGroups);
-  let groups = useGroupStore(state => state.groups);
+  const [open, setOpen] = useState(false);
+  let { 
+    groups,
+    groupsIsLoading,
+    groupsIsError,
+    fetchGroups,
+    deleteGroup,
+    deleteGroupIsLoading,
+    deleteGroupIsError,
+  } = useGroupStore(state => state);
   useEffect(() => {
     fetchGroups();
   }, [fetchGroups])
 
-  const deleteGroup = (id) => {
-    axios.delete(`https://localhost:44374/groups/${id}`, {
-        headers: {
-          Authorization: GetToken()
-        }
-      })
-      .then(() => fetchGroups())
-      .catch(err => console.log(err));
-  }
+  const [page, setPage] = useState(1);
+  const maxItemsPerPage = 8;
+  const pages = Math.ceil(groups.length / maxItemsPerPage);
+  const items = useMemo(() => {
+      const start = (page - 1) * maxItemsPerPage;
+      const end = start + maxItemsPerPage;
+  
+      return groups.slice(start, end);
+    }, [page, groups, maxItemsPerPage]);
+
+  useEffect(() => {
+    if(deleteGroupIsLoading || deleteGroupIsError)
+        return setOpen(true)
+
+    setOpen(false)
+  }, [deleteGroupIsLoading, deleteGroupIsError])
 
   return (
     <div className="mx-auto max-w-5xl pt-10">
+      <InformationModal open={open} setOpen={setOpen}>
+        {(deleteGroupIsLoading) && <CircularProgress />}
+        {(deleteGroupIsError) && <p>Error!</p>}
+      </InformationModal>
       <div className="flex items-end justify-end pb-3">
         <Button onClick={() => navigate("form")} className="bg-green text-white">
                 Add New
         </Button>
       </div>
-      <Table aria-label="Example table with custom cells">
+      <Table bottomContent={
+        <>
+        {groupsIsLoading && <div className="flex justify-center"><CircularProgress /></div>}
+        {groupsIsError && <p>Error!</p>}
+        <div className="flex justify-center p-5">
+            <Pagination
+              isCompact
+              showControls
+              showShadow
+              color="success"
+              page={page}
+              total={pages}
+              onChange={(page) => setPage(page)}
+            />
+          </div>
+        </>
+      } aria-label="Example table with custom cells">
       <TableHeader columns={columns} className="bg-softpink text-white">
         {(column) => (
           <TableColumn key={column.uid} align="start" className="bg-softpink text-white" color="white">
@@ -47,7 +80,7 @@ export default function App() {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody items={groups}>
+        <TableBody items={items}>
         {(item) => (
           <TableRow key={item.id}>
             <TableCell>{item.id}</TableCell>
@@ -59,13 +92,13 @@ export default function App() {
             </TableCell>
             <TableCell>
               <div className="relative flex items-center gap-2">
-                <Tooltip content="Edit group">
+                <Tooltip className="text-white" color="success" content="Edit group">
                   <span onClick={() => navigate(`form/${item.id}`)} className="text-lg text-green cursor-pointer active:opacity-50">
                     <EditIcon />
                   </span>
                 </Tooltip>
                 <Tooltip color="danger" content="Delete group">
-                  <span onClick={() => deleteGroup(item.id)} className="text-lg text-danger cursor-pointer active:opacity-50">
+                  <span onClick={() => deleteGroup(item.id, fetchGroups)} className="text-lg text-danger cursor-pointer active:opacity-50">
                     <DeleteIcon />
                   </span>
                 </Tooltip>
@@ -73,7 +106,7 @@ export default function App() {
             </TableCell>
           </TableRow>
         )}
-      </TableBody>
+        </TableBody>
       </Table>
     </div>
   );

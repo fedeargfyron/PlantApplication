@@ -10,6 +10,6 @@ public class RemoveGroupHandler : IRemoveGroupHandler
     {
         _groupService = groupService;
     }
-    public void HandleAsync(RemoveGroupHandlerRequest request)
+    public Task HandleAsync(RemoveGroupHandlerRequest request)
         => _groupService.DeleteGroupByIdAsync(request.Id);
 }
