@@ -3,11 +3,13 @@ import { Select, SelectItem } from "@nextui-org/react"
 import HealthyPlants from "../../Components/Metrics/HealthyPlants"
 import Scans from "../../Components/Metrics/Scans"
 import CreatedUsers from "../../Components/Metrics/CreatedUsers"
+import Logins from "../../Components/Metrics/Logins"
 
 const metricsComponents = {
     'HealthyPlants': <HealthyPlants />,
     'CreatedUsers': <CreatedUsers />,
     'Scans': <Scans />,
+    'Logins': <Logins />,
 }
 
 function Metrics() {
@@ -34,6 +36,9 @@ function Metrics() {
                     </SelectItem>
                     <SelectItem key='Scans' value='Scans'>
                         Scans
+                    </SelectItem>
+                    <SelectItem key='Logins' value='Logins'>
+                        Logins
                     </SelectItem>
                 </Select>
                 {metricsComponents[selectedItem]}

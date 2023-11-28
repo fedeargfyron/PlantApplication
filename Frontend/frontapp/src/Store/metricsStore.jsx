@@ -6,6 +6,7 @@ export const useMetricsStore = create((set) => ({
   scansByMonthAmount: [],
   healthyPlantByMonthAmount: [],
   createdUsersByMonthAmount: [],
+  loginByMonthAmount: [],
   fetchScansByMonthAmount: () => {
     axios.get('https://localhost:44374/metrics/scanamounts', {
         headers: {
@@ -31,6 +32,15 @@ export const useMetricsStore = create((set) => ({
         }
       })
       .then(res => set({ createdUsersByMonthAmount: res.data }))
+      .catch(err => console.log(err));
+  },
+  fetchLoginByMonthAmount: () => {
+    axios.get('https://localhost:44374/metrics/loginamount', {
+        headers: {
+          Authorization: GetToken()
+        }
+      })
+      .then(res => set({ loginByMonthAmount: res.data }))
       .catch(err => console.log(err));
   },
 }));

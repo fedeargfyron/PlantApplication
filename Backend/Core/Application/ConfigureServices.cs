@@ -59,7 +59,6 @@ public static class ConfigureServices
         services.AddScoped<IHealthyPlantsAmountHandler, HealthyPlantsAmountHandler>();
         services.AddScoped<ICreatedUsersAmountHandler, CreatedUsersAmountHandler>();
         services.AddScoped<ILoginAmountHandler, LoginAmountHandler>();
-        
         services.AddScoped<IRegisterUserHandler, RegisterUserHandler>();
         services.AddScoped<IRecoverUserPasswordHandler, RecoverUserPasswordHandler>();
         services.AddScoped<IResetUserPaswordHandler, ResetUserPaswordHandler>();

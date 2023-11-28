@@ -87,6 +87,7 @@ export default function NavbarLayout() {
             </DropdownItem>
             <DropdownItem onClick={() => navigate('/groups')} key="groups" className="text-softpink">Groups</DropdownItem>
             <DropdownItem onClick={() => navigate('/users')} key="users" className="text-softpink">Users</DropdownItem>
+            <DropdownItem onClick={() => navigate('/metrics')} key="metrics" className="text-softpink">Metrics</DropdownItem>
             <DropdownItem onClick={logOut} key="logout" className="text-softpink">
               Log Out
             </DropdownItem>
