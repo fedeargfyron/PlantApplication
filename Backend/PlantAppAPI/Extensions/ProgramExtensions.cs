@@ -14,6 +14,7 @@ using PlantAppAPI.Endpoints.Plants;
 using PlantAppAPI.Endpoints.Security;
 using PlantAppAPI.Endpoints.Users;
 using PlantAppAPI.Endpoints.WateringCalendar;
+using Serilog;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
@@ -24,6 +25,11 @@ public static class ProgramExtensions
 {
     public static void ConfigureWebApplicationBuilder(this WebApplicationBuilder builder)
     {
+        builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
+        {
+            loggerConfiguration.ReadFrom.Configuration(hostBuilderContext.Configuration);
+            loggerConfiguration.Enrich.FromLogContext();
+        });
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();

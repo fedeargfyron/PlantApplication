@@ -6,6 +6,7 @@ using Application.Handlers.Groups.RemoveGroupHandler;
 using Application.Handlers.Groups.UpdateGroupHandler;
 using Application.Handlers.Metrics.CreatedUsersAmountHandler;
 using Application.Handlers.Metrics.HealthyPlantsAmountHandler;
+using Application.Handlers.Metrics.LoginAmountHandler;
 using Application.Handlers.Metrics.ScansAmountHandler;
 using Application.Handlers.Permissions.GetAllPermissionsHandler;
 using Application.Handlers.Plants;
@@ -57,6 +58,8 @@ public static class ConfigureServices
         services.AddScoped<IScansAmountHandler, ScansAmountHandler>();
         services.AddScoped<IHealthyPlantsAmountHandler, HealthyPlantsAmountHandler>();
         services.AddScoped<ICreatedUsersAmountHandler, CreatedUsersAmountHandler>();
+        services.AddScoped<ILoginAmountHandler, LoginAmountHandler>();
+        
         services.AddScoped<IRegisterUserHandler, RegisterUserHandler>();
         services.AddScoped<IRecoverUserPasswordHandler, RecoverUserPasswordHandler>();
         services.AddScoped<IResetUserPaswordHandler, ResetUserPaswordHandler>();

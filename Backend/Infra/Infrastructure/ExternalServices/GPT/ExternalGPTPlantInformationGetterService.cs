@@ -4,6 +4,7 @@ using Infrastructure.Extensions;
 using Infrastructure.Options;
 using Microsoft.Extensions.Options;
 using OpenAI_API;
+using OpenAI_API.Chat;
 using System.Text.Json;
 
 namespace Infrastructure.ExternalServices.ChatGPT;
@@ -21,7 +22,15 @@ public class ExternalGPTPlantInformationGetterService : IExternalPlantInformatio
     public async Task<GetPlantInformationByNameResultDto> GetPlantInformationByName(string plantName)
     {
         var api = new OpenAIAPI(_options.ApiKey);
-        var result = await api.Chat.CreateChatCompletionAsync(_questionTemplate.Replace("{plant}", plantName));
+        var request = new ChatRequest()
+        {
+            Temperature = 0,
+            Messages = new List<ChatMessage>
+            {
+                new(ChatMessageRole.User, _questionTemplate.Replace("{plant}", plantName))
+            }
+        };
+        var result = await api.Chat.CreateChatCompletionAsync(request);
         var resultJson = result.ToString().GetJsonFromText();
         return JsonSerializer.Deserialize<GetPlantInformationByNameResultDto>(resultJson)!;
     }

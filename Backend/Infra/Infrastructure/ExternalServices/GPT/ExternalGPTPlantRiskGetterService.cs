@@ -8,6 +8,7 @@ using Infrastructure.ExternalServices.GPT.Contracts;
 using Infrastructure.Options;
 using Microsoft.Extensions.Options;
 using OpenAI_API;
+using OpenAI_API.Chat;
 using System.Text.Json;
 
 namespace Infrastructure.ExternalServices.GPT;
@@ -51,8 +52,16 @@ public class ExternalGPTPlantRiskGetterService : IExternalPlantRiskGetterService
     {
         var api = new OpenAIAPI(_options.ApiKey);
         var dayParameters = forecastDays.GetGPTDaysParameter();
-        var response = await api.Chat.CreateChatCompletionAsync(_questionTemplate.Replace("{days}", dayParameters)
-                .Replace("{plants}", string.Join(", ", plantNames)));
+        var request = new ChatRequest()
+        {
+            Temperature = 0,
+            Messages = new List<ChatMessage>
+            {
+                new(ChatMessageRole.User, _questionTemplate.Replace("{days}", dayParameters)
+                        .Replace("{plants}", string.Join(", ", plantNames)))
+            }
+        };
+        var response = await api.Chat.CreateChatCompletionAsync(request);
         var result =  JsonSerializer.Deserialize<List<GetPlantRiskResult>>(response.ToString())!;
         return result.ConvertToDtos();
     }

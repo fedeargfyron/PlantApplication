@@ -1,9 +1,10 @@
-﻿using AutoMapper;
+﻿using Domain.Constants;
 using Domain.Dtos.PlantRisks;
 using Domain.Dtos.Plants;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Infrastructure.Repositories;
 
@@ -21,6 +22,8 @@ public class PlantRepository : BaseRepository<Plant>, IPlantRepository
     {
         _context.Add(entity);
         await _context.SaveChangesAsync();
+        Serilog.Log.ForContext(LogOriginConstants.OriginName, LogOriginConstants.AddPlant)
+            .Warning("New plant added {data}", entity);
     }
 
     public void DeleteById(int id)
@@ -28,6 +31,8 @@ public class PlantRepository : BaseRepository<Plant>, IPlantRepository
         var plant = new Plant() { Id = id };
         _context.Plants.Attach(plant);
         _context.Plants.Remove(plant);
+        Serilog.Log.ForContext(LogOriginConstants.OriginName, LogOriginConstants.DeletePlant)
+            .Warning("Plant deleted {id}", id);
     }
 
     public Task<GetPlantByIdResultDto?> GetByIdAsync(int id)
@@ -54,6 +59,9 @@ public class PlantRepository : BaseRepository<Plant>, IPlantRepository
                 s.SetProperty(e => e.Name, e => dto.Name)
                  .SetProperty(e => e.Outside, e => dto.Outside)
                  .SetProperty(e => e.Description, e => dto.Description));
+
+        Serilog.Log.ForContext(LogOriginConstants.OriginName, LogOriginConstants.UpdatePlant)
+            .Warning("Plant updated {dto}", dto);
     }
 
     public async Task<List<TodayRisksByPlantResultDto>> TodayRisksByPlant(string scientificName)

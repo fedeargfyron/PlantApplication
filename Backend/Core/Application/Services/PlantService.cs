@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Domain.Constants;
 using Domain.Dtos.Plants;
 using Domain.Entities;
 using Domain.Extensions;
@@ -6,6 +7,7 @@ using Domain.Interfaces.ExternalServices;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Security;
 using Domain.Interfaces.Services;
+using Serilog;
 
 namespace Application.Services;
 

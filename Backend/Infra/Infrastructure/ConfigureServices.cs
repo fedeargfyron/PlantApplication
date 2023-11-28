@@ -39,6 +39,7 @@ public static class ConfigureServices
         services.AddScoped<IHealthAssesmentRepository, HealthAssesmentRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPlantRiskRepository, PlantRiskRepository>();
+        services.AddScoped<ILogRepository, LogRepository>();
         services.AddScoped<IExternalImageUploaderService, ExternalImageKitService>();
         services.AddScoped<IExternalWeatherService, ExternalWeatherAPIService>();
         services.AddScoped<IExternalPlantRiskGetterService, ExternalGPTPlantRiskGetterService>();
