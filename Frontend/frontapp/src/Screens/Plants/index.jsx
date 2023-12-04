@@ -65,7 +65,7 @@ export default function RecognizePlant() {
   return (
     <>
       <PlantModal selectedIndex = {selectedIndex} setSelectedIndex={setSelectedIndex}/>
-      <div className="flex pt-5 justify-center h-screen bg-softwhite w-full mx-auto">
+      <div className="flex pt-5 justify-center min-h-screen bg-softwhite w-full mx-auto">
         <InformationModal open={open} setOpen={setOpen}>
         {(deletePlantIsLoading) && <CircularProgress />}
         {(deletePlantIsError) && <p>Error!</p>}

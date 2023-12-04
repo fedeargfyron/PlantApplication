@@ -13,14 +13,22 @@ namespace Application.Handlers.Plants
             _plantService = plantService;
         }
 
-        public Task AddPlantAsync(PlantDto dto) => _plantService.AddPlantAsync(dto);
+        public Task AddPlantAsync(PlantDto dto) 
+            => _plantService.AddPlantAsync(dto);
 
-        public Task DeletePlant(int id) => _plantService.DeletePlantByIdAsync(id);
+        public Task DeletePlant(int id) 
+            => _plantService.DeletePlantByIdAsync(id);
 
-        public Task<GetPlantByIdResultDto> GetPlantByIdAsync(int id) => _plantService.GetPlantByIdAsync(id);
+        public Task<GetPlantByIdResultDto> GetPlantByIdAsync(int id) 
+            => _plantService.GetPlantByIdAsync(id);
 
-        public Task<List<Plant>> GetPlantsAsync() => _plantService.GetAllAsync();
+        public Task<List<Plant>> GetPlantsByUserAsync() 
+            => _plantService.GetAllByUserAsync();
 
-        public Task UpdatePlantAsync(int id, UpdatePlantDto dto) => _plantService.UpdatePlantAsync(id, dto);
+        public Task<List<RankedPlantDto>> GetRankedPlantsAsync()
+            => _plantService.GetRankedPlantsAsync();
+
+        public Task UpdatePlantAsync(int id, UpdatePlantDto dto) 
+            => _plantService.UpdatePlantAsync(id, dto);
     }
 }

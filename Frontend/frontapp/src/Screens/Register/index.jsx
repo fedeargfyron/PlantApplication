@@ -37,7 +37,7 @@ const Register = () => {
     }
 
     return (
-    <div className="flex items-center justify-center h-screen bg-softwhite">
+    <div className="flex items-center justify-center min-h-screen bg-softwhite">
       <InformationModal open={open} setOpen={setOpen}>
         {registerIsLoading && <CircularProgress />}
         {registerIsError && <p>Error!</p>}

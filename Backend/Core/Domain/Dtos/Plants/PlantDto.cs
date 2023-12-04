@@ -12,6 +12,8 @@ public class PlantDto
     public string ImageLink { get; set; } = string.Empty;
     public string Type { get; set; } = string.Empty;
     public bool Outside { get; set; }
+    public bool Exterior { get; set; }
+    public string CareLevel { get; set; } = string.Empty;
     public int UserId { get; set; }
     public decimal Latitude { get; set; }
     public decimal Longitude { get; set; }

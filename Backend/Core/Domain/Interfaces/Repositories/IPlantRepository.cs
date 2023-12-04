@@ -12,4 +12,5 @@ public interface IPlantRepository : IBaseRepository<Plant>
     void DeleteById(int id);
     Task<GetPlantByIdResultDto?> GetByIdAsync(int id);
     Task<List<TodayRisksByPlantResultDto>> TodayRisksByPlant(string scientificName);
+    Task<List<RankedPlantDto>> GetRankedPlantsAsync();
 }

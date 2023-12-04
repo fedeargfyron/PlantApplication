@@ -83,4 +83,17 @@ public class PlantRepository : BaseRepository<Plant>, IPlantRepository
             Risk = x.Risk
         }).ToList();
     }
+
+    public Task<List<RankedPlantDto>> GetRankedPlantsAsync()
+        => _context.Plants.GroupBy(x => x.ScientificName)
+                .Select(x => new RankedPlantDto(
+                        x.Count(),
+                        x.Key,
+                        x.First().CommonName,
+                        x.First().WateringDaysFrequency,
+                        x.First().Cycle,
+                        x.Select(x => x.ImageLink).Take(4).ToList(),
+                        x.First().Exterior,
+                        x.First().CareLevel))
+                .ToListAsync();
 }

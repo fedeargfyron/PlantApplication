@@ -19,7 +19,7 @@ function Metrics() {
     };
 
     return (
-        <div className="flex pt-5 justify-center h-screen bg-softwhite w-full mx-auto">
+        <div className="flex pt-5 justify-center min-h-screen bg-softwhite w-full mx-auto">
             <div className="flex flex-col min-w-[400px]">
                 <Select 
                     size='sm'

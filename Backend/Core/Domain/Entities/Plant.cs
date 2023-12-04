@@ -13,6 +13,8 @@ public class Plant : BaseEntity
     public string ImageLink { get; set; } = string.Empty;
     public string Type { get; set; } = string.Empty;
     public bool Outside { get; set; }
+    public bool Exterior { get; set; }
+    public string CareLevel { get; set; } = string.Empty;
     public int UserId { get; set; }
     public virtual User User { get; set; } = null!;
     public virtual List<WateringDay> WateringDays { get; set; } = new();

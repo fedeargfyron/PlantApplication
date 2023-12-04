@@ -25,7 +25,7 @@ public class ExternalGPTPlantRiskGetterService : IExternalPlantRiskGetterService
 	                              ""Risks"": [
 			                              {
 				                              ""Day"": 1,
-				                              ""Risk"": ""(Rain, humidity, temperature or wind)"",
+				                              ""Risk"": ""(Just one: Rain, humidity, temperature or wind)"",
 				                              ""Level"": ""(low, medium or high)"",
 				                              ""Description"": ""Why is it a risk""
 			                              },

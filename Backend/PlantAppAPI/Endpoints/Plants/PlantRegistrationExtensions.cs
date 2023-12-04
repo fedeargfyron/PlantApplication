@@ -21,8 +21,14 @@ public static class PlantRegistrationExtensions
         var plants = app.MapGroup("/plants");
         plants.MapGet("/", async (IPlantHandler handler, IMapper mapper) => 
         {
-            var result = await handler.GetPlantsAsync();
+            var result = await handler.GetPlantsByUserAsync();
             return TypedResults.Ok(mapper.Map<List<GetPlantResponse>>(result));
+        }).RequireAuthorization(PermissionType.GetPlants.ToString());
+
+        plants.MapGet("/ranked", async (IPlantHandler handler, IMapper mapper) =>
+        {
+            var result = await handler.GetRankedPlantsAsync();
+            return TypedResults.Ok(result);
         }).RequireAuthorization(PermissionType.GetPlants.ToString());
 
         plants.MapGet("/{id}", async (IPlantHandler handler, IMapper mapper, int id) =>

@@ -18,6 +18,7 @@ import Calendar from './Screens/Calendar/index.jsx'
 import Plant from './Screens/Plant/index.jsx'
 import Metrics from './Screens/Metrics/index.jsx'
 import Register from './Screens/Register/index.jsx'
+import RankedPlants from './Screens/RankedPlants/index.jsx'
 
 
 const router = createBrowserRouter([
@@ -98,6 +99,13 @@ const router = createBrowserRouter([
                 element: 
                 <RouteGuard permission={Permission[Permission.GetPlantById]}>
                   <Plant />
+                </RouteGuard>
+              },
+              {
+                path: "/plants/ranked",
+                element: 
+                <RouteGuard permission={Permission[Permission.GetPlantById]}>
+                  <RankedPlants />
                 </RouteGuard>
               },
               {

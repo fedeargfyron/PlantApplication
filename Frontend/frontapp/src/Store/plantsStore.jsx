@@ -6,6 +6,9 @@ export const usePlantStore = create((set) => ({
   plants: [],
   plantsIsLoading: false,
   plantsIsError: false,
+  rankedPlants: [],
+  rankedPlantsIsLoading: false,
+  rankedPlantsIsError: false,
   plant: null,
   plantIsLoading: false,
   plantIsError: false,
@@ -32,6 +35,25 @@ export const usePlantStore = create((set) => ({
       .catch(err => {
         set({ plantsIsLoading: false });
         set({ plantsIsError: true });
+        console.log(err)
+      });
+  },
+  fetchRankedPlants: () => {
+    set({ rankedPlantsIsLoading: true });
+    set({ rankedPlantsIsError: false });
+    axios.get('https://localhost:44374/plants/ranked', {
+        headers: {
+          Authorization: GetToken()
+        }
+      })
+      .then(res => {
+        set({ rankedPlants: res.data })
+        set({ rankedPlantsIsLoading: false });
+        set({ rankedPlantsIsError: false });
+      })
+      .catch(err => {
+        set({ rankedPlantsIsLoading: false });
+        set({ rankedPlantsIsError: true });
         console.log(err)
       });
   },

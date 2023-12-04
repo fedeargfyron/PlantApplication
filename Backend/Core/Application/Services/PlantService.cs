@@ -65,7 +65,7 @@ public class PlantService : IPlantService
         return _plantRepository.SaveChangesAsync();
     }
 
-    public Task<List<Plant>> GetAllAsync() 
+    public Task<List<Plant>> GetAllByUserAsync() 
         => _plantRepository.GetUserPlantsAsync(_applicationUser.GetUserId());
 
     public async Task<GetPlantByIdResultDto> GetPlantByIdAsync(int id)
@@ -81,4 +81,7 @@ public class PlantService : IPlantService
     } 
 
     public Task UpdatePlantAsync(int plantId, UpdatePlantDto dto) => _plantRepository.UpdateAsync(plantId, dto);
+
+    public Task<List<RankedPlantDto>> GetRankedPlantsAsync()
+        => _plantRepository.GetRankedPlantsAsync();
 }
