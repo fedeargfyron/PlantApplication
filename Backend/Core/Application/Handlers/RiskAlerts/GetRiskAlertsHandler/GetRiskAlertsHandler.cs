@@ -23,6 +23,6 @@ public class GetRiskAlertsHandler : IGetRiskAlertsHandler
         var weatherDto = await _weatherService.GetWeatherForecastAsync(request.latitude, request.longitude);
         var plantsWithWateringDays = await _wateringCalendarService.GetCurrentPlantWithWateringDaysFromUser();
         var plantRiskDtos =  await _plantRisksService.GetPlantsRisksAsync(weatherDto.Forecast.ForecastDays, plantsWithWateringDays);
-        return PlantRisksFunctions.FilterPlantRisks(plantRiskDtos, weatherDto.Forecast.ForecastDays, plantsWithWateringDays);
+        return PlantRisksDtoFunctions.FilterPlantRisks(plantRiskDtos, weatherDto.Forecast.ForecastDays, plantsWithWateringDays);
     }
 }

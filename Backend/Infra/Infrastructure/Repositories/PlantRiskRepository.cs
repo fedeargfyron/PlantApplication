@@ -1,5 +1,6 @@
 ﻿using Domain.Dtos.PlantRisks;
 using Domain.Entities;
+using Domain.Functions;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,7 +35,7 @@ public class PlantRiskRepository : IPlantRiskRepository
 
     public Task AddAsync(List<PlantRisk> entities)
     {
-        _context.PlantRisks.AddRange(entities);
+        _context.PlantRisks.AddRange(PlantRisksFunctions.CleanPlantRisks(entities));
         return _context.SaveChangesAsync();
     }
 }

@@ -25,7 +25,7 @@ public class ExternalGPTPlantRiskGetterService : IExternalPlantRiskGetterService
 	                              ""Risks"": [
 			                              {
 				                              ""Day"": 1,
-				                              ""Risk"": ""(Required, only one: Rain, humidity, temperature or wind)"",
+				                              ""Risk"": ""(Required, only one per object: Rain, Humidity, Temperature or Wind)"",
 				                              ""Level"": ""(Required, only one: low, medium or high)"",
 				                              ""Description"": ""Why is it a risk""
 			                              },
@@ -63,6 +63,7 @@ public class ExternalGPTPlantRiskGetterService : IExternalPlantRiskGetterService
         };
         var response = await api.Chat.CreateChatCompletionAsync(request);
         var result =  JsonSerializer.Deserialize<List<GetPlantRiskResult>>(response.ToString())!;
-        return result.ConvertToDtos();
+        var dtos = result.ConvertToDtos();
+        return dtos;
     }
 }

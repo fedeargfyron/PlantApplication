@@ -6,6 +6,7 @@ namespace Domain.Extensions;
 
 public static class GetPlantRiskResultDtoListExtensions
 {
+    private static readonly List<string> _allowedKeywords = new List<string> { "rain", "temperature", "humidity", "wind" };
     public static List<PlantRiskDto> ConvertToDtos(this List<GetPlantRiskResultDto> dtos, List<GetPlantWithWateringDaysFromUserResultDto> plantsWithWateringDays)
         => dtos.Select(x => {
             var plant = plantsWithWateringDays.First(w => w.ScientificName == x.PlantScientificName);
@@ -29,7 +30,8 @@ public static class GetPlantRiskResultDtoListExtensions
                 PlantId = plant.Id,
                 Risk = r.Risk,
             });
-        }).ToList();
+        })
+        .ToList();
 
     public static List<PlantRisk> ConvertToEntitiesWithoutId(this List<GetPlantRiskResultDto> dtos)
     => dtos.SelectMany(x => {
