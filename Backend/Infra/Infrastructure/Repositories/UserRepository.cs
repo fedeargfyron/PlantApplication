@@ -66,6 +66,10 @@ public class UserRepository : BaseRepository<User>, IUserRepository
             .Select(x => new GetUserByIdResultDto(x.Username, x.Email, x.Location, x.MaximumCalculatedWateringDay, x.Groups.Select(x => x.Id)))
             .SingleOrDefaultAsync();
 
+    public Task<User?> GetEntityByIdAsync(int id)
+        => _context.Users.Where(x => x.Id == id)
+            .SingleOrDefaultAsync();
+
     public Task UpdateUserMaximumWateringDate(int userId, DateTime newMaximumWateringDate)
         => _context.Users.Where(x => x.Id == userId)
             .ExecuteUpdateAsync(x => x.SetProperty(b => b.MaximumCalculatedWateringDay, newMaximumWateringDate));

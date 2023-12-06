@@ -16,6 +16,6 @@ public static class PermissionRegistrationExtensions
         {
             var result = await handler.HandleAsync(new ());
             return TypedResults.Ok(mapper.Map<List<GetAllPermissionsResponse>>(result));
-        }).RequireAuthorization(PermissionType.GetGroups.ToString());
+        }).RequireAuthorization(PermissionType.GetPermissions.ToString());
     }
 }

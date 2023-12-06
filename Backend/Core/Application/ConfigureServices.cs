@@ -61,7 +61,7 @@ public static class ConfigureServices
         services.AddScoped<ILoginAmountHandler, LoginAmountHandler>();
         services.AddScoped<IRegisterUserHandler, RegisterUserHandler>();
         services.AddScoped<IRecoverUserPasswordHandler, RecoverUserPasswordHandler>();
-        services.AddScoped<IResetUserPaswordHandler, ResetUserPaswordHandler>();
+        services.AddScoped<IChangeUserPaswordHandler, ChangeUserPaswordHandler>();
         services.AddScoped<IGetGroupByIdHandler, GetGroupByIdHandler>();
         services.AddScoped<IGetAllGroupsHandler, GetAllGroupsHandler>();
         services.AddScoped<IAddGroupHandler, AddGroupHandler>();

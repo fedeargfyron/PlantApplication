@@ -1,3 +1,3 @@
 ﻿namespace Application.Handlers.Users.ResetUserPaswordHandler;
 
-public record ResetUserPaswordHandlerRequest(string Email);
+public record ChangeUserPaswordHandlerRequest(string Email);

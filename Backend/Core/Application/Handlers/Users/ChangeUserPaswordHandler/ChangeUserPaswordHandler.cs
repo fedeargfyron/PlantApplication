@@ -1,7 +1,7 @@
 ﻿using Domain.Dtos.Users;
 using Domain.Interfaces.Services;
 
-namespace Application.Handlers.Users.ResetUserPaswordHandler;
+namespace Application.Handlers.Users.ChangeUserPaswordHandler;
 
 public class ChangeUserPaswordHandler : IChangeUserPaswordHandler
 {
@@ -11,6 +11,6 @@ public class ChangeUserPaswordHandler : IChangeUserPaswordHandler
     {
         _userService = userService;
     }
-    public Task<RecoverPasswordResultDto> HandleAsync(ChangeUserPaswordHandlerRequest request)
-        => _userService.RecoverPassword(request.Email);
+    public Task HandleAsync(ChangeUserPaswordHandlerRequest request)
+        => _userService.ChangePassword(request.Password, request.NewPassword);
 }

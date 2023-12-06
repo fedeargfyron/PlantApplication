@@ -2,6 +2,7 @@
 using Application.Handlers.Metrics.HealthyPlantsAmountHandler;
 using Application.Handlers.Metrics.LoginAmountHandler;
 using Application.Handlers.Metrics.ScansAmountHandler;
+using Domain.Enums;
 
 namespace PlantAppAPI.Endpoints.Metrics;
 
@@ -15,24 +16,24 @@ public static class MetricRegistrationExtensions
         {
             var result = await handler.HandleAsync(new());
             return TypedResults.Ok(result);
-        }).RequireAuthorization();
+        }).RequireAuthorization(PermissionType.GetScansAmount.ToString());
 
         groups.MapGet("/healthyplantsamount", async (IHealthyPlantsAmountHandler handler) =>
         {
             var result = await handler.HandleAsync(new());
             return TypedResults.Ok(result);
-        }).RequireAuthorization();
+        }).RequireAuthorization(PermissionType.GetHealthyPlantsAmount.ToString());
 
         groups.MapGet("/createdusersamount", async (ICreatedUsersAmountHandler handler) =>
         {
             var result = await handler.HandleAsync(new());
             return TypedResults.Ok(result);
-        }).RequireAuthorization();
+        }).RequireAuthorization(PermissionType.GetCreatedUsersAmount.ToString());
 
         groups.MapGet("/loginamount", async (ILoginAmountHandler handler) =>
         {
             var result = await handler.HandleAsync(new());
             return TypedResults.Ok(result);
-        }).RequireAuthorization();
+        }).RequireAuthorization(PermissionType.GetLoginsAmount.ToString());
     }
 }

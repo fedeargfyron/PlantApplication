@@ -94,4 +94,20 @@ public class UserService : IUserService
         await _userRepository.SaveChangesAsync();
         return new(newPassword);
     }
+
+    public async Task ChangePassword(string password, string newPassword)
+    {
+        var userId = _applicationUser.GetUserId();
+        var user = await _userRepository.GetEntityByIdAsync(userId) ?? throw new ArgumentException($"Email is invalid");
+        var encryptedPassword = EncryptionHelper.Encrypt(password);
+
+        if(encryptedPassword != user.Password)
+        {
+            throw new ArgumentException($"Actual password is invalid");
+        }
+
+        var encryptedNewPassword = EncryptionHelper.Encrypt(newPassword);
+        user.Password = encryptedNewPassword;
+        await _userRepository.SaveChangesAsync();
+    }
 }

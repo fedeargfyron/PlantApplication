@@ -5,8 +5,15 @@ export enum Permission {
     ModifyPlants,
     DeletePlants,
     RecognizePlants,
+    GetRankedPlants,
+    GetHealthAssesments,
+    GetHealthAssesmentById,
+    DoHealthAssesments,
+    GetRiskAlerts,
     Login,
     ResetPassword,
+    RecoverPassword,
+    ChangePassword,
     GetUsers,
     GetUserById,
     AddUser,
@@ -16,5 +23,11 @@ export enum Permission {
     GetGroupById,
     AddGroup,
     UpdateGroup,
-    DeleteGroup
+    DeleteGroup,
+    GetScansAmount,
+    GetHealthyPlantsAmount,
+    GetCreatedUsersAmount,
+    GetLoginsAmount,
+    GetWateringCalendar,
+    GetPermissions
 }

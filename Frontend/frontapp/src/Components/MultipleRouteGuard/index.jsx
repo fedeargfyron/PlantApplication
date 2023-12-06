@@ -1,8 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
-
-const RouteGuard = ({children, permission}) => {
+const MultipleRouteGuard = ({children, permissions}) => {
 
     const hasValidToken = () => {
         let token = JSON.parse(localStorage.getItem("permissions"));
@@ -15,7 +14,7 @@ const RouteGuard = ({children, permission}) => {
             return false;
         }
 
-        if(!token[permission]){
+        if(!Object.keys(token).some(x => permissions.includes(x))){
             return false;
         }
 
@@ -27,4 +26,4 @@ const RouteGuard = ({children, permission}) => {
         : <Navigate to={{ pathname: '/' }} />
 };
  
-export default RouteGuard;
+export default MultipleRouteGuard;

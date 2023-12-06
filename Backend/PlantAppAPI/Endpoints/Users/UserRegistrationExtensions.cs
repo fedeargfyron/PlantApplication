@@ -54,7 +54,7 @@ public static class UserRegistrationExtensions
         {
             var result = await handler.HandleAsync(request);
             return TypedResults.Ok(result);
-        });
+        }).RequireAuthorization(PermissionType.RecoverPassword.ToString());
 
         users.MapPost("/register", async ([FromBody] RegisterUserHandlerRequest request, IRegisterUserHandler handler) =>
         {
@@ -62,10 +62,16 @@ public static class UserRegistrationExtensions
             return TypedResults.Ok();
         });
 
-        users.MapPost("/reset", async ([FromBody] ResetUserPaswordHandlerRequest request, IResetUserPaswordHandler handler) =>
+        users.MapPost("/reset", async ([FromBody] ChangeUserPaswordHandlerRequest request, IChangeUserPaswordHandler handler) =>
         {
             var result = await handler.HandleAsync(request);
             return TypedResults.Ok(result);
-        });
+        }).RequireAuthorization(PermissionType.ResetPassword.ToString());
+
+        users.MapPost("/change", async ([FromBody] ChangeUserPaswordHandlerRequest request, IChangeUserPaswordHandler handler) =>
+        {
+            var result = await handler.HandleAsync(request);
+            return TypedResults.Ok(result);
+        }).RequireAuthorization(PermissionType.ChangePassword.ToString());
     }
 }

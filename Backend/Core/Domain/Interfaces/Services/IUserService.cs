@@ -14,4 +14,5 @@ public interface IUserService
     Task<GetUserLoginResultDto> GetUserLoginAsync(GetUserLoginDto getUserLoginDto);
     Task RegisterUserAsync(RegisterUserDto registerUserDto);
     Task<RecoverPasswordResultDto> RecoverPassword(string Email);
+    Task ChangePassword(string password, string newPassword);
 }

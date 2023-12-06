@@ -29,7 +29,7 @@ public static class PlantRegistrationExtensions
         {
             var result = await handler.GetRankedPlantsAsync();
             return TypedResults.Ok(result);
-        }).RequireAuthorization(PermissionType.GetPlants.ToString());
+        }).RequireAuthorization(PermissionType.GetRankedPlants.ToString());
 
         plants.MapGet("/{id}", async (IPlantHandler handler, IMapper mapper, int id) =>
         {
@@ -59,26 +59,25 @@ public static class PlantRegistrationExtensions
         {
             var result = await handler.HandleAsync(new GetHealthAssesmentsHandlerRequest());
             return TypedResults.Ok(result);
-        }).RequireAuthorization(PermissionType.RecognizePlants.ToString());
+        }).RequireAuthorization(PermissionType.GetHealthAssesments.ToString());
 
         plants.MapGet("/healthassesment/{id}", async (IGetHealthAssesmentByIdHandler handler, int id) =>
         {
             var result = await handler.HandleAsync(new GetHealthAssesmentByIdHandlerRequest(id));
             return TypedResults.Ok(result);
-        }).RequireAuthorization(PermissionType.RecognizePlants.ToString());
+        }).RequireAuthorization(PermissionType.GetHealthAssesmentById.ToString());
 
         plants.MapPost("/healthassesment", async ([FromBody] HealthAssesmentHandlerRequest request, IHealthAssesmentHandler handler) =>
         {
             var result = await handler.HandleAsync(request);
             return TypedResults.Ok(result);
-        }).RequireAuthorization(PermissionType.RecognizePlants.ToString());
+        }).RequireAuthorization(PermissionType.DoHealthAssesments.ToString());
 
         plants.MapPost("/riskalerts", async ([FromBody] GetRiskAlertsHandlerRequest request, IGetRiskAlertsHandler handler) =>
         {
             var result = await handler.HandleAsync(request);
             return TypedResults.Ok(result);
-        }).RequireAuthorization(PermissionType.RecognizePlants.ToString());
-        
+        }).RequireAuthorization(PermissionType.GetRiskAlerts.ToString());
 
         plants.MapPost("/", async ([FromBody] SavePlantHandlerRequest request, ISavePlantHandler handler) =>
         {

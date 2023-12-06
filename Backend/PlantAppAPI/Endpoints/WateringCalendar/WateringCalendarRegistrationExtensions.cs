@@ -1,4 +1,5 @@
 ﻿using Application.Handlers.WateringCalendar.GetWateringDaysFromUserHandler;
+using Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PlantAppAPI.Endpoints.WateringCalendar;
@@ -13,6 +14,6 @@ public static class WateringCalendarRegistrationExtensions
         {
             var result = await handler.HandleAsync(new(addWateringMonth));
             return TypedResults.Ok(result);
-        }).RequireAuthorization();
+        }).RequireAuthorization(PermissionType.GetWateringCalendar.ToString());
     }
 }

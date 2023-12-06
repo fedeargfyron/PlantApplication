@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, DropdownItem, DropdownMenu, Avatar, Dropdown, DropdownTrigger} from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from '../../../Store/usersStore.jsx'
+import { Permission } from "../../../Enums/Permission.tsx";
 
 export default function NavbarLayout() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [permissions, setPermissions] = useState([]);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const { logout } = useUserStore((state) => state);
@@ -21,6 +23,15 @@ export default function NavbarLayout() {
     "Log Out",
   ];
 
+  useEffect(() => {
+    let localPermissions = JSON.parse(localStorage.getItem("permissions"));
+
+    if(!localPermissions){
+        return;
+    }
+
+    setPermissions(Object.keys(localPermissions));
+  }, [setPermissions])
   
   const logOut = () => {
     localStorage.removeItem('token');
@@ -54,20 +65,24 @@ export default function NavbarLayout() {
       </NavbarContent>}
       {token && 
       <>
-        <NavbarContent className="hidden sm:flex gap-4 text-xl" justify="center">
-          <NavbarItem isActive>
-            <Link className="text-softpink text-xl" href="/calendar">
-            Calendar
-            </Link>
-          </NavbarItem>
-        </NavbarContent>
-        <NavbarContent className="hidden sm:flex gap-4 text-xl" justify="center">
+        {permissions.includes(Permission[Permission.GetWateringCalendar]) && 
+          <NavbarContent className="hidden sm:flex gap-4 text-xl" justify="center">
+            <NavbarItem isActive>
+              <Link className="text-softpink text-xl" href="/calendar">
+              Calendar
+              </Link>
+            </NavbarItem>
+          </NavbarContent>
+        }
+        {permissions.includes(Permission[Permission.GetPlants]) && 
+          <NavbarContent className="hidden sm:flex gap-4 text-xl" justify="center">
           <NavbarItem isActive>
             <Link className="text-softpink text-xl" href="/plants">
-            Plants
+              My Plants
             </Link>
           </NavbarItem>
         </NavbarContent>
+        }
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
             <Avatar
@@ -85,9 +100,24 @@ export default function NavbarLayout() {
               <p className="font-semibold">Signed in as</p>
               <p className="font-semibold">zoey@example.com</p>
             </DropdownItem>
-            <DropdownItem onClick={() => navigate('/groups')} key="groups" className="text-softpink">Groups</DropdownItem>
-            <DropdownItem onClick={() => navigate('/users')} key="users" className="text-softpink">Users</DropdownItem>
+            {permissions.includes(Permission[Permission.GetUsers]) && 
+              <DropdownItem onClick={() => navigate('/users')} key="users" className="text-softpink">Users</DropdownItem>
+            }
+            {permissions.includes(Permission[Permission.GetGroups]) && 
+              <DropdownItem onClick={() => navigate('/groups')} key="groups" className="text-softpink">Groups</DropdownItem>
+            }
+            {(permissions.includes(Permission[Permission.GetScansAmount]) || 
+            permissions.includes(Permission[Permission.GetLoginsAmount]) ||
+            permissions.includes(Permission[Permission.GetCreatedUsersAmount]) ||
+            permissions.includes(Permission[Permission.GetHealthyPlantsAmount])) && 
             <DropdownItem onClick={() => navigate('/metrics')} key="metrics" className="text-softpink">Metrics</DropdownItem>
+            }
+            {permissions.includes(Permission[Permission.GetRankedPlants]) && 
+              <DropdownItem onClick={() => navigate('/plants/ranked')} key="rankedplants" className="text-softpink">Ranked plants</DropdownItem>
+            }
+            {permissions.includes(Permission[Permission.ChangePassword]) && 
+              <DropdownItem onClick={() => navigate('/changepassword')} key="changepassword" className="text-softpink">Change password</DropdownItem>
+            }
             <DropdownItem onClick={logOut} key="logout" className="text-softpink">
               Log Out
             </DropdownItem>

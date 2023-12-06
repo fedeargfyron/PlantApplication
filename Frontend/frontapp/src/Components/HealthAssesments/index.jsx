@@ -4,6 +4,7 @@ import { useHealthAssesmentsStore } from '../../Store/healthAssesmentsStore'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTriangleExclamation, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import RecognizeCard from '../RecognizeCard';
+import { Permission } from '../../Enums/Permission';
 
 const HealthAssesments = ({ setHealthAssesmentId, maxHealthAssesmentsCards, plantId, addNewHealthAssesment }) => {
     const {
@@ -13,6 +14,7 @@ const HealthAssesments = ({ setHealthAssesmentId, maxHealthAssesmentsCards, plan
         healthAssesmentsIsError
     } = useHealthAssesmentsStore((state) => state); 
     const [actualHealthAssesments, setActualHealthAssesments] = useState([])
+    const [permissions, setPermissions] = useState([])
     const [page, setPage] = React.useState(1);
     const pages = Math.ceil(actualHealthAssesments.length / maxHealthAssesmentsCards);
     const items = React.useMemo(() => {
@@ -38,10 +40,14 @@ const HealthAssesments = ({ setHealthAssesmentId, maxHealthAssesmentsCards, plan
     }, [fetchHealthAssesments])
 
     useEffect(() => {
-        
-
-
-    }, [actualHealthAssesments, maxHealthAssesmentsCards])
+        let localPermissions = JSON.parse(localStorage.getItem("permissions"));
+    
+        if(!localPermissions){
+            return;
+        }
+    
+        setPermissions(Object.keys(localPermissions));
+      }, [setPermissions])
 
     useEffect(() => {
         if(!plantId)
@@ -58,7 +64,7 @@ const HealthAssesments = ({ setHealthAssesmentId, maxHealthAssesmentsCards, plan
             {healthAssesmentsIsError && <p>Error!</p>}
             <div className="info grid grid-cols-4 gap-1 pt-1">
                 {actualHealthAssesments.length > 0 && items.map(x => 
-                    <Card key={x.date + x.plantName} isPressable onPress={() => setHealthAssesmentId(x.id)}>
+                    <Card key={x.date + x.plantName} isPressable onPress={() => permissions.includes(Permission[Permission.GetHealthAssesmentById]) && setHealthAssesmentId(x.id)}>
                         <Image
                         removeWrapper
                         alt="Plant"
@@ -78,7 +84,7 @@ const HealthAssesments = ({ setHealthAssesmentId, maxHealthAssesmentsCards, plan
                         </CardFooter>
                     </Card>
                 )}
-                {addNewHealthAssesment && <RecognizeCard plantId={plantId} />}
+                {addNewHealthAssesment && permissions.includes(Permission[Permission.DoHealthAssesments]) && <RecognizeCard plantId={plantId} />}
             </div>
             <div className='flex p-5 justify-center'>
                 <Pagination

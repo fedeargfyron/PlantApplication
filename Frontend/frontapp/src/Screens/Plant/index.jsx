@@ -7,11 +7,13 @@ import HealthAssesmentModal from "../../Components/HealthAssesmentModal";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { Permission } from "../../Enums/Permission";
 
 
 export default function Plant() {
     const [healthAssesmentId, setHealthAssesmentId] = useState(-1);
     const [isOutside, setIsOutside] = useState(false);
+    const [permissions, setPermissions] = useState([]);
     const navigate = useNavigate();
     const [selectedCalendarDay, setSelectedCalendarDay] = useState(null);
     const { 
@@ -41,6 +43,16 @@ export default function Plant() {
     useEffect(() => {
         fetchPlantById(plantId);
       }, [fetchPlantById, plantId])
+
+    useEffect(() => {
+        let localPermissions = JSON.parse(localStorage.getItem("permissions"));
+
+        if(!localPermissions){
+            return;
+        }
+
+        setPermissions(Object.keys(localPermissions));
+    }, [setPermissions])
 
     const onSubmit = (e) => {
         let body = {
@@ -131,9 +143,11 @@ export default function Plant() {
                                 {plant.description}
                             </Textarea>
                             <div className="flex justify-start pt-2">
-                                <Button type="submit" className=" text-white text-md p-4 mr-2" color="success" radius="full" size="sm">
-                                    Update
-                                </Button>
+                                { permissions.includes(Permission[Permission.ModifyPlants]) && 
+                                    <Button type="submit" className=" text-white text-md p-4 mr-2" color="success" radius="full" size="sm">
+                                        Update
+                                    </Button>
+                                }
                                 <Button className="p-4 text-md" color="danger" radius="full" size="sm" onClick={() => navigate('/plants')}>
                                     Back
                                 </Button>

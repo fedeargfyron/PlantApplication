@@ -2,7 +2,7 @@
 
 namespace Application.Handlers.Users.ResetUserPaswordHandler;
 
-public interface IResetUserPaswordHandler
+public interface IChangeUserPaswordHandler
 {
-    Task<RecoverPasswordResultDto> HandleAsync(ResetUserPaswordHandlerRequest request);
+    Task<RecoverPasswordResultDto> HandleAsync(ChangeUserPaswordHandlerRequest request);
 }

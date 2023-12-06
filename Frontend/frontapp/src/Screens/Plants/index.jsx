@@ -11,11 +11,13 @@ import 'filepond/dist/filepond.min.css';
 import { useNavigate } from "react-router-dom";
 import {DeleteIcon} from "../../Components/Icons/DeleteIcon.jsx";
 import InformationModal from "../../Components/InformationModal";
+import { Permission } from "../../Enums/Permission";
 
 registerPlugin(FilePondPluginImagePreview, FilePondPluginFileEncode)
 
 export default function RecognizePlant() {
   const [files, setFiles] = useState([]);
+  const [permissions, setPermissions] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const navigate = useNavigate();
@@ -62,6 +64,16 @@ export default function RecognizePlant() {
     recognizePlant(base64image, fileName);
   }
 
+  useEffect(() => {
+    let localPermissions = JSON.parse(localStorage.getItem("permissions"));
+
+    if(!localPermissions){
+        return;
+    }
+
+    setPermissions(Object.keys(localPermissions));
+  }, [setPermissions])
+
   return (
     <>
       <PlantModal selectedIndex = {selectedIndex} setSelectedIndex={setSelectedIndex}/>
@@ -72,63 +84,70 @@ export default function RecognizePlant() {
         </InformationModal>
         <div className="flex flex-col">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 relative h-fit">
-            <RiskAlerts key='alerts' plants={plants} />
-            <Card key='newCard' isFooterBlurred className="h-[300px] max-w-[225px] min-w-[200px]">
-              <CardBody className="p-0">
-                { recognizedPlantIsLoading ?<div className="flex h-full justify-center text-center align-middle"><CircularProgress /></div>
-                : recognizedPlantIsError ? <p>Error!</p>
-                : recognizedPlant ? <Image 
-                radius="none"
-                removeWrapper
-                alt = {`recognized user image`}
-                src={recognizedPlant.userImageUrl}
-                className="object-cover max--full h-full max-w-full z-0"
-                /> 
-                :
-                <FilePond
-                  files={files}
-                  maxFiles={1}
-                  name="files"
-                  credits={false}
-                  onupdatefiles={(files) => setFiles(files)}
-                  acceptedFileTypes={"image/png, image/jpeg"}
-              />}
-                
-              {recognizedPlant && 
-              <div key='plantscontainer' className="absolute bottom-0 grid max-w-[225px] grid-cols-3 justify-center text-center">
-                {recognizedPlant.results.slice(0, 3).map((result, index) => 
-                <div className="hover:cursor-pointer" onClick={() => setSelectedIndex(index)} key={`result-${index}`}>
-                  <Image 
-                    radius="none"
-                    removeWrapper
-                    alt = {`result ${index}`}
-                    src={result.images.at(0).url.m}
-                    className="border border-softwhite"
-                  />
-                  <p className="bg-softwhite">%{(result.score * 100).toFixed(2)}</p>
-                </div>
-                )}
-                
-              </div>}
-              </CardBody>
-              <CardFooter className="bg-white/30 border-t-1 justify-between">
-                <Button isDisabled={!files.at(0) || recognizedPlant} className="text-tiny text-white" onClick={submit} color="success" radius="full" size="sm">
-                  Recognize
-                </Button>
-                <Button isDisabled={!recognizedPlant} className="text-tiny" color="danger" radius="full" size="sm" onClick={removeRecognizedPlant}>
-                  Remove
-                </Button>
-              </CardFooter>
-            </Card> 
+            { permissions.includes(Permission[Permission.GetRiskAlerts]) && 
+              <RiskAlerts key='alerts' plants={plants} />
+            }
+            { permissions.includes(Permission[Permission.RecognizePlants]) && 
+              <Card key='newCard' isFooterBlurred className="h-[300px] max-w-[225px] min-w-[200px]">
+                <CardBody className="p-0">
+                  { recognizedPlantIsLoading ?<div className="flex h-full justify-center text-center align-middle"><CircularProgress /></div>
+                  : recognizedPlantIsError ? <p>Error!</p>
+                  : recognizedPlant ? <Image 
+                  radius="none"
+                  removeWrapper
+                  alt = {`recognized user image`}
+                  src={recognizedPlant.userImageUrl}
+                  className="object-cover max--full h-full max-w-full z-0"
+                  /> 
+                  :
+                  <FilePond
+                    files={files}
+                    maxFiles={1}
+                    name="files"
+                    credits={false}
+                    onupdatefiles={(files) => setFiles(files)}
+                    acceptedFileTypes={"image/png, image/jpeg"}
+                />}
+                  
+                {recognizedPlant && 
+                <div key='plantscontainer' className="absolute bottom-0 grid max-w-[225px] grid-cols-3 justify-center text-center">
+                  {recognizedPlant.results.slice(0, 3).map((result, index) => 
+                  <div className="hover:cursor-pointer" onClick={() => setSelectedIndex(index)} key={`result-${index}`}>
+                    <Image 
+                      radius="none"
+                      removeWrapper
+                      alt = {`result ${index}`}
+                      src={result.images.at(0).url.m}
+                      className="border border-softwhite"
+                    />
+                    <p className="bg-softwhite">%{(result.score * 100).toFixed(2)}</p>
+                  </div>
+                  )}
+                  
+                </div>}
+                </CardBody>
+                <CardFooter className="bg-white/30 border-t-1 justify-between">
+                  <Button isDisabled={!files.at(0) || recognizedPlant} className="text-tiny text-white" onClick={submit} color="success" radius="full" size="sm">
+                    Recognize
+                  </Button>
+                  <Button isDisabled={!recognizedPlant} className="text-tiny" color="danger" radius="full" size="sm" onClick={removeRecognizedPlant}>
+                    Remove
+                  </Button>
+                </CardFooter>
+              </Card>
+            }
+             
             {plantsIsLoading && <CircularProgress />}
             {plantsIsError && <p>Error!</p>}
             {items.map(x => 
-            <Card key={x.id} onPress={() => navigate(`${x.id}`)} isFooterBlurred isPressable className="h-[300px] max-w-[225px] min-w-[200px]">
-              <Tooltip color="danger" content="Delete plant">
-                <span onClick={() => {deletePlant(x.id, fetchPlants)}} className="text-lg text-danger rounded p-1 absolute top-2 right-2 z-10 bg-white cursor-pointer active:opacity-50">
-                  <DeleteIcon />
-                </span>
-              </Tooltip>
+            <Card key={x.id} onPress={() => permissions.includes(Permission[Permission.GetPlantById]) && navigate(`${x.id}`)} isFooterBlurred isPressable className="h-[300px] max-w-[225px] min-w-[200px]">
+              { permissions.includes(Permission[Permission.AddGroup]) && 
+                <Tooltip color="danger" content="Delete plant">
+                  <span onClick={() => {deletePlant(x.id, fetchPlants)}} className="text-lg text-danger rounded p-1 absolute top-2 right-2 z-10 bg-white cursor-pointer active:opacity-50">
+                    <DeleteIcon />
+                  </span>
+                </Tooltip>
+              }
               <Image
                 removeWrapper
                 alt="Card example background"

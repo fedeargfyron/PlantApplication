@@ -4,6 +4,7 @@ import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Login from './Screens/Login/index.jsx'
 import RouteGuard from './Components/RouteGuard/index.jsx'
+import MultipleRouteGuard from './Components/MultipleRouteGuard/index.jsx'
 import { Permission } from './Enums/Permission.tsx'
 import Layout from './Components/Layout/index.jsx'
 import { NextUIProvider } from '@nextui-org/react'
@@ -19,6 +20,7 @@ import Plant from './Screens/Plant/index.jsx'
 import Metrics from './Screens/Metrics/index.jsx'
 import Register from './Screens/Register/index.jsx'
 import RankedPlants from './Screens/RankedPlants/index.jsx'
+import ChangePassword from './Screens/ChangePassword/index.jsx'
 
 
 const router = createBrowserRouter([
@@ -36,13 +38,9 @@ const router = createBrowserRouter([
               },
               {
                 path: "/groups",
-                element: <Groups />
-              },
-              {
-                path: "/test",
-                element: 
-                <RouteGuard permission={Permission[Permission.Login]}>
-                  <Login />
+                element:
+                <RouteGuard permission={Permission[Permission.GetGroups]}>
+                  <Groups />
                 </RouteGuard>
               },
               {
@@ -67,6 +65,13 @@ const router = createBrowserRouter([
                 </RouteGuard>
               },
               {
+                path: "/changepassword",
+                element: 
+                <RouteGuard permission={Permission[Permission.ChangePassword]}>
+                  <ChangePassword />
+                </RouteGuard>
+              },
+              {
                 path: "/users/form",
                 element: 
                 <RouteGuard permission={Permission[Permission.AddUser]}>
@@ -82,15 +87,15 @@ const router = createBrowserRouter([
               },
               {
                 path: "/plants",
-                element: 
-                <RouteGuard permission={Permission[Permission.RecognizePlants]}>
+                element:
+                <RouteGuard permission={Permission[Permission.GetPlants]}>
                   <Plants />
                 </RouteGuard>
               },
               {
                 path: "/calendar",
                 element: 
-                <RouteGuard permission={Permission[Permission.RecognizePlants]}>
+                <RouteGuard permission={Permission[Permission.GetWateringCalendar]}>
                   <Calendar />
                 </RouteGuard>
               },
@@ -104,16 +109,21 @@ const router = createBrowserRouter([
               {
                 path: "/plants/ranked",
                 element: 
-                <RouteGuard permission={Permission[Permission.GetPlantById]}>
+                <RouteGuard permission={Permission[Permission.GetRankedPlants]}>
                   <RankedPlants />
                 </RouteGuard>
               },
               {
                 path: "/metrics/",
                 element: 
-                <RouteGuard permission={Permission[Permission.GetPlantById]}>
+                <MultipleRouteGuard permissions={[
+                  Permission[Permission.GetLoginsAmount], 
+                  Permission[Permission.GetHealthyPlantsAmount], 
+                  Permission[Permission.GetCreatedUsersAmount], 
+                  Permission[Permission.GetScansAmount]]}
+                >
                   <Metrics />
-                </RouteGuard>
+                </MultipleRouteGuard>
               }
             ]
           },

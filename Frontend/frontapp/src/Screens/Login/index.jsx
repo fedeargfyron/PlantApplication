@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserStore } from '../../Store/usersStore.jsx';
 import RecoverPasswordModal from '../../Components/RecoverPasswordModal/index.jsx'
 import InformationModal from '../../Components/InformationModal/index.jsx'
+import jwt_decode from "jwt-decode";
 
 function Login() {
   const { 
@@ -41,6 +42,7 @@ function Login() {
       return;
 
       localStorage.setItem('token', loginToken);
+      localStorage.setItem('permissions', JSON.stringify(jwt_decode(loginToken)));
       navigate("/")
   }, [loginToken, navigate])
   

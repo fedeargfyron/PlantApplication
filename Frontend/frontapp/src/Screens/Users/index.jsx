@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { useUserStore } from '../../Store/usersStore.jsx'
 import { useNavigate } from "react-router-dom";
+import { Permission } from '../../Enums/Permission.tsx';
 import InformationModal from "../../Components/InformationModal/index.jsx";
 
 const columns = [
@@ -17,6 +18,16 @@ const columns = [
 
 export default function App() {
   const [open, setOpen] = useState(false);
+  const [permissions, setPermissions] = useState([])
+  useEffect(() => {
+    let localPermissions = JSON.parse(localStorage.getItem("permissions"));
+
+    if(!localPermissions){
+        return;
+    }
+
+    setPermissions(Object.keys(localPermissions))
+  }, [setPermissions])
   const navigate = useNavigate();
   const {
     users,
@@ -64,11 +75,12 @@ export default function App() {
         {(deleteUserIsLoading) && <CircularProgress />}
         {(deleteUserIsError) && <p>Error!</p>}
       </InformationModal>
+      {permissions.includes(Permission[Permission.AddUser]) && 
       <div className="flex items-end justify-end pb-3">
         <Button onClick={() => navigate("form")} className="bg-green text-white">
-                Add New
+          Add New
         </Button>
-      </div>
+      </div>}
       <Table bottomContent = {
         <>
         {usersIsLoading && <div className="flex justify-center"><CircularProgress /></div>}
@@ -112,19 +124,23 @@ export default function App() {
             </TableCell>
             <TableCell>
               <div className="relative flex items-center gap-2">
+                {permissions.includes(Permission[Permission.UpdateUser]) && 
                 <Tooltip className="text-white" color="success" content="Edit user">
                   <span onClick={() => navigate(`form/${item.id}`)} className="text-lg text-green cursor-pointer active:opacity-50">
                     <EditIcon />
                   </span>
-                </Tooltip>
+                </Tooltip>}
+                {permissions.includes(Permission[Permission.ResetPassword]) && 
                 <Tooltip className="text-white" color="warning" content="Reset password">
-                  <FontAwesomeIcon onClick={() => onReset(item.email)} icon={faArrowRotateLeft} className="text-lg text-warning cursor-pointer active:opacity-50"/>
-                </Tooltip>
+                <FontAwesomeIcon onClick={() => onReset(item.email)} icon={faArrowRotateLeft} className="text-lg text-warning cursor-pointer active:opacity-50"/>
+                </Tooltip>}
+                {permissions.includes(Permission[Permission.DeleteUser]) && 
                 <Tooltip color="danger" content="Delete user">
                   <span onClick={() => deleteUser(item.id, fetchUsers)} className="text-lg text-danger cursor-pointer active:opacity-50">
                     <DeleteIcon />
                   </span>
-                </Tooltip>
+                </Tooltip> }
+                
               </div>
             </TableCell>
           </TableRow>

@@ -26,6 +26,8 @@ export const useUserStore = create((set) => ({
   updateUserIsError: false,
   deleteUserIsLoading: false,
   deleteUserIsError: false,
+  changePasswordIsError: false,
+  changePasswordIsLoading: false,
   fetchUsers: () => {
     set({ usersIsLoading: true });
     set({ usersIsError: false });
@@ -168,6 +170,25 @@ export const useUserStore = create((set) => ({
       SendEmail(emailData);
     })
     .catch(err => console.log(err));
+  },
+  changePassword: (data, navigate) => {
+    set({ changePasswordIsLoading: true });
+    set({ changePasswordIsError: false });
+    axios.post(`https://localhost:44374/users/change`, data, {
+        headers: {
+          Authorization: GetToken()
+        }
+      })
+      .then(() =>{
+        set({ changePasswordIsLoading: false });
+        set({ changePasswordIsError: false });
+        navigate('/users');
+      })
+      .catch(err => {
+        set({ changePasswordIsError: true });
+        set({ changePasswordIsLoading: false });
+        console.log(err);
+      })
   },
   login: (data) => {
     set({ loginIsLoading: true });
