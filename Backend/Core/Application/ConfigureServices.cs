@@ -26,8 +26,10 @@ using Application.Handlers.Users.ResetUserPaswordHandler;
 using Application.Handlers.Users.UpdateUserHandler;
 using Application.Handlers.WateringCalendar.GetWateringDaysFromUserHandler;
 using Application.Services;
+using Application.Strategies.MetricsGetter;
 using Domain.Interfaces.Handlers;
 using Domain.Interfaces.Services;
+using Domain.Interfaces.Strategies.MetricsGetter;
 using Domain.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -66,6 +68,7 @@ public static class ConfigureServices
         services.AddScoped<IGetAllGroupsHandler, GetAllGroupsHandler>();
         services.AddScoped<IAddGroupHandler, AddGroupHandler>();
         services.AddScoped<IPlantService, PlantService>();
+        services.AddScoped<IMetricsGetterFactory, MetricsGetterFactory>();
         services.AddScoped<IPlantRisksService, PlantRisksService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IGroupService, GroupService>();
@@ -79,8 +82,19 @@ public static class ConfigureServices
         services.AddSingleton<ITokenService, TokenService>();
         services.AddScoped<IGenerateTokenHandler, GenerateTokenHandler>();
         services.AddScoped<ISavePlantHandler, SavePlantHandler>();
+        services.AddScopedServices<IMetricGetter>();
         services.Configure<JWTOptions>(configuration.GetSection(JWTOptions.SectionName));
 
         return services;
+    }
+
+    private static void AddScopedServices<T>(this IServiceCollection services)
+    {
+        typeof(ConfigureServices).Assembly.GetTypes()
+            .Where(type => type is { IsInterface: false, IsAbstract: false })
+            .Where(type => type.GetInterface(typeof(T).Name) != null)
+            .Select(type => type.UnderlyingSystemType)
+            .ToList()
+            .ForEach(type => services.AddScoped(typeof(T), type));
     }
 }

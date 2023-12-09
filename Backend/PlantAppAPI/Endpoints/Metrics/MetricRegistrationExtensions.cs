@@ -28,7 +28,7 @@ public static class MetricRegistrationExtensions
         {
             var result = await handler.HandleAsync(new());
             return TypedResults.Ok(result);
-        }).RequireAuthorization(PermissionType.GetCreatedUsersAmount.ToString());
+        });
 
         groups.MapGet("/loginamount", async (ILoginAmountHandler handler) =>
         {

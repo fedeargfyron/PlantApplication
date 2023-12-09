@@ -1,31 +1,28 @@
 ﻿using Domain.Dtos.Metrics;
-using Domain.Interfaces.Repositories;
+using Domain.Enums;
 using Domain.Interfaces.Services;
+using Domain.Interfaces.Strategies.MetricsGetter;
 
 namespace Application.Services;
 
 public class MetricsService : IMetricsService
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IHealthAssesmentRepository _healthAssesmentRepository;
-    private readonly ILogRepository _logRepository;
-
-    public MetricsService(IUserRepository userRepository, IHealthAssesmentRepository healthAssesmentRepository, ILogRepository logRepository)
+    private readonly IMetricsGetterFactory _metricsGetterFactory;
+    public MetricsService(IMetricsGetterFactory metricsGetterFactory)
     {
-        _userRepository = userRepository;
-        _healthAssesmentRepository = healthAssesmentRepository;
-        _logRepository = logRepository;
+        _metricsGetterFactory = metricsGetterFactory;
     }
 
     public Task<List<AmountByMonthDto>> GetCreatedUsersAmountAsync()
-        => _userRepository.GetCreatedUsersAmountByMonthAsync();
+        => _metricsGetterFactory.CreateMetricsGetter(MetricType.CreatedUsers).Execute();
 
     public Task<List<AmountByMonthDto>> GetHealthyPlantsAmountAsync()
-        => _healthAssesmentRepository.GetHealthyPlantsAmountByMonthAsync();
+        => _metricsGetterFactory.CreateMetricsGetter(MetricType.HealthyPlants).Execute();
 
     public Task<List<AmountByMonthDto>> GetLoginAmountAsync()
-        => _logRepository.GetLoginAmountByMonthAsync();
+        => _metricsGetterFactory.CreateMetricsGetter(MetricType.Logins).Execute();
 
-    public Task<List<AmountByMonthDto>> GetScansAmountAsync()
-        => _healthAssesmentRepository.GetScansAmountByMonthAsync();
+    public Task<List<AmountByMonthDto>> GetScansAmountAsync() 
+        => _metricsGetterFactory.CreateMetricsGetter(MetricType.Scans).Execute();
+
 }
