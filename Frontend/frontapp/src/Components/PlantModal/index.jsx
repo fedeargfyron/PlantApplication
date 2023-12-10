@@ -89,7 +89,7 @@ const PlantModal = ({selectedIndex, setSelectedIndex}) => {
         isOpen={isOpen} 
         onClose={onClose}
         onOpenChange={onOpenChange}>
-          <InformationModal open={open} setOpen={setOpen}>
+          <InformationModal open={open} setOpen={setOpen} title='Recognized Plant'>
             {(addPlantIsLoading) && <CircularProgress />}
             {(addPlantIsError) && <p>Error!</p>}
           </InformationModal>

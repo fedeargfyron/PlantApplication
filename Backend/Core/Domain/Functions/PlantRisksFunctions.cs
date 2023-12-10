@@ -9,7 +9,17 @@ public static class PlantRisksFunctions
     public static List<PlantRisk> CleanPlantRisks(List<PlantRisk> plantRisks)
 
         => plantRisks.Where(x => _allowedKeywords.Any(a => x.Risk.ToLowerInvariant().Contains(a)))
-                .DistinctBy(x => new { x.Day, x.PlantId, x.Risk })
+                .GroupBy(x => new { x.Day, x.PlantId, x.Risk })
+                .Select(x => new PlantRisk()
+                {
+                    Day = x.Key.Day,
+                    PlantId = x.Key.PlantId,
+                    Risk = x.Key.Risk,
+                    Description = x.First().Description,
+                    Id = x.First().Id,
+                    Level = x.First().Level,
+                    ObtentionDate = x.First().ObtentionDate
+                })
                 .Select(x =>
                 {
                     var splittedRisk = x.Risk.ToLowerInvariant().Split(' ');

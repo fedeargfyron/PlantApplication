@@ -56,7 +56,7 @@ function Login() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-softwhite">
-      <InformationModal open={open} setOpen={setOpen}>
+      <InformationModal open={open} setOpen={setOpen} title='Log In'>
         {loginIsLoading && <CircularProgress />}
         {loginIsError && <p>Error!</p>}
       </InformationModal>

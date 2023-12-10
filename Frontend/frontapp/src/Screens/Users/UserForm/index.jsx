@@ -97,7 +97,7 @@ export default function UserForm() {
 
     return (
         <div className="container mx-auto pt-10">
-            <InformationModal open={open} setOpen={setOpen}>
+            <InformationModal open={open} setOpen={setOpen} title='User'>
                 {(userIsLoading || addUserIsLoading || updateUserIsLoading) && <CircularProgress />}
                 {(userIsError || addUserIsError || updateUserIsError) && <p>Error!</p>}
             </InformationModal>

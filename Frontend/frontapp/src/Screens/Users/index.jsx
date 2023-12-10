@@ -71,7 +71,7 @@ export default function App() {
 
   return (
     <div className="mx-auto max-w-5xl pt-10">
-      <InformationModal open={open} setOpen={setOpen}>
+      <InformationModal open={open} setOpen={setOpen} title='Delete user'>
         {(deleteUserIsLoading) && <CircularProgress />}
         {(deleteUserIsError) && <p>Error!</p>}
       </InformationModal>

@@ -50,7 +50,7 @@ const RecoverPasswordModal = ({openModal, setOpenModal}) => {
         onOpenChange={onOpenChange}
         onClose={onClose}
         size="lg">
-          <InformationModal open={open} setOpen={setOpen}>
+          <InformationModal open={open} setOpen={setOpen} title='Recover password'>
             {recoverIsLoading && <CircularProgress />}
             {recoverIsError && <p>Error!</p>}
           </InformationModal>

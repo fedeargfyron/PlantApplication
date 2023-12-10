@@ -107,7 +107,7 @@ export default function GroupForm() {
 
     return (
         <div className="container mx-auto pt-10">
-            <InformationModal open={open} setOpen={setOpen}>
+            <InformationModal open={open} setOpen={setOpen} title='Group'>
                 {(groupIsLoading || addGroupIsLoading || updateGroupIsLoading) && <CircularProgress />}
                 {(groupIsError || addGroupIsError || updateGroupIsError) && <p>Error!</p>}
             </InformationModal>

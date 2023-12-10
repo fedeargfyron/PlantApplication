@@ -36,7 +36,7 @@ function Login() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-softwhite">
-      <InformationModal open={open} setOpen={setOpen}>
+      <InformationModal open={open} setOpen={setOpen} title='Change password'>
         {changePasswordIsLoading && <CircularProgress />}
         {changePasswordIsError && <p>Error!</p>}
       </InformationModal>
