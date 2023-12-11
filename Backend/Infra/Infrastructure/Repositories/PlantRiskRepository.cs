@@ -33,9 +33,13 @@ public class PlantRiskRepository : IPlantRiskRepository
                 }).ToList()
             }).ToListAsync();
 
-    public Task AddAsync(List<PlantRisk> entities)
+    public async Task AddAsync(List<PlantRisk> entities)
     {
+        if(await _context.PlantRisks.AnyAsync(x => x.ObtentionDate == DateTime.Today))
+        {
+            return;
+        }
         _context.PlantRisks.AddRange(PlantRisksFunctions.CleanPlantRisks(entities));
-        return _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
     }
 }

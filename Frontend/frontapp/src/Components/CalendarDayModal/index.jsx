@@ -72,7 +72,7 @@ const CalendarDayModal = ({selectedCalendarDay, setSelectedCalendarDay}) => {
             <Tooltip showArrow={true} content='This plant should be watered'>
               <FontAwesomeIcon icon={faHandHoldingDroplet} className='text-softblue'/>
             </Tooltip> }
-            {x.risks.filter(r => checkEqualDates(new Date(r.day), selectedCalendarDay)).map(r => 
+            {x.risks && x.risks.filter(r => checkEqualDates(new Date(r.day), selectedCalendarDay)).map(r => 
             <Tooltip key={`${x.id}-${r.risk}`} showArrow={true} content={r.description}>
               <FontAwesomeIcon  icon={icons[r.risk]} className={`${getDangerColor(r.level)}`} />
             </Tooltip>)}

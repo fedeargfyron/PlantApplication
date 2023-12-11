@@ -21,15 +21,17 @@ public static class GetPlantRiskResultDtoListExtensions
 
     public static List<PlantRisk> ConvertToEntities(this List<GetPlantRiskResultDto> dtos, List<GetPlantWithWateringDaysFromUserResultDto> plantsWithWateringDays)
         => dtos.SelectMany(x => {
-            var plant = plantsWithWateringDays.First(w => w.ScientificName == x.PlantScientificName);
-            return x.Risks.Select(r => new PlantRisk
-            {
-                Day = r.Day,
-                Description = r.Description,
-                Level = r.Level,
-                PlantId = plant.Id,
-                Risk = r.Risk,
-            });
+            var plants = plantsWithWateringDays.Where(w => w.ScientificName == x.PlantScientificName).ToList();
+            return plants.SelectMany(p =>
+                x.Risks.Select(r => new PlantRisk
+                {
+                    Day = r.Day,
+                    Description = r.Description,
+                    Level = r.Level,
+                    PlantId = p.Id,
+                    Risk = r.Risk,
+                })
+            );
         })
         .ToList();
 
