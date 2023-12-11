@@ -6,7 +6,6 @@ namespace Domain.Extensions;
 
 public static class GetPlantRiskResultDtoListExtensions
 {
-    private static readonly List<string> _allowedKeywords = new List<string> { "rain", "temperature", "humidity", "wind" };
     public static List<PlantRiskDto> ConvertToDtos(this List<GetPlantRiskResultDto> dtos, List<GetPlantWithWateringDaysFromUserResultDto> plantsWithWateringDays)
         => dtos.SelectMany(x => {
             var plants = plantsWithWateringDays.Where(w => w.ScientificName == x.PlantScientificName).ToList();
