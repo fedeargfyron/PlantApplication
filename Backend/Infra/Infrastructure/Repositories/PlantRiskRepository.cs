@@ -19,20 +19,6 @@ public class PlantRiskRepository : IPlantRiskRepository
     public Task<bool> TodayPlantRisksExistsAsync()
         => _context.PlantRisks.AnyAsync(x => x.ObtentionDate == DateTime.Today);
 
-    public Task<List<GetPlantRiskResultDto>> GetTodayPlantRisksAsync()
-        => _context.Plants
-            .Select(x => new GetPlantRiskResultDto
-            {
-                PlantScientificName = x.ScientificName,
-                Risks = x.PlantRisks.Where(r => r.ObtentionDate == DateTime.Today).Select(r => new RiskDto()
-                {
-                    Day = r.Day,
-                    Risk = r.Risk,
-                    Description = r.Description,
-                    Level = r.Level
-                }).ToList()
-            }).ToListAsync();
-
     public async Task AddAsync(List<PlantRisk> entities)
     {
         if(await _context.PlantRisks.AnyAsync(x => x.ObtentionDate == DateTime.Today))
@@ -42,4 +28,20 @@ public class PlantRiskRepository : IPlantRiskRepository
         _context.PlantRisks.AddRange(PlantRisksFunctions.CleanPlantRisks(entities));
         await _context.SaveChangesAsync();
     }
+
+    public Task<List<PlantRiskDto>> GetTodayPlantRisksAsync()
+        => _context.Plants.Select(x => new PlantRiskDto()
+            {
+                Outside = x.Outside,
+                PlantId = x.Id,
+                PlantScientificName = x.ScientificName,
+                Risks = x.PlantRisks.Where(r => r.ObtentionDate == DateTime.Today)
+                                    .Select(r => new RiskDto()
+                                    {
+                                        Day = r.Day,
+                                        Risk = r.Risk,
+                                        Description = r.Description,
+                                        Level = r.Level
+                                    }).ToList()
+            }).ToListAsync();
 }

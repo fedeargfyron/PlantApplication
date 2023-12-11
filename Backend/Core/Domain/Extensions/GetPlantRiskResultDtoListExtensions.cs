@@ -8,15 +8,15 @@ public static class GetPlantRiskResultDtoListExtensions
 {
     private static readonly List<string> _allowedKeywords = new List<string> { "rain", "temperature", "humidity", "wind" };
     public static List<PlantRiskDto> ConvertToDtos(this List<GetPlantRiskResultDto> dtos, List<GetPlantWithWateringDaysFromUserResultDto> plantsWithWateringDays)
-        => dtos.Select(x => {
-            var plant = plantsWithWateringDays.First(w => w.ScientificName == x.PlantScientificName);
-            return new PlantRiskDto()
+        => dtos.SelectMany(x => {
+            var plants = plantsWithWateringDays.Where(w => w.ScientificName == x.PlantScientificName).ToList();
+            return plants.Select(p => new PlantRiskDto()
             {
-                PlantId = plant.Id,
+                PlantId = p.Id,
                 PlantScientificName = x.PlantScientificName,
-                Outside = plant.Outside,
+                Outside = p.Outside,
                 Risks = x.Risks
-            };
+            });
         }).ToList();
 
     public static List<PlantRisk> ConvertToEntities(this List<GetPlantRiskResultDto> dtos, List<GetPlantWithWateringDaysFromUserResultDto> plantsWithWateringDays)
@@ -30,7 +30,7 @@ public static class GetPlantRiskResultDtoListExtensions
                     Level = r.Level,
                     PlantId = p.Id,
                     Risk = r.Risk,
-                })
+                }).ToList()
             );
         })
         .ToList();

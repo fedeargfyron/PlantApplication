@@ -24,8 +24,7 @@ public class PlantRisksService : IPlantRisksService
         var todayPlantRisksExists = await _plantRiskRepository.TodayPlantRisksExistsAsync();
         if (todayPlantRisksExists)
         {
-            var plantRisks = await _plantRiskRepository.GetTodayPlantRisksAsync();
-            return plantRisks.ConvertToDtos(plantsWithWateringDays);
+            return await _plantRiskRepository.GetTodayPlantRisksAsync();
         }
 
         var plantRiskResults = await _externalPlantRiskGetterService.GetPlantRisksAsync(forecastDays, plantsWithWateringDays.GetScientificNames());

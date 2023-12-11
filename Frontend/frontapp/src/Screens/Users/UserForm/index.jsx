@@ -110,7 +110,7 @@ export default function UserForm() {
                                 <Input label="Email" placeholder="email123@gmail.com" className="pb-3" color = {errors.email ? 'danger' : ''} disabled={editForm}  {...register("email", { required: true })}/>
                                 <Input label="Location" placeholder="rosario" className="pb-3" color= {errors.location ? 'danger' : ''} {...register("location", { required: true })}/>
                             </CardBody>
-                        </Card>  
+                        </Card>
                     </Tab>
                     <Tab key="groups" title="Groups">
                         <Card>
